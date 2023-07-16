@@ -1,9 +1,30 @@
 import React from 'react';
 import { Carousel, Section, Card, PlaceCardInfo } from '@src/components';
 import { Dimensions } from 'react-native';
-import { mockPlaces } from '@src/data';
+import { getMostPopular } from '@src/redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+// import { mockPlaces } from '@src/data';
 
 export const PopularPlaces = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const { most_popular } = useSelector((state) => state.userReducer);
+
+  React.useEffect(() => {
+    dispatch(getMostPopular());
+  }, [dispatch]);
+
+  const _onButtonActionPress = () => {
+    navigation.navigate('PlaceList', {
+      title: 'Popular Near You',
+    });
+  };
+
+  const _onPlaceItemPress = (organization) => {
+    navigation.navigate('PlaceDetails', {
+      organization: organization,
+    });
+  };
+
   const renderItem = (props) => {
     const { image, title, subTitle } = props.item;
     return (
@@ -20,30 +41,30 @@ export const PopularPlaces = ({ navigation }) => {
         subTitleProps={{
           numberOfLines: 2,
         }}
-        onPress={onPlaceItemPress}>
+        onPress={() => _onPlaceItemPress(props.item)}>
         <PlaceCardInfo data={props.item} />
       </Card>
     );
   };
 
-  const onButtonActionPress = () => {
-    navigation.navigate('PlaceList', { title: 'Popular Near You' });
-  };
+  // const onButtonActionPress = () => {
+  //   navigation.navigate('PlaceList', { title: 'Popular Near You' });
+  // };
 
-  const onPlaceItemPress = () => {
-    navigation.navigate('PlaceDetails');
-  };
+  // const onPlaceItemPress = () => {
+  //   navigation.navigate('PlaceDetails');
+  // };
 
   return (
     <Section
-      title="Popular Near You"
-      actionButtonText="View more"
-      onButtonActionPress={onButtonActionPress}>
+      title="Mais Populares"
+      actionButtonText="Mostrar mais"
+      onButtonActionPress={_onButtonActionPress}>
       <Carousel
         width={Dimensions.get('window').width}
         height={255}
         numItemsPerSlide={1.2}
-        data={mockPlaces}
+        data={most_popular}
         snapEnabled
         renderItem={renderItem}
       />

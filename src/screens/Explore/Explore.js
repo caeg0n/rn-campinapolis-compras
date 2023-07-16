@@ -24,7 +24,7 @@ export const Explore = ({ navigation }) => {
       stickyHeaderIndices={[0]}>
       {/* <SearchHeader /> */}
       <PopularCategories navigation={navigation} />
-      {/* <PopularPlaces navigation={navigation} /> */}
+      <PopularPlaces navigation={navigation} />
       <Divider backgroundColor="background" marginVertical="s" />
       {/* <MerchantCampaigns /> */}
       {/* <RecommendedPlaces navigation={navigation} /> */}
