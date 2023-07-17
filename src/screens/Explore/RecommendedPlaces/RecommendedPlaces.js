@@ -1,10 +1,30 @@
 import React from 'react';
 import { Carousel, Section, Card } from '@src/components/elements';
 import { Dimensions } from 'react-native';
-import { mockPlaces } from '@src/data';
+// import { mockPlaces } from '@src/data';
 import { PlaceCardInfo } from '@src/components';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRecommendedPlaces } from '@src/redux/actions';
+import { useEffect } from 'react';
 
 export const RecommendedPlaces = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const { recommended_places } = useSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    dispatch(getRecommendedPlaces());
+  }, [dispatch]);
+
+  const _onButtonActionPressed = () => {
+    navigation.navigate('PlaceList', {
+      title: 'Recommended',
+    });
+  };
+
+  const _onPlaceItemPressed = () => {
+    navigation.navigate('PlaceDetails');
+  };
+
   const renderItem = (props) => {
     const { image, title, subTitle } = props.item;
     return (
@@ -21,28 +41,28 @@ export const RecommendedPlaces = ({ navigation }) => {
         subTitleProps={{
           numberOfLines: 2,
         }}
-        onPress={onPlaceItemPress}>
+        onPress={_onPlaceItemPressed}>
         <PlaceCardInfo data={props.item} />
       </Card>
     );
   };
 
-  const onButtonActionPress = () => {
-    navigation.navigate('PlaceList', { title: 'Recommended' });
-  };
+  // const onButtonActionPress = () => {
+  //   navigation.navigate('PlaceList', { title: 'Recommended' });
+  // };
 
-  const onPlaceItemPress = () => {
-    navigation.navigate('PlaceDetails');
-  };
+  // const onPlaceItemPress = () => {
+  //   navigation.navigate('PlaceDetails');
+  // };
 
   return (
     <Section
       title="Recommended"
       actionButtonText="View more"
-      onButtonActionPress={onButtonActionPress}>
+      onButtonActionPress={_onButtonActionPressed}>
       <Carousel
         numItemsPerSlide={1.8}
-        data={mockPlaces}
+        data={recommended_places}
         width={Dimensions.get('window').width}
         renderItem={renderItem}
         height={250}

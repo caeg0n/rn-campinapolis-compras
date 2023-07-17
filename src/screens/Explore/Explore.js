@@ -26,11 +26,11 @@ export const Explore = ({ navigation }) => {
       <PopularCategories navigation={navigation} />
       <PopularPlaces navigation={navigation} />
       <Divider backgroundColor="background" marginVertical="s" />
-      {/* <MerchantCampaigns /> */}
-      {/* <RecommendedPlaces navigation={navigation} /> */}
-      {/* <HotDeals navigation={navigation} /> */}
+      <MerchantCampaigns />
+      <RecommendedPlaces navigation={navigation} />
+      <HotDeals navigation={navigation} />
       <Divider backgroundColor="background" marginVertical="s" />
-      {/* <HighlightTabs /> */}
+      <HighlightTabs />
     </ScrollView>
   );
 };

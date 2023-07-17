@@ -1,5 +1,5 @@
 import React from 'react';
-import { FeaturedTab, NewTab, TrendingTab } from './tabs';
+import { FeaturedTab, NewTab } from './tabs';
 import { Box, TabView } from '@src/components';
 import styles from './HighlightTabs.style';
 
@@ -9,11 +9,6 @@ const tabData = [
     key: '1',
     title: 'Newest',
     content: NewTab,
-  },
-  {
-    key: '3',
-    title: 'Trending',
-    content: TrendingTab,
   },
 ];
 
