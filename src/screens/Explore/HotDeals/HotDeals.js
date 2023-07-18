@@ -16,13 +16,15 @@ export const HotDeals = ({ navigation }) => {
   }, [dispatch]);
 
   const _onButtonActionPressed = () => {
-    navigation.navigate('PlaceListScreen', {
+    navigation.navigate('PlaceList', {
       title: 'Hot Deals',
     });
   };
 
-  const _onPlaceItemPressed = () => {
-    navigation.navigate('PlaceDetailsScreen');
+  const _onPlaceItemPress = (organization) => {
+    navigation.navigate('PlaceDetails', {
+      organization: organization,
+    });
   };
 
   const renderItem = (props) => {
@@ -41,7 +43,7 @@ export const HotDeals = ({ navigation }) => {
         subTitleProps={{
           numberOfLines: 2,
         }}
-        onPress={_onPlaceItemPressed}>
+        onPress={() => _onPlaceItemPress(props.item)}>
         <PlaceCardInfo data={props.item} />
       </Card>
     );

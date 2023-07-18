@@ -7,8 +7,9 @@ import { BasketSummary } from './BasketSummary';
 import { PopularDishes } from './PopularDishes';
 import { HeadingInformation } from './HeadingInformation';
 
-export const PlaceDetails = () => {
+export const PlaceDetails = ({ route }) => {
   const [scrollY] = React.useState(new Animated.Value(0));
+  const { organization } = route.params;
 
   const coverTranslateY = scrollY.interpolate({
     inputRange: [-4, 0, 10],
@@ -48,9 +49,9 @@ export const PlaceDetails = () => {
                     ],
                   },
                 ]}>
-                {mockPlaceDetails.coverImage && (
+                {organization.image && (
                   <Animated.Image
-                    source={mockPlaceDetails.coverImage}
+                    source={{ uri: organization.image }}
                     style={[
                       styles.coverPhoto,
                       {
@@ -64,8 +65,8 @@ export const PlaceDetails = () => {
                   />
                 )}
               </Animated.View>
-              <HeadingInformation data={mockPlaceDetails} />
-              <PopularDishes />
+              <HeadingInformation data={organization} />
+              {/* <PopularDishes /> */}
             </>
           }
           sections={mockPlaceDetails.dishSection || []}

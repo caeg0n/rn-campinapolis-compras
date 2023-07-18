@@ -21,8 +21,10 @@ export const RecommendedPlaces = ({ navigation }) => {
     });
   };
 
-  const _onPlaceItemPressed = () => {
-    navigation.navigate('PlaceDetails');
+  const _onPlaceItemPress = (organization) => {
+    navigation.navigate('PlaceDetails', {
+      organization: organization,
+    });
   };
 
   const renderItem = (props) => {
@@ -41,7 +43,7 @@ export const RecommendedPlaces = ({ navigation }) => {
         subTitleProps={{
           numberOfLines: 2,
         }}
-        onPress={_onPlaceItemPressed}>
+        onPress={() => _onPlaceItemPress(props.item)}>
         <PlaceCardInfo data={props.item} />
       </Card>
     );

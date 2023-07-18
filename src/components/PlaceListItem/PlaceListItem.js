@@ -1,27 +1,18 @@
 import React from 'react';
-import { Place } from '@src/data';
 import { Box, Divider, Image, Text, Touchable } from '../elements';
 import { PlaceCardInfo } from '../PlaceCardInfo';
 import { useExploreStackNavigation } from '@src/hooks';
 
-type PlaceListItemProps = {
-  data: Place;
-  hasDivider?: boolean;
-  ratingStarBackgroundColor?: string;
-};
-
-export const PlaceListItem: React.FC<PlaceListItemProps> = ({
+export const PlaceListItem = ({
   data,
   hasDivider = true,
   ratingStarBackgroundColor,
 }) => {
   const { image, title, subTitle } = data;
   const navigation = useExploreStackNavigation();
-
   const onPlaceItemPress = () => {
-    navigation.navigate('PlaceDetails');
+    navigation.navigate('PlaceDetails', { organization: data });
   };
-
   return (
     <Box>
       <Touchable onPress={onPlaceItemPress}>
