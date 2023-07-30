@@ -1,15 +1,25 @@
 import React from 'react';
 import { Animated, SafeAreaView } from 'react-native';
 import { Box, Text, TabSectionList, Divider, DishItem } from '@src/components';
-import { mockPlaceDetails } from '@src/data';
 import styles from './PlaceDetails.style';
 import { BasketSummary } from './BasketSummary';
-import { PopularDishes } from './PopularDishes';
 import { HeadingInformation } from './HeadingInformation';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategoriesAndProducts } from '@src/redux/actions';
+import { useEffect } from 'react';
+import { mockPlaceDetails } from '@src/data';
+import { PopularDishes } from './PopularDishes';
 
 export const PlaceDetails = ({ route }) => {
   const [scrollY] = React.useState(new Animated.Value(0));
   const { organization } = route.params;
+  const dispatch = useDispatch();
+  const { categories_and_products } = useSelector((state) => state.userReducer);
+  console.log(JSON.stringify(mockPlaceDetails.dishSection, null, 2));
+
+  useEffect(() => {
+    dispatch(getCategoriesAndProducts(organization));
+  }, [dispatch, organization]);
 
   const coverTranslateY = scrollY.interpolate({
     inputRange: [-4, 0, 10],
@@ -69,7 +79,8 @@ export const PlaceDetails = ({ route }) => {
               {/* <PopularDishes /> */}
             </>
           }
-          sections={mockPlaceDetails.dishSection || []}
+          // sections={mockPlaceDetails.dishSection || []}
+          sections={categories_and_products || []}
           keyExtractor={(item) => item.title}
           stickySectionHeadersEnabled={false}
           scrollToLocationOffset={5}

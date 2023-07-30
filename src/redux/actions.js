@@ -11,6 +11,7 @@ export const GET_ALL_CLOSED_ORGANIZATIONS = 'GET_ALL_CLOSED_ORGANIZATIONS';
 export const GET_MOST_POPULAR = 'GET_MOST_POPULAR';
 export const GET_RECOMMENDED_PLACES = 'GET_RECOMMENDED_PLACES';
 export const GET_HOT_DEALS = 'GET_HOT_DEALS';
+export const GET_CATEGORIES_AND_PRODUCTS = 'GET_CATEGORIES_AND_PRODUCTS';
 
 if (__DEV__) {
   var SET_USER_EXPO_TOKEN_URL = DEV_API_BASE + '/update_token';
@@ -25,6 +26,8 @@ if (__DEV__) {
   var GET_MOST_POPULAR_URL = DEV_API_BASE + '/get_most_popular/5';
   var GET_RECOMMENDED_PLACES_URL = DEV_API_BASE + '/get_recommended_places';
   var GET_HOT_DEALS_URL = DEV_API_BASE + '/get_hot_deals';
+  var GET_CATEGORIES_AND_PRODUCTS_URL =
+    DEV_API_BASE + '/get_categories_and_products';
 } else {
   var SET_USER_EXPO_TOKEN_URL = PROD_API_BASE + '/update_token';
   var SEND_EMERGENCY_MESSAGE_URL = PROD_API_BASE + '/send_emergency_message';
@@ -32,12 +35,14 @@ if (__DEV__) {
     PROD_API_BASE + '/get_all_organizations_with_distinct_category';
   var GET_ALL_CATEGORIES_URL = PROD_API_BASE + '/get_all_categories';
   var GET_ALL_OPENED_ORGANIZATIONS_URL =
-    DEV_API_BASE + '/get_all_opened_organizations';
+    PROD_API_BASE + '/get_all_opened_organizations';
   var GET_ALL_CLOSED_ORGANIZATIONS_URL =
-    DEV_API_BASE + '/get_all_closed_organizations';
-  var GET_MOST_POPULAR_URL = DEV_API_BASE + '/get_most_popular/5';
-  var GET_RECOMMENDED_PLACES_URL = DEV_API_BASE + '/get_recommended_places';
-  var GET_HOT_DEALS_URL = DEV_API_BASE + '/get_hot_deals';
+    PROD_API_BASE + '/get_all_closed_organizations';
+  var GET_MOST_POPULAR_URL = PROD_API_BASE + '/get_most_popular/5';
+  var GET_RECOMMENDED_PLACES_URL = PROD_API_BASE + '/get_recommended_places';
+  var GET_HOT_DEALS_URL = PROD_API_BASE + '/get_hot_deals';
+  var GET_CATEGORIES_AND_PRODUCTS_URL =
+    PROD_API_BASE + '/get_categories_and_products';
 }
 
 export const getAllOrganizations = () => {
@@ -220,6 +225,26 @@ export const getAllCategories = () => {
   }
 };
 
+export const getCategoriesAndProducts = (organization) => {
+  const url = GET_CATEGORIES_AND_PRODUCTS_URL + '/' + organization.id;
+  try {
+    return async (dispatch) => {
+      const result = await fetch(url);
+      const json = await result.json();
+      if (json) {
+        dispatch({
+          type: GET_CATEGORIES_AND_PRODUCTS,
+          payload: json,
+        });
+      } else {
+        console.log('unable to fetch get_categories_and_products');
+      }
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const setUUID = (uuid) => (dispatch) => {
   dispatch({
     type: SET_USER_UUID,
@@ -231,7 +256,7 @@ export const sendEmergencyMessage = (uuid) => (dispatch) => {
   try {
     const requestOptions = {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         notification: {
           device_id: uuid,
@@ -250,7 +275,7 @@ export const setExpoToken = (token, device_id) => (dispatch) => {
   try {
     const requestOptions = {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         notification: {
           device_id: device_id,
