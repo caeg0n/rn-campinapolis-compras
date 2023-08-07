@@ -35,6 +35,7 @@ const AuthReducer = (state, action) => {
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(AuthReducer, initialAuthState);
   const { userToken } = state;
+  
 
   const authContext = React.useMemo(
     () => ({

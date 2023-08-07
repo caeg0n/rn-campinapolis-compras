@@ -20,7 +20,8 @@ const renderTabBarIcon = (routeName) => {
     let iconName = 'compass';
     switch (routeName) {
       case 'ExploreTab':
-        iconName = 'compass';
+        // iconName = 'compass';
+        iconName = 'home';
         break;
       case 'ActivityHistoryTab':
         iconName = 'timer';
@@ -59,14 +60,15 @@ const TabNavigation = () => {
         name="ExploreTab"
         component={ExploreStack}
         options={{
-          title: 'Explore',
+          title: 'Inicio',
         }}
       />
       <Tab.Screen
         name="ActivityHistoryTab"
         component={ActivityHistoryStack}
         options={{
-          title: 'History',
+          // title: 'Historico',
+          title: 'Pedidos',
         }}
       />
       <Tab.Screen
@@ -83,13 +85,13 @@ const TabNavigation = () => {
           title: 'Accounts',
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="DocumentationTab"
         component={Documentation}
         options={{
           title: 'Storybook',
         }}
-      />
+      /> */}
     </Navigator>
   );
 };

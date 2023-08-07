@@ -11,10 +11,11 @@ export const OrderSummary = ({ cartItems, totalPrice, shippingFee }) => {
   };
 
   return (
-    <Section
-      title="Order Summary"
-      actionButtonText="Add Items"
-      onButtonActionPress={onAddItemButtonPress}>
+    // <Section
+    // title="Resumo do Pedido"
+    //   actionButtonText="Comprar mais"
+    //   onButtonActionPress={onAddItemButtonPress}>
+    <Section title="Resumo do Pedido">
       <Box backgroundColor="card">
         <Box padding="m" flexDirection="row" justifyContent="space-between">
           <Box flexDirection="row">
@@ -24,11 +25,11 @@ export const OrderSummary = ({ cartItems, totalPrice, shippingFee }) => {
                 <Text marginBottom="xs" fontWeight="bold">
                   {cartItem.dish.title}
                 </Text>
-                {cartItem.sideDishes.map((dish, dishIndex) => (
+                {/* {cartItem.sideDishes.map((dish, dishIndex) => (
                   <Text variant="secondary" key={dishIndex} marginBottom="xxs">
                     {dish.title}
                   </Text>
-                ))}
+                ))} */}
               </Box>
             ))}
           </Box>

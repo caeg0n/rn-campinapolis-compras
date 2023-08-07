@@ -68,14 +68,18 @@ export const ExploreStack = ({ navigation }) => {
       <Stack.Screen
         name="PlaceDetails"
         component={PlaceDetails}
-        options={() => {
+        options={({ route: { params } }) => {
           return {
-            headerTitle: 'Neapolitan Pizza',
+            headerTitle: params?.title || '',
             headerRight: renderPlaceDetailHeaderRight,
           };
         }}
       />
-      <Stack.Screen name="Checkout" component={Checkout} />
+      <Stack.Screen
+        options={{ headerTitle: 'Finalizar Pedido' }}
+        name="Checkout"
+        component={Checkout}
+      />
       <Stack.Screen
         name="ChangeAddress"
         options={{

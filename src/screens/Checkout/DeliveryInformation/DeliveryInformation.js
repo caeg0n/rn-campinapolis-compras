@@ -3,10 +3,10 @@ import { Platform } from 'react-native';
 import {
   Box,
   Text,
-  Button,
+  // Button,
   Section,
   Divider,
-  DateTimePicker,
+  // DateTimePicker,
   Image,
 } from '@src/components';
 import { useExploreStackNavigation } from '@src/hooks';
@@ -32,8 +32,8 @@ export const DeliveryInformation = () => {
 
   return (
     <Section
-      title="Deliver to"
-      actionButtonText="Change address"
+      title="Entregar em"
+      actionButtonText="Trocar endereço"
       hasDivider={false}
       onButtonActionPress={onChangeAddressButtonPress}>
       <Box backgroundColor="card">
@@ -57,7 +57,7 @@ export const DeliveryInformation = () => {
           </Box>
         </Box>
         <Divider />
-        <Box padding="m" flexDirection="row" justifyContent="space-between">
+        {/* <Box padding="m" flexDirection="row" justifyContent="space-between">
           <Box>
             <Text variant="secondary" marginBottom="s">
               Delivery time
@@ -72,11 +72,11 @@ export const DeliveryInformation = () => {
               onPress={onChangeTimeButtonPress}
             />
           </Box>
-        </Box>
+        </Box> */}
       </Box>
-      {showDateTimePicker && (
+      {/* {showDateTimePicker && (
         <DateTimePicker value={date} onChange={onChange} margin="m" />
-      )}
+      )} */}
     </Section>
   );
 };

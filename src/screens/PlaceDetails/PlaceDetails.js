@@ -7,15 +7,15 @@ import { HeadingInformation } from './HeadingInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategoriesAndProducts } from '@src/redux/actions';
 import { useEffect } from 'react';
-import { mockPlaceDetails } from '@src/data';
-import { PopularDishes } from './PopularDishes';
+// import { mockPlaceDetails } from '@src/data';
+// import { PopularDishes } from './PopularDishes';
 
 export const PlaceDetails = ({ route }) => {
-  const [scrollY] = React.useState(new Animated.Value(0));
-  const { organization } = route.params;
   const dispatch = useDispatch();
   const { categories_and_products } = useSelector((state) => state.userReducer);
-  console.log(JSON.stringify(mockPlaceDetails.dishSection, null, 2));
+  const [scrollY] = React.useState(new Animated.Value(0));
+  const { organization } = route.params;
+  // console.log(JSON.stringify(mockPlaceDetails.dishSection, null, 2));
 
   useEffect(() => {
     dispatch(getCategoriesAndProducts(organization));

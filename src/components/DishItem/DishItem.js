@@ -8,7 +8,8 @@ export const DishItem = ({ data }) => {
   const navigation = useExploreStackNavigation();
 
   const onPlaceItemPress = () => {
-    navigation.navigate('DishDetailsModal');
+    let product = data;
+    navigation.navigate('DishDetailsModal', { product });
   };
 
   return (

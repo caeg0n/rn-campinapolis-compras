@@ -14,7 +14,7 @@ export const PaymentMethod = () => {
   };
 
   return (
-    <Section title="Payment Method">
+    <Section title="Método de Pagamento">
       <Box
         backgroundColor="card"
         flexDirection="row"
@@ -30,9 +30,9 @@ export const PaymentMethod = () => {
             </Box>
           </Button>
         </Box>
-        <Button variant="transparent" onPress={onAddAPromoButtonPress}>
+        {/* <Button variant="transparent" onPress={onAddAPromoButtonPress}>
           <Text variant="primary">Add a promo</Text>
-        </Button>
+        </Button> */}
       </Box>
     </Section>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Text, TextField, Button, Icon } from '@src/components';
+// import { Box, Text, TextField, Button, Icon } from '@src/components';
+import { Box, Text, Button, Icon } from '@src/components';
 import { fontSize } from '@src/theme';
 
 export const AddToBasketForm = ({ updateTotalDishAmount }) => {
@@ -18,13 +19,13 @@ export const AddToBasketForm = ({ updateTotalDishAmount }) => {
 
   return (
     <Box marginTop="m" padding="m" backgroundColor="card">
-      <Text variant="subHeader">Special Instruction</Text>
+      {/* <Text variant="subHeader">Special Instruction</Text>
       <TextField
         marginTop="m"
         inputProps={{
           placeholder: 'E.g. No onions, please',
         }}
-      />
+      /> */}
       <Box alignItems="center" marginTop="m" marginBottom="s">
         <Box
           width={200}

@@ -4,7 +4,7 @@ import { DeliveryInformation } from './DeliveryInformation';
 import { OrderSummary } from './OrderSummary';
 import { PaymentMethod } from './PaymentMethod';
 import { PlaceOrder } from './PlaceOrder';
-import { DishesAlsoOrdered } from './DishesAlsoOrdered';
+// import { DishesAlsoOrdered } from './DishesAlsoOrdered';
 import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
 
@@ -21,7 +21,7 @@ export const Checkout = () => {
           totalPrice={totalPrice}
           shippingFee={SHIPPING_FEE}
         />
-        <DishesAlsoOrdered />
+        {/* <DishesAlsoOrdered /> */}
         <PaymentMethod />
       </ScrollView>
       <PlaceOrder totalPrice={totalPrice} shippingFee={SHIPPING_FEE} />

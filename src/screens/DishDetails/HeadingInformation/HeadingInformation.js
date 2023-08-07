@@ -7,7 +7,7 @@ export const HeadingInformation = ({ data }) => {
   return (
     <Box backgroundColor="card" padding="m">
       <Box flexDirection="row" justifyContent="space-between">
-        <Box width="80%" paddingRight="s">
+        <Box width="70%" paddingRight="s">
           <Text variant="subHeader" numberOfLines={2}>
             {title}
           </Text>

@@ -22,6 +22,9 @@ export const PopularPlaces = ({ navigation }) => {
   const _onPlaceItemPress = (organization) => {
     navigation.navigate('PlaceDetails', {
       organization: organization,
+      title:
+        organization.subTitle.charAt(0).toUpperCase() +
+        organization.subTitle.slice(1),
     });
   };
 
