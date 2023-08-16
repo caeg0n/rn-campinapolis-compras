@@ -12,16 +12,19 @@ const SHIPPING_FEE = 5;
 
 export const Checkout = () => {
   const { cartItems, totalPrice } = React.useContext(CartContext);
+
   return (
     <Box flex={1}>
       <ScrollView>
         <DeliveryInformation />
-        <OrderSummary
-          cartItems={cartItems}
-          totalPrice={totalPrice}
-          shippingFee={SHIPPING_FEE}
-        />
-        {/* <DishesAlsoOrdered /> */}
+        {cartItems.map((cartItem, cartItemIndex) => (
+          <OrderSummary
+            cartItems={cartItem}
+            cartItemsIndex={cartItemIndex}
+            totalPrice={totalPrice}
+            shippingFee={SHIPPING_FEE}
+          />
+        ))}
         <PaymentMethod />
       </ScrollView>
       <PlaceOrder totalPrice={totalPrice} shippingFee={SHIPPING_FEE} />

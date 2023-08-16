@@ -1,9 +1,7 @@
 import React from 'react';
 import { Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { Text, Button, Box } from '@src/components';
-// import { mockDishDetails } from '@src/data';
 import { HeadingInformation } from './HeadingInformation';
-// import { SideDishes } from './SideDishes';
 import { AddToBasketForm } from './AddToBasketForm';
 import { CartContext } from '@src/cart';
 import { formatCurrency } from '@src/utils';
@@ -14,59 +12,23 @@ import { useExploreStackNavigation } from '@src/hooks';
 
 export const DishDetails = ({ route }) => {
   const { product } = route.params;
-  const [totalPrice, setTotalPrice] = React.useState(
-    // parseFloat(mockDishDetails.price),
-    parseFloat(product.price),
-  );
-  const [selectedSideDishes, setSelectedSideDishes] = React.useState([]);
+  const [totalPrice, setTotalPrice] = React.useState(parseFloat(product.price));
   const [scrollY] = React.useState(new Animated.Value(0));
   const { colors } = useAppTheme();
   const { goBack } = useExploreStackNavigation();
-  const { updateCartItems } = React.useContext(CartContext);
+  const { cartItems, updateCartItems } = React.useContext(CartContext);
   const { bottom } = useSafeAreaInsets();
-
-  // const addSideDishToBasket = React.useCallback(
-  //   (dish) => {
-  //     const existedDishIndex = selectedSideDishes.find(
-  //       (item) => item.id === dish.id,
-  //     );
-  //     if (existedDishIndex) {
-  //       setSelectedSideDishes(
-  //         selectedSideDishes.filter((item) => item.id !== dish.id),
-  //       );
-  //       setTotalPrice(totalPrice - parseFloat(existedDishIndex.price));
-  //     } else {
-  //       setSelectedSideDishes([...selectedSideDishes, dish]);
-  //       setTotalPrice(totalPrice + parseFloat(dish.price));
-  //     }
-  //   },
-  //   [selectedSideDishes, totalPrice],
-  // );
 
   const updateTotalDishAmount = React.useCallback(
     (amount) => {
-      const totalSelectedDishPrice = selectedSideDishes.reduce(
-        (prevValue, currentValue) => prevValue + parseFloat(currentValue.price),
-        0,
-      );
-      setTotalPrice(
-        // parseFloat(mockDishDetails.price) * amount + totalSelectedDishPrice,
-        parseFloat(product.price) * amount + totalSelectedDishPrice,
-      );
+      setTotalPrice(parseFloat(product.price) * amount);
     },
-    [product.price, selectedSideDishes],
+    [product.price],
   );
 
   const onAddToBasketButtonPress = () => {
-    updateCartItems(
-      [
-        {
-          dish: product,
-          // sideDishes: selectedSideDishes,
-        },
-      ],
-      totalPrice,
-    );
+    cartItems.push({ dish: product });
+    updateCartItems(cartItems, totalPrice);
     goBack();
   };
 
