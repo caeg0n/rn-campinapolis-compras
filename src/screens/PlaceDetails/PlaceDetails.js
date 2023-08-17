@@ -15,6 +15,8 @@ export const PlaceDetails = ({ route }) => {
   const { categories_and_products } = useSelector((state) => state.userReducer);
   const [scrollY] = React.useState(new Animated.Value(0));
   const { organization } = route.params;
+  // const [isNavigationTransitionFinished, setIsNavigationTransitionFinished] =
+  // React.useState(false);
   // console.log(JSON.stringify(mockPlaceDetails.dishSection, null, 2));
 
   useEffect(() => {

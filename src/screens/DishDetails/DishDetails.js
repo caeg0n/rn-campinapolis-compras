@@ -12,10 +12,10 @@ import { useExploreStackNavigation } from '@src/hooks';
 
 export const DishDetails = ({ route }) => {
   const { product } = route.params;
-  const [totalPrice, setTotalPrice] = React.useState(parseFloat(product.price));
   const [scrollY] = React.useState(new Animated.Value(0));
   const { colors } = useAppTheme();
   const { goBack } = useExploreStackNavigation();
+  const [totalPrice, setTotalPrice] = React.useState(parseFloat(product.price));
   const { cartItems, updateCartItems } = React.useContext(CartContext);
   const { bottom } = useSafeAreaInsets();
 
