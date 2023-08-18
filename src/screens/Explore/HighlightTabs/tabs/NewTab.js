@@ -1,21 +1,20 @@
 import React from 'react';
 import { Box, PlaceListItem } from '@src/components';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllClosedOrganizations } from '@src/redux/actions';
+// import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 export const NewTab = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { all_closed_organizations } = useSelector(
     (state) => state.userReducer,
   );
 
-  useEffect(() => {
-    const s = async () => {
-      await dispatch(getAllClosedOrganizations());
-    };
-    s();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const s = async () => {
+  //     await dispatch(getAllClosedOrganizations());
+  //   };
+  //   s();
+  // }, [dispatch]);
 
   return (
     <Box backgroundColor="card" padding="s" paddingTop="none">

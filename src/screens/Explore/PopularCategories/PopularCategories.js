@@ -2,18 +2,11 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import { mockCategories } from '@src/data';
 import { Box, Image, Text, Touchable } from '@src/components';
-import { getAllCategories } from '@src/redux/actions';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 export const PopularCategories = ({ navigation }) => {
   const itemsPerRow = mockCategories.length / 2;
   const { all_categories } = useSelector((state) => state.userReducer);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, [dispatch]);
 
   const onCategoryItemPress = (name) => {
     return () => {

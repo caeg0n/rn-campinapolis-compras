@@ -1,19 +1,11 @@
 import React from 'react';
 import { Carousel, Section, Card } from '@src/components/elements';
 import { Dimensions } from 'react-native';
-// import { mockPlaces } from '@src/data';
 import { PlaceCardInfo } from '@src/components';
-import { useDispatch, useSelector } from 'react-redux';
-import { getRecommendedPlaces } from '@src/redux/actions';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 export const RecommendedPlaces = ({ navigation }) => {
-  const dispatch = useDispatch();
   const { recommended_places } = useSelector((state) => state.userReducer);
-
-  useEffect(() => {
-    dispatch(getRecommendedPlaces());
-  }, [dispatch]);
 
   const _onButtonActionPressed = () => {
     navigation.navigate('PlaceList', {

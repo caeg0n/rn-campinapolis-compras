@@ -1,19 +1,16 @@
 import React from 'react';
 import { Carousel, Section, Card } from '@src/components/elements';
 import { Dimensions } from 'react-native';
-// import { mockPlaces } from '@src/data';
 import { PlaceCardInfo } from '@src/components';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getHotDeals } from '@src/redux/actions';
+// import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 export const HotDeals = ({ navigation }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { hot_deals } = useSelector((state) => state.userReducer);
 
-  useEffect(() => {
-    dispatch(getHotDeals());
-  }, [dispatch]);
+  // useEffect(() => {
+  // }, [dispatch]);
 
   const _onButtonActionPressed = () => {
     navigation.navigate('PlaceList', {

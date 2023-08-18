@@ -1,3 +1,4 @@
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootNavigation } from '@src/navigation';
 import { AppThemeProvider } from '@src/theme/AppThemeProvider';
 import { StyleSheet } from 'react-native';
@@ -7,6 +8,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from '@src/auth';
 import { CartProvider } from '@src/cart';
 import { Text } from 'react-native';
+
+// import { useEffect } from 'react';
 // import { Provider } from 'react-redux';
 // import { Store } from '@src/redux/store';
 

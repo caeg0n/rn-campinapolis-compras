@@ -2,10 +2,40 @@ import React from 'react';
 import { AuthContext } from '@src/auth';
 import { Box, Button, Image, Text } from '@src/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
+import { getAllCategories } from '@src/redux/actions';
+import { useEffect } from 'react';
+import { getMostPopular } from '@src/redux/actions';
+import { getRecommendedPlaces } from '@src/redux/actions';
+import { getHotDeals } from '@src/redux/actions';
+import { getAllOpenedOrganizations } from '@src/redux/actions';
+import { getAllClosedOrganizations } from '@src/redux/actions';
+import { resetCategories } from '@src/redux/actions';
+import { resetOrganizations } from '@src/redux/actions';
+import { resetRecommendedPlaces } from '@src/redux/actions';
+import { resetHotDeals } from '@src/redux/actions';
+import { resetAllOpenedOrganizations } from '@src/redux/actions';
+import { resetAllClosedOrganizations } from '@src/redux/actions';
 
 export const Authentication = ({ navigation }) => {
+  const dispatch = useDispatch();
   const { signIn } = React.useContext(AuthContext);
   const { bottom } = useSafeAreaInsets();
+
+  useEffect(() => {
+    dispatch(resetCategories());
+    dispatch(resetOrganizations());
+    dispatch(resetRecommendedPlaces());
+    dispatch(resetHotDeals());
+    dispatch(resetAllOpenedOrganizations());
+    dispatch(resetAllClosedOrganizations());
+    dispatch(getAllOpenedOrganizations());
+    dispatch(getAllClosedOrganizations());
+    dispatch(getHotDeals());
+    dispatch(getRecommendedPlaces());
+    dispatch(getAllCategories());
+    dispatch(getMostPopular());
+  }, [dispatch]);
 
   const onConnectWithPhoneNumberButtonPress = () => {
     navigation.navigate('AuthenticationWithPhone');
@@ -37,30 +67,29 @@ export const Authentication = ({ navigation }) => {
           paddingBottom: bottom !== 0 ? bottom : undefined,
         }}>
         <Text fontWeight="bold" variant="header">
-          Get food you want.
+          COMPRE TUDO QUE PRECISA.
         </Text>
         <Text marginTop="xs" variant="secondary">
-          Satisfy your cravings by getting the food you love from your favourite
-          restaurants delivered to you fast. Delivery & takeout from the best
-          local restaurants.
+          Compre todos os produtos disponiveis na cidade de Campinápolis no
+          conforto da sua casa.
         </Text>
         <Box marginTop="l">
           <Button
-            label="Connect with Phone Number"
+            label="COMPRAR"
             isFullWidth
             onPress={onConnectWithPhoneNumberButtonPress}
           />
           <Button
-            label="Connect with Facebook"
+            label="QUERO VENDER"
             isFullWidth
-            variant="facebook"
+            // variant="facebook"
             marginTop="s"
             backgroundColor="facebook"
             onPress={onSocialNetworkConnectButtonPress}
           />
           <Button
-            label="Connect with Google"
-            variant="google"
+            label="QUERO SER UM ENTREGADOR"
+            // variant="google"
             marginTop="s"
             isFullWidth
             onPress={onSocialNetworkConnectButtonPress}

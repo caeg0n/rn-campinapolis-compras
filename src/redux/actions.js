@@ -12,6 +12,12 @@ export const GET_MOST_POPULAR = 'GET_MOST_POPULAR';
 export const GET_RECOMMENDED_PLACES = 'GET_RECOMMENDED_PLACES';
 export const GET_HOT_DEALS = 'GET_HOT_DEALS';
 export const GET_CATEGORIES_AND_PRODUCTS = 'GET_CATEGORIES_AND_PRODUCTS';
+export const RESET_CATEGORIES = 'RESET_CATEGORIES';
+export const RESET_ORGANIZATIONS = 'RESET_ORGANIZATIONS';
+export const RESET_RECOMMENDED_PLACES = 'RESET_RECOMMENDED_PLACES';
+export const RESET_HOT_DEALS = 'RESET_HOT_DEALS';
+export const RESET_ALL_OPENED_ORGANIZATIONS = 'RESET_ALL_OPENED_ORGANIZATIONS';
+export const RESET_ALL_CLOSED_ORGANIZATIONS = 'RESET_ALL_CLOSED_ORGANIZATIONS';
 
 if (__DEV__) {
   var SET_USER_EXPO_TOKEN_URL = DEV_API_BASE + '/update_token';
@@ -293,5 +299,47 @@ export const setExpoToken = (token, device_id) => (dispatch) => {
   dispatch({
     type: SET_USER_EXPO_TOKEN,
     payload: token,
+  });
+};
+
+export const resetCategories = () => (dispatch) => {
+  dispatch({
+    type: RESET_CATEGORIES,
+    payload: [],
+  });
+};
+
+export const resetOrganizations = () => (dispatch) => {
+  dispatch({
+    type: RESET_ORGANIZATIONS,
+    payload: {},
+  });
+};
+
+export const resetRecommendedPlaces = () => (dispatch) => {
+  dispatch({
+    type: RESET_RECOMMENDED_PLACES,
+    payload: [],
+  });
+};
+
+export const resetHotDeals = () => (dispatch) => {
+  dispatch({
+    type: RESET_HOT_DEALS,
+    payload: [],
+  });
+};
+
+export const resetAllOpenedOrganizations = () => (dispatch) => {
+  dispatch({
+    type: RESET_ALL_OPENED_ORGANIZATIONS,
+    payload: [],
+  });
+};
+
+export const resetAllClosedOrganizations = () => (dispatch) => {
+  dispatch({
+    type: RESET_ALL_CLOSED_ORGANIZATIONS,
+    payload: [],
   });
 };

@@ -4,10 +4,10 @@ import { Box, TabView } from '@src/components';
 import styles from './HighlightTabs.style';
 
 const tabData = [
-  { key: '0', title: 'Featured', content: FeaturedTab },
+  { key: '0', title: 'Abertos', content: FeaturedTab },
   {
     key: '1',
-    title: 'Newest',
+    title: 'Fechados',
     content: NewTab,
   },
 ];
