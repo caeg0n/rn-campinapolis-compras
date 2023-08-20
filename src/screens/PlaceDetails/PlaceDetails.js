@@ -7,7 +7,6 @@ import { HeadingInformation } from './HeadingInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategoriesAndProducts } from '@src/redux/actions';
 import { useEffect } from 'react';
-// import { mockPlaceDetails } from '@src/data';
 // import { PopularDishes } from './PopularDishes';
 
 export const PlaceDetails = ({ route }) => {

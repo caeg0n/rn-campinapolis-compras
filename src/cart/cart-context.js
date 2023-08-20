@@ -3,7 +3,7 @@ import React from 'react';
 const initialCartState = {
   cartItems: [],
   updateCartItems: () => {},
-  totalPrice: 0,
+  totalBasketPrice: 0,
   clearCart: () => {},
 };
 

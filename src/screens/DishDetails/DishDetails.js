@@ -114,7 +114,7 @@ export const DishDetails = ({ route }) => {
         justifyContent="center">
         <Button
           isFullWidth
-          label={`Adicionar ao Carrinho - R${formatCurrency(totalPrice)}`}
+          label={`Adicionar ao Carrinho - ${formatCurrency(totalPrice)}`}
           onPress={onAddToBasketButtonPress}
         />
       </Box>

@@ -7,7 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { InteractionManager } from 'react-native';
 
 export const BasketSummary = () => {
-  const { cartItems, totalPrice } = React.useContext(CartContext);
+  const { cartItems, totalBasketPrice } = React.useContext(CartContext);
   const navigation = useExploreStackNavigation();
   const [numberOfItems, setNumberOfItems] = React.useState(0);
 
@@ -48,7 +48,7 @@ export const BasketSummary = () => {
             }`}</Text>
           </Box>
           <Text fontWeight="bold" color="white">
-            {formatCurrency(totalPrice)}
+            {formatCurrency(totalBasketPrice)}
           </Text>
         </Box>
       </Button>
