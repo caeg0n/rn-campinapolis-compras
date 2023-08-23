@@ -1,33 +1,40 @@
 import React from 'react';
 import { Animated, KeyboardAvoidingView, Platform } from 'react-native';
-import { Text, Button, Box } from '@src/components';
+import { Button, Box } from '@src/components';
 import { HeadingInformation } from './HeadingInformation';
 import { AddToBasketForm } from './AddToBasketForm';
 import { CartContext } from '@src/cart';
 import { formatCurrency } from '@src/utils';
 import styles from './DishDetails.style';
-import { useAppTheme } from '@src/theme';
+// import { useAppTheme } from '@src/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useExploreStackNavigation } from '@src/hooks';
+import { useEffect } from 'react';
 
 export const DishDetails = ({ route }) => {
   const { product } = route.params;
   const [scrollY] = React.useState(new Animated.Value(0));
-  const { colors } = useAppTheme();
+  // const { colors } = useAppTheme();
   const { goBack } = useExploreStackNavigation();
   const [totalPrice, setTotalPrice] = React.useState(parseFloat(product.price));
   const { cartItems, updateCartItems } = React.useContext(CartContext);
   const { bottom } = useSafeAreaInsets();
+  let [my_product, setMyProduct] = React.useState(product);
+
+  useEffect(() => {
+    setMyProduct({ ...product, amount: 1 });
+  }, [product]);
 
   const updateTotalDishAmount = React.useCallback(
     (amount) => {
+      setMyProduct({ ...product, amount: amount });
       setTotalPrice(parseFloat(product.price) * amount);
     },
-    [product.price],
+    [product],
   );
 
   const onAddToBasketButtonPress = () => {
-    cartItems.push({ dish: product });
+    cartItems.push({ dish: my_product });
     updateCartItems(cartItems, totalPrice);
     goBack();
   };
