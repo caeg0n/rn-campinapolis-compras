@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "food-star-expo-app",
-    "slug": "food-star-expo-app",
-    "version": "1.0.0",
+    "name": "campinapolis-compras",
+    "slug": "campinapolis-compras",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

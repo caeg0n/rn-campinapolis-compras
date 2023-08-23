@@ -14,7 +14,7 @@ export const BasketSummary = () => {
   useFocusEffect(
     React.useCallback(() => {
       const task = InteractionManager.runAfterInteractions(() => {
-        setNumberOfItems(cartItems.length);
+        setNumberOfItems(sumAmountsInArray(cartItems));
       });
       return () => task.cancel();
     }, [cartItems]),
@@ -26,6 +26,16 @@ export const BasketSummary = () => {
 
   if (cartItems.length < 1) {
     return null;
+  }
+
+  function sumAmountsInArray(arr) {
+    let totalAmount = 0;
+    arr.forEach((item) => {
+      if (item.dish && typeof item.dish.amount === 'number') {
+        totalAmount += item.dish.amount;
+      }
+    });
+    return totalAmount;
   }
 
   return (
