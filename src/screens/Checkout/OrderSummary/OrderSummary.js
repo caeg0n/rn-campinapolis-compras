@@ -2,7 +2,8 @@ import React from 'react';
 import { Box, Text, Section, Divider } from '@src/components';
 import { formatCurrency } from '@src/utils';
 import { useExploreStackNavigation } from '@src/hooks';
-import { View } from 'react-native';
+import { useSelector } from 'react-redux';
+//  import { View } from 'react-native';
 
 export let OrderSummary = ({
   cartItem,
@@ -11,14 +12,32 @@ export let OrderSummary = ({
   shippingFee,
 }) => {
   const navigation = useExploreStackNavigation();
-  console.log(cartItem);
+  const { all_organizations } = useSelector((state) => state.userReducer);
 
   const onAddItemButtonPress = () => {
     navigation.navigate('DishDetailsModal');
   };
 
+  const getOrganizationTitle = () => {
+    const organizationName = findNameById(
+      all_organizations,
+      cartItem[0].dish.id,
+    );
+    return organizationName;
+  };
+
+  const findNameById = (data, idToFind) => {
+    for (const category in data) {
+      const foundElement = data[category].find((item) => item.id === idToFind);
+      if (foundElement) {
+        return foundElement.name;
+      }
+    }
+    return null;
+  };
+
   return (
-    <Section title="Resumo do Pedido">
+    <Section title={getOrganizationTitle()} actionButtonText="Remover">
       <Box backgroundColor="card">
         <Box padding="m">
           {cartItem.map((item, i) => (

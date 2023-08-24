@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { getMostPopular } from '@src/redux/actions';
 import { getRecommendedPlaces } from '@src/redux/actions';
 import { getHotDeals } from '@src/redux/actions';
+import { getAllOrganizations } from '@src/redux/actions';
 import { getAllOpenedOrganizations } from '@src/redux/actions';
 import { getAllClosedOrganizations } from '@src/redux/actions';
 import { resetCategories } from '@src/redux/actions';
@@ -29,6 +30,8 @@ export const Authentication = ({ navigation }) => {
     dispatch(resetHotDeals());
     dispatch(resetAllOpenedOrganizations());
     dispatch(resetAllClosedOrganizations());
+
+    dispatch(getAllOrganizations());
     dispatch(getAllOpenedOrganizations());
     dispatch(getAllClosedOrganizations());
     dispatch(getHotDeals());

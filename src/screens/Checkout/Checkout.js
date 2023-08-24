@@ -7,58 +7,41 @@ import { PlaceOrder } from './PlaceOrder';
 // import { DishesAlsoOrdered } from './DishesAlsoOrdered';
 import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
-import { useEffect } from 'react';
 
 const SHIPPING_FEE = 5;
 
 export const Checkout = () => {
   const { cartItems, totalBasketPrice } = React.useContext(CartContext);
-
-  useEffect(() => {});
+  const [myCartItems, setCartItems] = React.useState(
+    JSON.parse(JSON.stringify(cartItems)),
+  );
 
   const renderOrders = () => {
-    // const x = updateAmountsInArray(cartItems);
-    // console.log(x);
-    // const temp_items_1 = joinItems(temp_items_0);
-    // const items = groupByOrganizationId(temp_items_1);
-    // return items.map((cartItem, i) => (
-    //   <OrderSummary
-    //     cartItem={cartItem}
-    //     cartItemIndex={i}
-    //     key={i}
-    //     totalPrice={totalBasketPrice}
-    //     shippingFee={SHIPPING_FEE}
-    //   />
-    // ));
+    return groupByOrganizationId(groupAndSumById(myCartItems)).map(
+      (cartItem, index) => (
+        <OrderSummary
+          cartItem={cartItem}
+          cartItemIndex={index}
+          key={index}
+          totalPrice={totalBasketPrice}
+          shippingFee={SHIPPING_FEE}
+        />
+      ),
+    );
   };
 
-  const updateAmountsInArray = (arr) => {
-    let totalAmount = 0;
-    arr.forEach((item) => {
-      totalAmount += item.dish.amount;
-    });
-    arr.forEach((item) => {
-      item.dish.amount = totalAmount;
-    });
-    return arr;
-  };
-
-  const joinItems = (arr) => {
-    const groupedObjects = {};
+  const groupAndSumById = (arr) => {
+    const groupedItems = {};
     arr.forEach((item) => {
       const id = item.dish.id;
-      if (!groupedObjects[id]) {
-        groupedObjects[id] = { ...item };
-        groupedObjects[id].amount = 1;
+      if (!groupedItems[id]) {
+        groupedItems[id] = { ...item };
       } else {
-        groupedObjects[id] = {
-          ...groupedObjects[id],
-          ...item,
-        };
-        groupedObjects[id].amount++;
+        groupedItems[id].dish.amount += item.dish.amount;
       }
     });
-    return Object.values(groupedObjects);
+    const resultArray = Object.values(groupedItems);
+    return resultArray;
   };
 
   const groupByOrganizationId = (items) => {

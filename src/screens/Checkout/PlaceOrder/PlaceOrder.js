@@ -26,7 +26,7 @@ export const PlaceOrder = ({ totalPrice, shippingFee }) => {
       <Button
         isFullWidth
         onPress={onPlaceOrderButtonPress}
-        label="Place Order"
+        label="Finalizar Pedido"
       />
       <OrderSuccessModal
         isVisible={isSuccessOrderModalVisible}

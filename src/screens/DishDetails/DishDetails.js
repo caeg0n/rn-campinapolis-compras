@@ -19,7 +19,7 @@ export const DishDetails = ({ route }) => {
   const [totalPrice, setTotalPrice] = React.useState(parseFloat(product.price));
   const { cartItems, updateCartItems } = React.useContext(CartContext);
   const { bottom } = useSafeAreaInsets();
-  let [my_product, setMyProduct] = React.useState(product);
+  let [my_product, setMyProduct] = React.useState({});
 
   useEffect(() => {
     setMyProduct({ ...product, amount: 1 });
