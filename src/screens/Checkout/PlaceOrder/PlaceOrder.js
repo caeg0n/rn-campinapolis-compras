@@ -3,7 +3,7 @@ import { Box, Text, Button } from '@src/components';
 import { OrderSuccessModal } from './SuccessOrderModal';
 import { formatCurrency } from '@src/utils';
 
-export const PlaceOrder = ({ totalPrice, shippingFee }) => {
+export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
   const [isSuccessOrderModalVisible, setIsSuccessOrderModalVisible] =
     React.useState(false);
 
@@ -20,7 +20,7 @@ export const PlaceOrder = ({ totalPrice, shippingFee }) => {
       <Box flexDirection="row" justifyContent="space-between" marginBottom="m">
         <Text>Total</Text>
         <Text fontWeight="bold">
-          {formatCurrency(totalPrice + shippingFee)}
+          {formatCurrency(totalPrice + shippingFeeSum)}
         </Text>
       </Box>
       <Button

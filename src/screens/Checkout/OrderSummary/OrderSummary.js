@@ -3,14 +3,22 @@ import { Box, Text, Section, Divider } from '@src/components';
 import { formatCurrency } from '@src/utils';
 import { useExploreStackNavigation } from '@src/hooks';
 import { useSelector } from 'react-redux';
-//  import { View } from 'react-native';
+//import { View } from 'react-native';
 
-export let OrderSummary = ({
-  cartItem,
-  cartItemIndex,
-  totalPrice,
-  shippingFee,
-}) => {
+function findDeliveryFeeById(data, idToFind) {
+  for (const category in data) {
+    if (data.hasOwnProperty(category)) {
+      for (const item of data[category]) {
+        if (item.id === idToFind) {
+          return item.delivery_fee;
+        }
+      }
+    }
+  }
+  return null;
+}
+
+export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
   const navigation = useExploreStackNavigation();
   const { all_organizations } = useSelector((state) => state.userReducer);
 
@@ -21,7 +29,7 @@ export let OrderSummary = ({
   const getOrganizationTitle = () => {
     const organizationName = findNameById(
       all_organizations,
-      cartItem[0].dish.id,
+      cartItem[0].dish.organization_id,
     );
     return organizationName;
   };
@@ -36,17 +44,48 @@ export let OrderSummary = ({
     return null;
   };
 
+  const getItemAmount = (item) => {
+    switch (item.dish.amount > 0 && item.dish.amount < 10) {
+      case true:
+        return `0${item.dish.amount}`;
+      case false:
+        return `${item.dish.amount}`;
+      default:
+        return `${item.dish.amount}`;
+    }
+  };
+
+  const getItemTotalPrice = (item) => {
+    return formatCurrency(item.dish.price * item.dish.amount);
+  };
+
+  const getSubtotal = () => {
+    let total = 0;
+    cartItem.forEach((item) => {
+      total += item.dish.price * item.dish.amount;
+    });
+    return formatCurrency(total);
+  };
+
+  const getShippingFee = () => {
+    const organizationShippingFee = findDeliveryFeeById(
+      all_organizations,
+      cartItem[0].dish.organization_id,
+    );
+    return formatCurrency(organizationShippingFee);
+  };
+
   return (
     <Section title={getOrganizationTitle()} actionButtonText="Remover">
       <Box backgroundColor="card">
         <Box padding="m">
           {cartItem.map((item, i) => (
             <Box key={i} flexDirection="row" justifyContent="space-between">
-              <Text marginRight="m">0{item.amount}</Text>
+              <Text marginRight="m">{getItemAmount(item)}</Text>
               <Text marginBottom="xs" fontWeight="bold">
                 {item.dish.title}
               </Text>
-              <Text fontWeight="bold"> {formatCurrency(totalPrice)}</Text>
+              <Text fontWeight="bold"> {getItemTotalPrice(item)}</Text>
             </Box>
           ))}
         </Box>
@@ -63,11 +102,11 @@ export let OrderSummary = ({
         <Box padding="m">
           <Box flexDirection="row" justifyContent="space-between">
             <Text>Subtotal</Text>
-            <Text>{formatCurrency(totalPrice)}</Text>
+            <Text>{getSubtotal()}</Text>
           </Box>
           <Box marginTop="s" flexDirection="row" justifyContent="space-between">
-            <Text>Delivery: 6.1km</Text>
-            <Text>{formatCurrency(shippingFee)}</Text>
+            <Text>Entregador</Text>
+            <Text>{getShippingFee()}</Text>
           </Box>
         </Box>
       </Box>

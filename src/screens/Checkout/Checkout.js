@@ -7,14 +7,36 @@ import { PlaceOrder } from './PlaceOrder';
 // import { DishesAlsoOrdered } from './DishesAlsoOrdered';
 import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
+import { useSelector } from 'react-redux';
 
-const SHIPPING_FEE = 5;
+function getUniqueOrganizationIds(dataArray) {
+  const uniqueIds = new Set();
+  dataArray.forEach((item) => {
+    uniqueIds.add(item.dish.organization_id);
+  });
+  return Array.from(uniqueIds);
+}
+
+function filterAndCalculateDeliveryFee(dataObject, idArray) {
+  const filteredObjects = [];
+  for (const key in dataObject) {
+    if (dataObject.hasOwnProperty(key)) {
+      const objects = dataObject[key].filter((obj) => idArray.includes(obj.id));
+      if (objects.length > 0) {
+        filteredObjects.push(...objects);
+      }
+    }
+  }
+  const sumDeliveryFee = filteredObjects.reduce((total, obj) => {
+    return total + parseFloat(obj.delivery_fee);
+  }, 0);
+  return sumDeliveryFee;
+}
 
 export const Checkout = () => {
   const { cartItems, totalBasketPrice } = React.useContext(CartContext);
-  const [myCartItems, setCartItems] = React.useState(
-    JSON.parse(JSON.stringify(cartItems)),
-  );
+  const { all_organizations } = useSelector((state) => state.userReducer);
+  const [myCartItems] = React.useState(JSON.parse(JSON.stringify(cartItems)));
 
   const renderOrders = () => {
     return groupByOrganizationId(groupAndSumById(myCartItems)).map(
@@ -24,9 +46,15 @@ export const Checkout = () => {
           cartItemIndex={index}
           key={index}
           totalPrice={totalBasketPrice}
-          shippingFee={SHIPPING_FEE}
         />
       ),
+    );
+  };
+
+  const getShippingFeeSum = () => {
+    return filterAndCalculateDeliveryFee(
+      all_organizations,
+      getUniqueOrganizationIds(myCartItems),
     );
   };
 
@@ -63,7 +91,11 @@ export const Checkout = () => {
         {renderOrders()}
         <PaymentMethod />
       </ScrollView>
-      <PlaceOrder totalPrice={totalBasketPrice} shippingFee={SHIPPING_FEE} />
+      <PlaceOrder
+        totalPrice={totalBasketPrice}
+        shippingFeeSum={getShippingFeeSum()}
+      />
+      {/* <PlaceOrder totalPrice={totalBasketPrice} /> */}
     </Box>
   );
 };
