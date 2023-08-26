@@ -9,9 +9,10 @@ type AppThemeProviderProps = {
 };
 
 export const AppThemeProvider = ({ children }: AppThemeProviderProps) => {
+  console.log('AppThemeProvider');
   const scheme = useColorScheme();
   const [currentTheme, setCurrentTheme] =
-    React.useState<ColorSchemeName | null>('dark');
+    React.useState<ColorSchemeName | null>('light');
   const [useSystemTheme, setUseSystemTheme] = React.useState(false);
 
   React.useEffect(() => {

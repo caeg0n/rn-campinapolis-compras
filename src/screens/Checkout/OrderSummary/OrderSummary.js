@@ -3,7 +3,6 @@ import { Box, Text, Section, Divider } from '@src/components';
 import { formatCurrency } from '@src/utils';
 import { useExploreStackNavigation } from '@src/hooks';
 import { useSelector } from 'react-redux';
-//import { View } from 'react-native';
 
 function findDeliveryFeeById(data, idToFind) {
   for (const category in data) {

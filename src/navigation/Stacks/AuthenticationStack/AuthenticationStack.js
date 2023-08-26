@@ -13,6 +13,7 @@ import { useTransparentHeaderOptions } from '@src/utils';
 const Stack = createNativeStackNavigator();
 
 export const AuthenticationStack = () => {
+  console.log('AuthenticationStack');
   const transparentHeaderOptions = useTransparentHeaderOptions();
 
   return (

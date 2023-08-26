@@ -18,6 +18,7 @@ import { DishDetails, SearchDishes } from '@src/screens';
 const RootStack = createNativeStackNavigator();
 
 export const RootNavigation = () => {
+  console.log('RootNavigation');
   const { theme } = useContext(ThemeContext);
   const { userToken } = useContext(AuthContext);
 
