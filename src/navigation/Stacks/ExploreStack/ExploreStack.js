@@ -98,8 +98,8 @@ export const ExploreStack = ({ navigation }) => {
       <Stack.Screen
         name="AddAddress"
         options={{
-          headerTitle: 'Add An Address',
-          headerRight: renderAddressHeaderRight,
+          headerTitle: 'Novo Endereço',
+          //headerRight: renderAddressHeaderRight,
         }}
         component={AddAddress}
       />

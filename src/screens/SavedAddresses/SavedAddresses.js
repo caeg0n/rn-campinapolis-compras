@@ -11,17 +11,29 @@ export const SavedAddresses = () => {
     navigation.navigate('AddAddress');
   };
 
+  const removeAddressItemPress = () => {
+    navigation.navigate('AddAddress');
+  };
+
   return (
     <ScrollView>
-      <Section title="Favorites" hasDivider={false}>
+      <Section title="Escolha o Endereço" hasDivider={true}>
         <Box>
           {favoriteAddresses.map((item, index) => {
-            const { id, name, description, isHome, isWork } = item;
-            let leftElement;
+            //const { id, name, description, isHome, isWork } = item;
+            const { id, name, description, isHome } = item;
+            let rightElement;
             if (isHome) {
-              leftElement = <Icon name="home" />;
-            } else if (isWork) {
-              leftElement = <Icon name="briefcase" />;
+              rightElement = (
+                <Icon
+                  name="trash"
+                  onPress={removeAddressItemPress}
+                  color="red"
+                />
+              );
+              // } else if (isWork) {
+              //   rightElement = <Icon name="briefcase" />;
+              // }
             }
             return (
               <Box key={index}>
@@ -29,15 +41,15 @@ export const SavedAddresses = () => {
                   id={id}
                   title={name}
                   subTitle={description}
-                  leftElement={leftElement}
+                  rightElement={rightElement}
                 />
                 <Divider />
               </Box>
             );
           })}
           <ListRowItem
-            title="Add an Address"
-            subTitle="Save your favourite places"
+            title="Adicionar Endereço"
+            subTitle="Salve seus endereços favoritos"
             onPress={addAddressItemPress}
           />
         </Box>

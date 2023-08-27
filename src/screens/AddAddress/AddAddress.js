@@ -1,6 +1,15 @@
 import React from 'react';
-import { TextField, List, Divider, ListRowItem, Box } from '@src/components';
-import { savedAddresses } from '@src/data/mock-address';
+import { TextInputMask } from 'react-native-masked-text';
+
+import {
+  TextField,
+  Button,
+  List,
+  Divider,
+  ListRowItem,
+  Box,
+} from '@src/components';
+//import { savedAddresses } from '@src/data/mock-address';
 
 export const AddAddress = () => {
   const prepareListData = (addresses) => {
@@ -24,21 +33,38 @@ export const AddAddress = () => {
         <Box paddingVertical="s" paddingHorizontal="m">
           <TextField
             inputProps={{
-              placeholder: 'Enter Address',
+              placeholder: 'Titulo',
+            }}
+          />
+          <Divider backgroundColor="card" marginVertical="s" />
+          <TextField
+            inputProps={{
+              placeholder: 'Telefone',
+            }}
+          />
+          <Divider marginVertical="s" />
+          <TextField
+            inputProps={{
+              placeholder: 'Endereço',
+              multiline: true,
+              numberOfLines: 5,
             }}
             leftIcon="location"
           />
+          <Divider backgroundColor="card" marginVertical="s" />
+          <Button label="Salvar" isFullWidth />
         </Box>
         <Divider marginVertical="s" />
       </>
     );
   };
 
-  return (
-    <List
-      data={prepareListData(savedAddresses)}
-      ListHeaderComponent={renderListHeader()}
-      renderItem={renderItem}
-    />
-  );
+  // return (
+  //   <List
+  //     data={prepareListData(savedAddresses)}
+  //     ListHeaderComponent={renderListHeader()}
+  //     renderItem={renderItem}
+  //   />
+  // );
+  return renderListHeader();
 };

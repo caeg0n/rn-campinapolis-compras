@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, I18nManager } from 'react-native';
 import { Box } from '../Box';
-import { InputRestyleProps, TextFieldProps } from './TextField.type';
 import {
   backgroundColor,
   border,
@@ -13,13 +12,10 @@ import {
   typography,
   visible,
 } from '@shopify/restyle';
-import { Theme, fontSize, useAppTheme } from '@src/theme';
+import { fontSize, useAppTheme } from '@src/theme';
 import { Icon } from '../Icon';
 
-const InnerTextInput = createRestyleComponent<
-  InputRestyleProps & React.ComponentProps<typeof TextInput>,
-  Theme
->(
+const InnerTextInput = createRestyleComponent(
   [
     spacing,
     color,
@@ -33,7 +29,7 @@ const InnerTextInput = createRestyleComponent<
   TextInput,
 );
 
-export const TextField: React.FC<TextFieldProps> = ({
+export const TextField = ({
   leftIcon,
   leftIconSize = fontSize.l,
   hasMargin,
@@ -61,7 +57,7 @@ export const TextField: React.FC<TextFieldProps> = ({
       backgroundColor="card"
       borderWidth={borderWidth}
       borderColor="border"
-      height={55}
+      //height={55}
       {...rest}
       margin={hasMargin ? 's' : undefined}>
       {leftIcon ? (

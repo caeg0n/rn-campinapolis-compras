@@ -52,13 +52,13 @@ export const StartupContainer = () => {
         dispatch(resetHotDeals());
         dispatch(resetAllOpenedOrganizations());
         dispatch(resetAllClosedOrganizations());
-        await dispatch(getAllOrganizations());
-        await dispatch(getAllOpenedOrganizations());
-        await dispatch(getAllClosedOrganizations());
-        await dispatch(getHotDeals());
         await dispatch(getRecommendedPlaces());
         await dispatch(getAllCategories());
         await dispatch(getMostPopular());
+        await dispatch(getHotDeals());
+        await dispatch(getAllOrganizations());
+        await dispatch(getAllOpenedOrganizations());
+        await dispatch(getAllClosedOrganizations());
       } catch (error) {
         console.error('An error occurred during app initialization:', error);
       }

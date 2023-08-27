@@ -3,32 +3,33 @@ import { Platform } from 'react-native';
 import {
   Box,
   Text,
-  // Button,
+  Button,
   Section,
   Divider,
-  // DateTimePicker,
+  DateTimePicker,
   Image,
 } from '@src/components';
 import { useExploreStackNavigation } from '@src/hooks';
 
 export const DeliveryInformation = () => {
   const navigation = useExploreStackNavigation();
-  const [date, setDate] = React.useState(new Date(1598051730000));
-  const [showDateTimePicker, setShowDateTimePicker] = React.useState(false);
+  //const [date, setDate] = React.useState(new Date(1598051730000));
+  //const [showDateTimePicker, setShowDateTimePicker] = React.useState(false);
 
   const onChangeAddressButtonPress = () => {
-    navigation.navigate('ChangeAddress');
+    navigation.navigate('SavedAddresses');
+    // navigation.navigate('ChangeAddress');
   };
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowDateTimePicker(Platform.OS === 'ios');
-    setDate(currentDate);
-  };
+  // const onChange = (event, selectedDate) => {
+  // const currentDate = selectedDate || date;
+  // setShowDateTimePicker(Platform.OS === 'ios');
+  // setDate(currentDate);
+  // };
 
-  const onChangeTimeButtonPress = () => {
-    setShowDateTimePicker(!showDateTimePicker);
-  };
+  // const onChangeTimeButtonPress = () => {
+  //   setShowDateTimePicker(!showDateTimePicker);
+  // };
 
   return (
     <Section

@@ -8,18 +8,18 @@ const chevronIconName = I18nManager.isRTL ? 'chevron-back' : 'chevron-forward';
 
 const savedPlaceListItem = {
   id: '1',
-  title: 'Saved Places',
-  subTitle: 'Select a delivery address easily',
+  title: 'Endereços Salvos',
+  subTitle: 'Escolha um endereço para sua compra',
   leftElement: <Icon name="bookmark" />,
   rightElement: <Icon name={chevronIconName} />,
 };
 
-const useCurrentLocationListItem = {
-  id: '1',
-  title: 'Use Current Location',
-  subTitle: '588 Blanda Square - Virginia',
-  leftElement: <Icon name="location" />,
-};
+// const useCurrentLocationListItem = {
+//   id: '1',
+//   title: 'Use Current Location',
+//   subTitle: '588 Blanda Square - Virginia',
+//   leftElement: <Icon name="location" />,
+// };
 
 export const ChangeAddress = () => {
   const navigation = useExploreStackNavigation();
@@ -39,6 +39,7 @@ export const ChangeAddress = () => {
   };
 
   const renderItem = (props) => {
+    // return '';
     return <ListRowItem key={props.index} {...props.item} />;
   };
 
@@ -50,7 +51,7 @@ export const ChangeAddress = () => {
           onPress={savedPlaceListItemPress}
         />
         <Divider />
-        <ListRowItem {...useCurrentLocationListItem} />
+        {/* <ListRowItem {...useCurrentLocationListItem} /> */}
         <Divider />
       </>
     );
