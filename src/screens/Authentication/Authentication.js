@@ -2,43 +2,16 @@ import React from 'react';
 import { AuthContext } from '@src/auth';
 import { Box, Button, Image, Text } from '@src/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
-import { getAllCategories } from '@src/redux/actions';
-import { useEffect } from 'react';
-import { getMostPopular } from '@src/redux/actions';
-import { getRecommendedPlaces } from '@src/redux/actions';
-import { getHotDeals } from '@src/redux/actions';
-import { getAllOrganizations } from '@src/redux/actions';
-import { getAllOpenedOrganizations } from '@src/redux/actions';
-import { getAllClosedOrganizations } from '@src/redux/actions';
-import { resetCategories } from '@src/redux/actions';
-import { resetOrganizations } from '@src/redux/actions';
-import { resetRecommendedPlaces } from '@src/redux/actions';
-import { resetHotDeals } from '@src/redux/actions';
-import { resetAllOpenedOrganizations } from '@src/redux/actions';
-import { resetAllClosedOrganizations } from '@src/redux/actions';
+//import { useDispatch } from 'react-redux';
+// import { useEffect } from 'react';
 
 export const Authentication = ({ navigation }) => {
-  const dispatch = useDispatch();
   const { signIn } = React.useContext(AuthContext);
   const { bottom } = useSafeAreaInsets();
 
-  useEffect(() => {
-    dispatch(resetCategories());
-    dispatch(resetOrganizations());
-    dispatch(resetRecommendedPlaces());
-    dispatch(resetHotDeals());
-    dispatch(resetAllOpenedOrganizations());
-    dispatch(resetAllClosedOrganizations());
-
-    dispatch(getAllOrganizations());
-    dispatch(getAllOpenedOrganizations());
-    dispatch(getAllClosedOrganizations());
-    dispatch(getHotDeals());
-    dispatch(getRecommendedPlaces());
-    dispatch(getAllCategories());
-    dispatch(getMostPopular());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   console.log('authentication');
+  // }, []);
 
   const onConnectWithPhoneNumberButtonPress = () => {
     navigation.navigate('AuthenticationWithPhone');
