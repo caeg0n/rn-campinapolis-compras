@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { TextInput, I18nManager } from 'react-native';
 import { Box } from '../Box';
@@ -49,38 +50,40 @@ export const TextField = ({
   };
 
   return (
-    <Box
-      flexDirection="row"
-      justifyContent="center"
-      alignItems="center"
-      borderRadius="l"
-      backgroundColor="card"
-      borderWidth={borderWidth}
-      borderColor="border"
-      //height={55}
-      {...rest}
-      margin={hasMargin ? 's' : undefined}>
-      {leftIcon ? (
-        <Box paddingLeft="m" paddingRight={I18nManager.isRTL ? 's' : 'none'}>
-          <Icon name={leftIcon} size={leftIconSize} color={colors.text} />
-        </Box>
-      ) : null}
-      <InnerTextInput
-        color="text"
-        fontSize={fontSize.m}
-        placeholderTextColor={colors.secondary}
-        underlineColorAndroid="transparent"
-        flex={1}
-        padding="m"
-        paddingHorizontal="m"
-        paddingLeft={leftIcon ? 's' : undefined}
+    <>
+      <Box
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center"
         borderRadius="l"
-        backgroundColor="transparent"
-        height="100%"
-        onFocus={handleOnFocus}
-        onBlur={handleOnBlur}
-        {...restInputProps}
-      />
-    </Box>
+        backgroundColor="card"
+        borderWidth={borderWidth}
+        borderColor="white"
+        //height={55}
+        {...rest}
+        margin={hasMargin ? 's' : undefined}>
+        {leftIcon ? (
+          <Box paddingLeft="m" paddingRight={I18nManager.isRTL ? 's' : 'none'}>
+            <Icon name={leftIcon} size={leftIconSize} color={colors.text} />
+          </Box>
+        ) : null}
+        <InnerTextInput
+          color="text"
+          fontSize={fontSize.m}
+          placeholderTextColor={colors.secondary}
+          underlineColorAndroid="transparent"
+          flex={1}
+          padding="m"
+          paddingHorizontal="m"
+          paddingLeft={leftIcon ? 's' : undefined}
+          borderRadius="l"
+          backgroundColor="transparent"
+          height="100%"
+          onFocus={handleOnFocus}
+          onBlur={handleOnBlur}
+          {...restInputProps}
+        />
+      </Box>
+    </>
   );
 };
