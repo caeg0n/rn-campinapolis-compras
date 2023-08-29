@@ -1,38 +1,38 @@
-/* eslint-disable eslint-comments/no-unlimited-disable */
-/* eslint-disable */
-import { SET_USER_NAME } from "./actions";
-import { SET_USER_UUID } from "./actions";
-import { SET_USER_EXPO_TOKEN } from "./actions";
-import { GET_ALL_ORGANIZATIONS } from "./actions";
-import { GET_ALL_CATEGORIES } from "./actions";
-import { GET_ALL_OPENED_ORGANIZATIONS } from "./actions";
-import { GET_ALL_CLOSED_ORGANIZATIONS } from "./actions";
-import { GET_MOST_POPULAR } from "./actions";
-import { GET_RECOMMENDED_PLACES } from "./actions";
-import { GET_HOT_DEALS } from "./actions";
-import { GET_CATEGORIES_AND_PRODUCTS } from "./actions";
-import { RESET_CATEGORIES } from "./actions";
-import { RESET_ORGANIZATIONS } from "./actions";
-import { RESET_RECOMMENDED_PLACES } from "./actions";
-import { RESET_HOT_DEALS } from "./actions";
-import { RESET_ALL_OPENED_ORGANIZATIONS } from "./actions";
-import { RESET_ALL_CLOSED_ORGANIZATIONS } from "./actions";
+import { SET_USER_NAME } from '@src/redux/actions/user';
+import { SET_USER_UUID } from '@src/redux/actions/user';
+import { SET_USER_EXPO_TOKEN } from '@src/redux/actions/user';
+import { GET_ALL_ORGANIZATIONS } from '@src/redux/actions/user';
+import { GET_ALL_CATEGORIES } from '@src/redux/actions/user';
+import { GET_ALL_OPENED_ORGANIZATIONS } from '@src/redux/actions/user';
+import { GET_ALL_CLOSED_ORGANIZATIONS } from '@src/redux/actions/user';
+import { GET_MOST_POPULAR } from '@src/redux/actions/user';
+import { GET_RECOMMENDED_PLACES } from '@src/redux/actions/user';
+import { GET_HOT_DEALS } from '@src/redux/actions/user';
+import { GET_CATEGORIES_AND_PRODUCTS } from '@src/redux/actions/user';
+import { GET_IS_REGISTERED } from '@src/redux/actions/user';
+import { GET_UUID } from '@src/redux/actions/user';
+import { RESET_CATEGORIES } from '@src/redux/actions/user';
+import { RESET_ORGANIZATIONS } from '@src/redux/actions/user';
+import { RESET_RECOMMENDED_PLACES } from '@src/redux/actions/user';
+import { RESET_HOT_DEALS } from '@src/redux/actions/user';
+import { RESET_ALL_OPENED_ORGANIZATIONS } from '@src/redux/actions/user';
+import { RESET_ALL_CLOSED_ORGANIZATIONS } from '@src/redux/actions/user';
 
 const initialState = {
-  name: "",
+  name: '',
   cities: [],
-  uuid: "",
+  uuid: '',
   is_registered: {},
-  url_base: "",
-  expo_token: "",
-  all_organizations:{},
-  all_categories:[],
-  all_opened_organizations:[],
-  all_closed_organizations:[],
-  most_popular:[],
-  recommended_places:[],
-  hot_deals:[],
-  categories_and_products:[]
+  url_base: '',
+  expo_token: '',
+  all_organizations: {},
+  all_categories: [],
+  all_opened_organizations: [],
+  all_closed_organizations: [],
+  most_popular: [],
+  recommended_places: [],
+  hot_deals: [],
+  categories_and_products: [],
 };
 
 function userReducer(state = initialState, action) {
@@ -59,6 +59,10 @@ function userReducer(state = initialState, action) {
       return { ...state, hot_deals: action.payload };
     case GET_CATEGORIES_AND_PRODUCTS:
       return { ...state, categories_and_products: action.payload };
+    case GET_IS_REGISTERED:
+      return { ...state, is_registered: action.payload };
+    case GET_UUID:
+      return { ...state, uuid: action.payload };
     case RESET_CATEGORIES:
       return { ...state, all_categories: action.payload };
     case RESET_ORGANIZATIONS:
@@ -74,6 +78,6 @@ function userReducer(state = initialState, action) {
     default:
       return state;
   }
-};
+}
 
 export default userReducer;

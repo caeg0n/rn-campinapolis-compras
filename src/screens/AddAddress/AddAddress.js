@@ -1,14 +1,22 @@
 import React from 'react';
 import { Text } from 'react-native';
-
 import { TextField, Button, Divider, Box } from '@src/components';
+import { useFocusEffect } from '@react-navigation/native';
+// import { getIsRegistered } from '../redux/actions';
 //import { savedAddresses } from '@src/data/mock-address';
 
 export const AddAddress = () => {
+  // const dispatch = useDispatch();
   const [title, setTitle] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [status, setStatus] = React.useState(false);
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     dispatch(getIsRegistered(uuid));
+  //   }, [dispatch, uuid]),
+  // );
 
   const saveClick = () => {
     setStatus(true);
@@ -85,34 +93,5 @@ export const AddAddress = () => {
       </>
     );
   };
-
-  // const styles = StyleSheet.create({
-  //   container: {},
-  //   paragraph: {},
-  //   card: {},
-  //   label: {
-  //     fontSize: 12,
-  //     marginTop: 5,
-  //   },
-  //   input: {
-  //     height: 40,
-  //     marginHorizontal: 0,
-  //     marginVertical: 5,
-  //     paddingHorizontal: 5,
-  //     borderWidth: 1,
-  //     borderRadius: 10,
-  //   },
-  //   buttonContainer: {
-  //     marginTop: 10,
-  //   },
-  // });
-
-  // return (
-  //   <List
-  //     data={prepareListData(savedAddresses)}
-  //     ListHeaderComponent={renderListHeader()}
-  //     renderItem={renderItem}
-  //   />
-  // );
   return renderListHeader();
 };

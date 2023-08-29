@@ -12,14 +12,12 @@ import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { useCallback, useEffect, useState } from 'react';
-//import { v4 } from 'uuid';
-//import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { setDeviceId } from '@src/redux/actions';
 //import { useEffect } from 'react';
 //import { Provider } from 'react-redux';
 //import { Store } from '@src/redux/store';
 
-// StartupContainer.init();
+//StartupContainer.init();
 SplashScreen.preventAutoHideAsync();
 
 const styles = StyleSheet.create({
@@ -32,10 +30,8 @@ export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
-    console.log('App');
     async function prepare() {
       try {
-        console.log('useeffect in app');
       } catch (e) {
         console.warn(e);
       } finally {
@@ -43,7 +39,7 @@ export default function App() {
       }
     }
     prepare();
-  }, []);
+  });
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaScrollViewStyles } from '@src/hooks';
-import { SearchHeader } from './SearchHeader';
+// import { SearchHeader } from './SearchHeader';
 import { PopularCategories } from './PopularCategories/PopularCategories';
 import { PopularPlaces } from './PopularPlaces';
 import { MerchantCampaigns } from './MerchantCampaigns';
