@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { TextInput, I18nManager } from 'react-native';
 import { Box } from '../Box';
