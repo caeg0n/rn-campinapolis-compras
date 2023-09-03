@@ -9,9 +9,8 @@ export const GET_MOST_POPULAR = 'GET_MOST_POPULAR';
 export const GET_RECOMMENDED_PLACES = 'GET_RECOMMENDED_PLACES';
 export const GET_HOT_DEALS = 'GET_HOT_DEALS';
 export const GET_CATEGORIES_AND_PRODUCTS = 'GET_CATEGORIES_AND_PRODUCTS';
-export const GET_IS_REGISTERED = 'GET_IS_REGISTERED';
-export const GET_UUID = 'GET_UUID';
 export const RESET_CATEGORIES = 'RESET_CATEGORIES';
+export const RESET_MOST_POPULAR = 'RESET_MOST_POPULAR';
 export const RESET_ORGANIZATIONS = 'RESET_ORGANIZATIONS';
 export const RESET_RECOMMENDED_PLACES = 'RESET_RECOMMENDED_PLACES';
 export const RESET_HOT_DEALS = 'RESET_HOT_DEALS';
@@ -19,9 +18,6 @@ export const RESET_ALL_OPENED_ORGANIZATIONS = 'RESET_ALL_OPENED_ORGANIZATIONS';
 export const RESET_ALL_CLOSED_ORGANIZATIONS = 'RESET_ALL_CLOSED_ORGANIZATIONS';
 
 if (__DEV__) {
-  var UUID_URL = DEV_API_BASE + '/is_registered';
-  var SET_USER_EXPO_TOKEN_URL = DEV_API_BASE + '/update_token';
-  var SEND_EMERGENCY_MESSAGE_URL = DEV_API_BASE + '/send_emergency_message';
   var GET_ALL_ORGANIZATIONS_URL =
     DEV_API_BASE + '/get_all_organizations_with_distinct_category';
   var GET_ALL_CATEGORIES_URL = DEV_API_BASE + '/get_all_categories';
@@ -35,9 +31,6 @@ if (__DEV__) {
   var GET_CATEGORIES_AND_PRODUCTS_URL =
     DEV_API_BASE + '/get_categories_and_products';
 } else {
-  var UUID_URL = PROD_API_BASE + '/is_registered';
-  var SET_USER_EXPO_TOKEN_URL = PROD_API_BASE + '/update_token';
-  var SEND_EMERGENCY_MESSAGE_URL = PROD_API_BASE + '/send_emergency_message';
   var GET_ALL_CATEGORIES_URL = PROD_API_BASE + '/get_all_categories';
   var GET_MOST_POPULAR_URL = PROD_API_BASE + '/get_most_popular/5';
   var GET_RECOMMENDED_PLACES_URL = PROD_API_BASE + '/get_recommended_places';
@@ -252,76 +245,16 @@ export const getCategoriesAndProducts = (organization) => {
   }
 };
 
-export const getUUID = () => {
-  try {
-    return async (dispatch) => {
-      const result = await fetch(UUID_URL, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const json = await result.json();
-      if (json) {
-        dispatch({
-          type: GET_UUID,
-          payload: json,
-        });
-      } else {
-        console.log('unable to fectch');
-      }
-    };
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getIsRegistered = (uuid) => {
-  const url = UUID_URL + '/' + uuid + '.json';
-  try {
-    return async (dispatch) => {
-      const result = await fetch(url, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      const json = await result.json();
-      if (json) {
-        dispatch({
-          type: GET_IS_REGISTERED,
-          payload: json,
-        });
-      } else {
-        console.log('unable to fectch get_uuid');
-      }
-    };
-  } catch (error) {}
-};
-
-export const sendEmergencyMessage = (uuid) => (dispatch) => {
-  try {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        notification: {
-          device_id: uuid,
-        },
-      }),
-    };
-    fetch(SEND_EMERGENCY_MESSAGE_URL + '.json', requestOptions).then(
-      (response) => response.json(),
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const resetCategories = () => (dispatch) => {
   dispatch({
     type: RESET_CATEGORIES,
+    payload: [],
+  });
+};
+
+export const resetMostPopular = () => (dispatch) => {
+  dispatch({
+    type: RESET_MOST_POPULAR,
     payload: [],
   });
 };

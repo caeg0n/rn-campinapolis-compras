@@ -1,5 +1,5 @@
 import { StartupContainer } from './StartupContainer';
-import * as SplashScreen from 'expo-splash-screen';
+// import * as SplashScreen from 'expo-splash-screen';
 import { RootNavigation } from '@src/navigation';
 import { AppThemeProvider } from '@src/theme/AppThemeProvider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,14 +11,10 @@ import { Text, StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import { useCallback, useEffect, useState } from 'react';
-//import { setDeviceId } from '@src/redux/actions';
-//import { useEffect } from 'react';
-//import { Provider } from 'react-redux';
-//import { Store } from '@src/redux/store';
+// import { useCallback, useEffect, useState } from 'react';
 
 //StartupContainer.init();
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 const styles = StyleSheet.create({
   container: {
@@ -27,46 +23,42 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const [appIsReady, setAppIsReady] = useState(false);
-
-  useEffect(() => {
-    async function prepare() {
-      try {
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    }
-    prepare();
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  if (!appIsReady) {
-    return null;
-  }
-
-  // const uuid = v4();
-  // const { deviceId } = useSelector((state) => state.userReducer);
+  // const [appIsReady, setAppIsReady] = useState(false);
 
   // useEffect(() => {
-  //   if (deviceId == undefined) {
-  //     dispatch(setDeviceId(uuid));
-  //   }
+  // setAppIsReady(true);
   // }, []);
+
+  // useEffect(() => {
+  //   async function prepare() {
+  //     try {
+  //     } catch (e) {
+  //       console.warn(e);
+  //     } finally {
+  //       setAppIsReady(true);
+  //     }
+  //   }
+  //   prepare();
+  // });
+
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (appIsReady) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [appIsReady]);
+
+  // if (!appIsReady) {
+  //   return null;
+  // }
 
   return (
     <GestureHandlerRootView style={styles.container}>
       <Provider store={Store}>
-        <StartupContainer />
         <PersistGate loading={<Text>Aguarde...</Text>} persistor={persistor}>
+          <StartupContainer />
           <PortalProvider>
-            <SafeAreaProvider onLayout={onLayoutRootView}>
+            {/* <SafeAreaProvider onLayout={onLayoutRootView}> */}
+            <SafeAreaProvider>
               <AppThemeProvider>
                 <AuthProvider>
                   <CartProvider>
@@ -74,6 +66,7 @@ export default function App() {
                   </CartProvider>
                 </AuthProvider>
               </AppThemeProvider>
+              {/* </SafeAreaProvider> */}
             </SafeAreaProvider>
           </PortalProvider>
         </PersistGate>

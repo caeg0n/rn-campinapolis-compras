@@ -1,5 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AuthContext } from './auth';
+import { useDispatch } from 'react-redux';
+// import { resetUUID } from '@src/redux/actions/session';
+import { resetCategories } from '@src/redux/actions/user';
+import { resetMostPopular } from '@src/redux/actions/user';
+import { resetOrganizations } from '@src/redux/actions/user';
+import { resetRecommendedPlaces } from '@src/redux/actions/user';
+import { resetHotDeals } from '@src/redux/actions/user';
+import { resetAllOpenedOrganizations } from '@src/redux/actions/user';
+import { resetAllClosedOrganizations } from '@src/redux/actions/user';
+import { getAllCategories } from '@src/redux/actions/user';
+import { getMostPopular } from '@src/redux/actions/user';
+import { getRecommendedPlaces } from '@src/redux/actions/user';
+import { getHotDeals } from '@src/redux/actions/user';
+import { getAllOrganizations } from '@src/redux/actions/user';
+import { getAllOpenedOrganizations } from '@src/redux/actions/user';
+import { getAllClosedOrganizations } from '@src/redux/actions/user';
 
 const initialAuthState = {
   isLoading: false,
@@ -34,6 +50,7 @@ const AuthReducer = (state, action) => {
 
 export const AuthProvider = ({ children }) => {
   console.log('AuthProvider');
+  const localDispatch = useDispatch();
   const [state, dispatch] = React.useReducer(AuthReducer, initialAuthState);
   const { userToken } = state;
   const authContext = React.useMemo(
@@ -49,6 +66,25 @@ export const AuthProvider = ({ children }) => {
     }),
     [userToken],
   );
+
+  useEffect(() => {
+    //reidrata asyncstorage
+    //localDispatch(resetUUID());
+    localDispatch(resetCategories());
+    localDispatch(resetMostPopular());
+    localDispatch(resetOrganizations());
+    localDispatch(resetRecommendedPlaces());
+    localDispatch(resetHotDeals());
+    localDispatch(resetAllOpenedOrganizations());
+    localDispatch(resetAllClosedOrganizations());
+    localDispatch(getRecommendedPlaces());
+    localDispatch(getAllCategories());
+    localDispatch(getMostPopular());
+    localDispatch(getHotDeals());
+    localDispatch(getAllOrganizations());
+    localDispatch(getAllOpenedOrganizations());
+    localDispatch(getAllClosedOrganizations());
+  });
 
   return (
     <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>

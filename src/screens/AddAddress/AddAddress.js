@@ -1,12 +1,22 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { TextField, Button, Divider, Box } from '@src/components';
-import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { DEV_API_BASE, PROD_API_BASE } from '@env';
+// import { useFocusEffect } from '@react-navigation/native';
 // import { getIsRegistered } from '../redux/actions';
 //import { savedAddresses } from '@src/data/mock-address';
 
+if (__DEV__) {
+  var API_BASE_URL = DEV_API_BASE;
+} else {
+  var API_BASE_URL = PROD_API_BASE;
+}
+
 export const AddAddress = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { uuid } = useSelector((state) => state.sessionReducer);
   const [title, setTitle] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [address, setAddress] = React.useState('');
@@ -18,12 +28,35 @@ export const AddAddress = () => {
   //   }, [dispatch, uuid]),
   // );
 
-  const saveClick = () => {
+  const saveClick = async () => {
     setStatus(true);
     if (title !== '') {
       if (phone !== '') {
         if (address !== '') {
-          console.log('bingo');
+          try {
+            let response = await fetch(API_BASE_URL + '/addresses', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                address: {
+                  device_id: uuid,
+                  name: title,
+                  cel: phone,
+                  address_detail: address,
+                },
+              }),
+            });
+            if (response.status !== 201) {
+              throw new Error('FETCH_ERROR');
+            }
+            response = await response.json();
+            console.log(response);
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     }

@@ -1,15 +1,22 @@
+/* eslint-disable no-unreachable */
 import { DEV_API_BASE, PROD_API_BASE } from '@env';
 
 export const SET_USER_UUID = 'SET_USER_UUID';
 export const SET_USER_EXPO_TOKEN = 'SET_USER_EXPO_TOKEN';
+export const RESET_UUID = 'RESET_UUID';
 
 if (__DEV__) {
-  var SET_USER_UUID_URL = DEV_API_BASE + '/is_registered';
   var SET_USER_EXPO_TOKEN_URL = DEV_API_BASE + '/update_token';
 } else {
-  var SET_USER_UUID_URL = PROD_API_BASE + '/is_registered';
   var SET_USER_EXPO_TOKEN_URL = PROD_API_BASE + '/update_token';
 }
+
+export const resetUUID = () => (dispatch) => {
+  dispatch({
+    type: RESET_UUID,
+    payload: '',
+  });
+};
 
 export const setUUID = (uuid) => (dispatch) => {
   dispatch({

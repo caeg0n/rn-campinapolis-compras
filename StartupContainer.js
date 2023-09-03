@@ -1,32 +1,18 @@
 import React, { useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAllCategories } from '@src/redux/actions';
-import { getMostPopular } from '@src/redux/actions';
-import { getRecommendedPlaces } from '@src/redux/actions';
-import { getHotDeals } from '@src/redux/actions';
-import { getAllOrganizations } from '@src/redux/actions';
-import { getAllOpenedOrganizations } from '@src/redux/actions';
-import { getAllClosedOrganizations } from '@src/redux/actions';
-import { useDispatch } from 'react-redux';
-// import { resetCategories } from '@src/redux/actions';
-// import { resetOrganizations } from '@src/redux/actions';
-// import { resetRecommendedPlaces } from '@src/redux/actions';
-// import { resetHotDeals } from '@src/redux/actions';
-// import { resetAllOpenedOrganizations } from '@src/redux/actions';
-// import { resetAllClosedOrganizations } from '@src/redux/actions';
-// import { v4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 } from 'uuid';
+import { setUUID } from '@src/redux/actions/session';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { setUUID, getIsRegistered } from './src/redux/actions';
 // import { useSelector } from 'react-redux';
 // import { useDispatch } from 'react-redux';
-
-// function fetchData() {
-// return new Promise((resolve, reject) => {
-// setTimeout(() => {
-//   const data = { message: 'Hello from fetched data!' };
-//   resolve(data);
-// }, 1);
-// });
-// }
+// import { getAllCategories } from '@src/redux/actions/user';
+// import { getMostPopular } from '@src/redux/actions/user';
+// import { getRecommendedPlaces } from '@src/redux/actions/user';
+// import { getHotDeals } from '@src/redux/actions/user';
+// import { getAllOrganizations } from '@src/redux/actions/user';
+// import { getAllOpenedOrganizations } from '@src/redux/actions/user';
+// import { getAllClosedOrganizations } from '@src/redux/actions/user';
 
 // const StartupContainer = {
 //   async init() {
@@ -44,15 +30,28 @@ import { useDispatch } from 'react-redux';
 // export default StartupContainer;
 
 export const StartupContainer = () => {
+  console.log('startup container');
   const dispatch = useDispatch();
-  // const { uuid } = useSelector((state) => state.userReducer);
-  // console.log(uuid);
+  const { uuid } = useSelector((state) => state.sessionReducer);
+
   useEffect(() => {
-    const clearData = async () => {
-      await AsyncStorage.removeItem('persist:user');
-      // await AsyncStorage.clear();
-    };
-    clearData().catch(console.error);
+    if (uuid === undefined || uuid === '') {
+      dispatch(setUUID(v4()));
+    }
+    // dispatch(setUUID(''));
+    // AsyncStorage.getAllKeys()
+    //   .then(async (keys) => {
+    //     const result = await AsyncStorage.multiGet(keys);
+    //     console.log(result);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // const clearData = async () => {
+    // AsyncStorage.removeItem('persist:root');
+    // await AsyncStorage.clear();
+    // };
+    // clearData().catch(console.error);
     // AsyncStorage.getAllKeys()
     //   .then((keys) => {
     //     return AsyncStorage.multiGet(keys).then((result) => {
@@ -93,6 +92,5 @@ export const StartupContainer = () => {
       }
     };
     init();
-  });
-  return <></>;
+  }, [dispatch, uuid]);
 };
