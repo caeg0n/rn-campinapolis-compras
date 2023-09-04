@@ -4,8 +4,9 @@ import { TextField, Button, Divider, Box } from '@src/components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { DEV_API_BASE, PROD_API_BASE } from '@env';
+import { useExploreStackNavigation } from '@src/hooks';
+import { getAddresses } from '@src/redux/actions/user';
 // import { useFocusEffect } from '@react-navigation/native';
-// import { getIsRegistered } from '../redux/actions';
 //import { savedAddresses } from '@src/data/mock-address';
 
 if (__DEV__) {
@@ -21,12 +22,7 @@ export const AddAddress = () => {
   const [phone, setPhone] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [status, setStatus] = React.useState(false);
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     dispatch(getIsRegistered(uuid));
-  //   }, [dispatch, uuid]),
-  // );
+  const { goBack } = useExploreStackNavigation();
 
   const saveClick = async () => {
     setStatus(true);
@@ -53,7 +49,10 @@ export const AddAddress = () => {
               throw new Error('FETCH_ERROR');
             }
             response = await response.json();
-            console.log(response);
+            if (response.id > 0) {
+              dispatch(getAddresses(uuid));
+              goBack();
+            }
           } catch (error) {
             console.log(error);
           }

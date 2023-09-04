@@ -6,6 +6,7 @@ import { GET_MOST_POPULAR } from '@src/redux/actions/user';
 import { GET_RECOMMENDED_PLACES } from '@src/redux/actions/user';
 import { GET_HOT_DEALS } from '@src/redux/actions/user';
 import { GET_CATEGORIES_AND_PRODUCTS } from '@src/redux/actions/user';
+import { GET_ADDRESSES } from '@src/redux/actions/user';
 import { RESET_CATEGORIES } from '@src/redux/actions/user';
 import { RESET_MOST_POPULAR } from '@src/redux/actions/user';
 import { RESET_ORGANIZATIONS } from '@src/redux/actions/user';
@@ -19,6 +20,7 @@ const initialState = {
   all_categories: [],
   all_opened_organizations: [],
   all_closed_organizations: [],
+  all_addresses: [],
   most_popular: [],
   recommended_places: [],
   hot_deals: [],
@@ -43,6 +45,8 @@ function userReducer(state = initialState, action) {
       return { ...state, hot_deals: action.payload };
     case GET_CATEGORIES_AND_PRODUCTS:
       return { ...state, categories_and_products: action.payload };
+    case GET_ADDRESSES:
+      return { ...state, all_addresses: action.payload };
     case RESET_CATEGORIES:
       return { ...state, all_categories: action.payload };
     case RESET_MOST_POPULAR:

@@ -9,6 +9,7 @@ export const GET_MOST_POPULAR = 'GET_MOST_POPULAR';
 export const GET_RECOMMENDED_PLACES = 'GET_RECOMMENDED_PLACES';
 export const GET_HOT_DEALS = 'GET_HOT_DEALS';
 export const GET_CATEGORIES_AND_PRODUCTS = 'GET_CATEGORIES_AND_PRODUCTS';
+export const GET_ADDRESSES = 'GET_ADDRESSES';
 export const RESET_CATEGORIES = 'RESET_CATEGORIES';
 export const RESET_MOST_POPULAR = 'RESET_MOST_POPULAR';
 export const RESET_ORGANIZATIONS = 'RESET_ORGANIZATIONS';
@@ -30,6 +31,7 @@ if (__DEV__) {
   var GET_HOT_DEALS_URL = DEV_API_BASE + '/get_hot_deals';
   var GET_CATEGORIES_AND_PRODUCTS_URL =
     DEV_API_BASE + '/get_categories_and_products';
+  var GET_ADDRESSES_URL = DEV_API_BASE + '/get_addresses';
 } else {
   var GET_ALL_CATEGORIES_URL = PROD_API_BASE + '/get_all_categories';
   var GET_MOST_POPULAR_URL = PROD_API_BASE + '/get_most_popular/5';
@@ -43,7 +45,34 @@ if (__DEV__) {
     PROD_API_BASE + '/get_all_closed_organizations';
   var GET_CATEGORIES_AND_PRODUCTS_URL =
     PROD_API_BASE + '/get_categories_and_products';
+  var GET_ADDRESSES_URL = PROD_API_BASE + '/get_addresses';
 }
+
+export const getAddresses = (uuid) => {
+  const url = GET_ADDRESSES_URL + '/' + uuid + '.json';
+  try {
+    return async (dispatch) => {
+      const result = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      });
+      const json = await result.json();
+      if (json) {
+        dispatch({
+          type: GET_ADDRESSES,
+          payload: json,
+        });
+      } else {
+        console.log('unable to fectch get_addresses');
+      }
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getAllOrganizations = () => {
   const url = GET_ALL_ORGANIZATIONS_URL + '.json';

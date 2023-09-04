@@ -91,7 +91,7 @@ export const ExploreStack = ({ navigation }) => {
       <Stack.Screen
         name="SavedAddresses"
         options={{
-          headerTitle: 'Saved Addresses',
+          headerTitle: 'Endereços Salvos',
         }}
         component={SavedAddresses}
       />

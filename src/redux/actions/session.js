@@ -11,13 +11,6 @@ if (__DEV__) {
   var SET_USER_EXPO_TOKEN_URL = PROD_API_BASE + '/update_token';
 }
 
-export const resetUUID = () => (dispatch) => {
-  dispatch({
-    type: RESET_UUID,
-    payload: '',
-  });
-};
-
 export const setUUID = (uuid) => (dispatch) => {
   dispatch({
     type: SET_USER_UUID,
@@ -47,5 +40,12 @@ export const setExpoToken = (token, device_id) => (dispatch) => {
   dispatch({
     type: SET_USER_EXPO_TOKEN,
     payload: token,
+  });
+};
+
+export const resetUUID = () => (dispatch) => {
+  dispatch({
+    type: RESET_UUID,
+    payload: '',
   });
 };
