@@ -2,12 +2,10 @@ import React from 'react';
 import { Carousel, Section, Card } from '@src/components/elements';
 import { Dimensions } from 'react-native';
 import { PlaceCardInfo } from '@src/components';
-// import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 export const HotDeals = ({ navigation, isMounted }) => {
-  // const dispatch = useDispatch();
   const { hot_deals } = useSelector((state) => state.userReducer);
 
   useEffect(() => {

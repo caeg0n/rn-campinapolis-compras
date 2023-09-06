@@ -13,10 +13,10 @@ import { resetAllClosedOrganizations } from '@src/redux/actions/user';
 import { setAllOrganizations } from '@src/redux/actions/user';
 import { setMostPopular } from '@src/redux/actions/user';
 import { setAllCategories } from '@src/redux/actions/user';
-// import { getRecommendedPlaces } from '@src/redux/actions/user';
-// import { getHotDeals } from '@src/redux/actions/user';
-// import { getAllOpenedOrganizations } from '@src/redux/actions/user';
-// import { getAllClosedOrganizations } from '@src/redux/actions/user';
+import { setRecommendedPlaces } from '@src/redux/actions/user';
+import { setHotDeals } from '@src/redux/actions/user';
+import { setAllOpenedOrganizations } from '@src/redux/actions/user';
+import { setAllClosedOrganizations } from '@src/redux/actions/user';
 
 const initialAuthState = {
   isLoading: false,
@@ -70,9 +70,6 @@ export const AuthProvider = ({ children, fetchData }) => {
 
   useEffect(() => {
     //reidrata asyncstorage
-    //localDispatch(resetUUID());
-    //async function init() {
-    //console.log('reset in auth');
     localDispatch(resetCategories());
     localDispatch(resetMostPopular());
     localDispatch(resetOrganizations());
@@ -84,12 +81,10 @@ export const AuthProvider = ({ children, fetchData }) => {
     localDispatch(setAllOrganizations(fetchData.allOrganizations));
     localDispatch(setMostPopular(fetchData.mostPopular));
     localDispatch(setAllCategories(fetchData.allCategories));
-    //await localDispatch(getRecommendedPlaces());
-    //await localDispatch(getHotDeals());
-    //await localDispatch(getAllOpenedOrganizations());
-    //await localDispatch(getAllClosedOrganizations());
-    //}
-    //init();
+    localDispatch(setRecommendedPlaces(fetchData.recommendedPlaces));
+    localDispatch(setHotDeals(fetchData.hotDeals));
+    localDispatch(setAllOpenedOrganizations(fetchData.allOpenedOrganizations));
+    localDispatch(setAllClosedOrganizations(fetchData.allClosedOrganizations));
   });
 
   return (
