@@ -2,14 +2,16 @@ import React from 'react';
 import { Carousel, Section, Card, PlaceCardInfo } from '@src/components';
 import { Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 // import { mockPlaces } from '@src/data';
 
-export const PopularPlaces = ({ navigation }) => {
+export const PopularPlaces = ({ navigation, isMounted }) => {
   const dispatch = useDispatch();
   const { most_popular } = useSelector((state) => state.userReducer);
 
-  // React.useEffect(() => {
-  // }, [dispatch]);
+  useEffect(() => {
+    isMounted(true);
+  });
 
   const _onButtonActionPress = () => {
     navigation.navigate('PlaceList', {

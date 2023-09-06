@@ -4,15 +4,6 @@ import { v4 } from 'uuid';
 import { setUUID } from '@src/redux/actions/session';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { setUUID, getIsRegistered } from './src/redux/actions';
-// import { useSelector } from 'react-redux';
-// import { useDispatch } from 'react-redux';
-// import { getAllCategories } from '@src/redux/actions/user';
-// import { getMostPopular } from '@src/redux/actions/user';
-// import { getRecommendedPlaces } from '@src/redux/actions/user';
-// import { getHotDeals } from '@src/redux/actions/user';
-// import { getAllOrganizations } from '@src/redux/actions/user';
-// import { getAllOpenedOrganizations } from '@src/redux/actions/user';
-// import { getAllClosedOrganizations } from '@src/redux/actions/user';
 
 // const StartupContainer = {
 //   async init() {

@@ -1,8 +1,8 @@
-import { GET_ALL_ORGANIZATIONS } from '@src/redux/actions/user';
-import { GET_ALL_CATEGORIES } from '@src/redux/actions/user';
+import { SET_ALL_ORGANIZATIONS } from '@src/redux/actions/user';
+import { SET_MOST_POPULAR } from '@src/redux/actions/user';
+import { SET_ALL_CATEGORIES } from '@src/redux/actions/user';
 import { GET_ALL_OPENED_ORGANIZATIONS } from '@src/redux/actions/user';
 import { GET_ALL_CLOSED_ORGANIZATIONS } from '@src/redux/actions/user';
-import { GET_MOST_POPULAR } from '@src/redux/actions/user';
 import { GET_RECOMMENDED_PLACES } from '@src/redux/actions/user';
 import { GET_HOT_DEALS } from '@src/redux/actions/user';
 import { GET_CATEGORIES_AND_PRODUCTS } from '@src/redux/actions/user';
@@ -29,16 +29,16 @@ const initialState = {
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_ALL_ORGANIZATIONS:
+    case SET_ALL_ORGANIZATIONS:
       return { ...state, all_organizations: action.payload };
-    case GET_ALL_CATEGORIES:
+    case SET_MOST_POPULAR:
+      return { ...state, most_popular: action.payload };
+    case SET_ALL_CATEGORIES:
       return { ...state, all_categories: action.payload };
     case GET_ALL_OPENED_ORGANIZATIONS:
       return { ...state, all_opened_organizations: action.payload };
     case GET_ALL_CLOSED_ORGANIZATIONS:
       return { ...state, all_closed_organizations: action.payload };
-    case GET_MOST_POPULAR:
-      return { ...state, most_popular: action.payload };
     case GET_RECOMMENDED_PLACES:
       return { ...state, recommended_places: action.payload };
     case GET_HOT_DEALS:

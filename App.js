@@ -1,5 +1,8 @@
+import { DEV_API_BASE, PROD_API_BASE } from '@env';
+
 import { StartupContainer } from './StartupContainer';
-// import * as SplashScreen from 'expo-splash-screen';
+import { View, ActivityIndicator } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
 import { RootNavigation } from '@src/navigation';
 import { AppThemeProvider } from '@src/theme/AppThemeProvider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,10 +14,21 @@ import { Text, StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-// import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+if (__DEV__) {
+  var GET_ALL_ORGANIZATIONS_URL =
+    DEV_API_BASE + '/get_all_organizations_with_distinct_category';
+  var GET_MOST_POPULAR_URL = DEV_API_BASE + '/get_most_popular/5';
+  var GET_ALL_CATEGORIES_URL = DEV_API_BASE + '/get_all_categories';
+} else {
+  var GET_ALL_ORGANIZATIONS_URL =
+    PROD_API_BASE + '/get_all_organizations_with_distinct_category';
+  var GET_MOST_POPULAR_URL = PROD_API_BASE + '/get_most_popular/5';
+  var GET_ALL_CATEGORIES_URL = PROD_API_BASE + '/get_all_categories';
+}
 
 //StartupContainer.init();
-// SplashScreen.preventAutoHideAsync();
 
 const styles = StyleSheet.create({
   container: {
@@ -23,33 +37,53 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  // const [appIsReady, setAppIsReady] = useState(false);
+  const [allOrganizations, setAllOrganizations] = useState([]);
+  const [mostPopular, setMostPopular] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
+  const [isFetching, setFetching] = useState(true);
 
-  // useEffect(() => {
-  // setAppIsReady(true);
-  // }, []);
+  const fetchData = async () => {
+    let jsonData = {};
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    let response = await fetch(GET_ALL_ORGANIZATIONS_URL);
+    let json = await response.json();
+    jsonData.jsonAllOrganizations = json;
 
-  // useEffect(() => {
-  //   async function prepare() {
-  //     try {
-  //     } catch (e) {
-  //       console.warn(e);
-  //     } finally {
-  //       setAppIsReady(true);
-  //     }
-  //   }
-  //   prepare();
-  // });
+    response = await fetch(GET_MOST_POPULAR_URL);
+    json = await response.json();
+    jsonData.jsonMostPopular = json;
 
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (appIsReady) {
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [appIsReady]);
+    response = await fetch(GET_ALL_CATEGORIES_URL);
+    json = await response.json();
+    jsonData.jsonAllCategories = json;
 
-  // if (!appIsReady) {
-  //   return null;
-  // }
+    return jsonData;
+  };
+
+  useEffect(() => {
+    SplashScreen.preventAutoHideAsync();
+    fetchData()
+      .then((jsonData) => {
+        setAllOrganizations(jsonData.jsonAllOrganizations);
+        setMostPopular(jsonData.jsonMostPopular);
+        setAllCategories(jsonData.jsonAllCategories);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      })
+      .finally(() => {
+        SplashScreen.hideAsync();
+        setFetching(false);
+      });
+  }, []);
+
+  if (isFetching) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -60,7 +94,8 @@ export default function App() {
             {/* <SafeAreaProvider onLayout={onLayoutRootView}> */}
             <SafeAreaProvider>
               <AppThemeProvider>
-                <AuthProvider>
+                <AuthProvider
+                  fetchData={{ allOrganizations, mostPopular, allCategories }}>
                   <CartProvider>
                     <RootNavigation />
                   </CartProvider>

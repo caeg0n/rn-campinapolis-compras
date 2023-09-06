@@ -2,6 +2,7 @@ import React from 'react';
 import { FeaturedTab, NewTab } from './tabs';
 import { Box, TabView } from '@src/components';
 import styles from './HighlightTabs.style';
+import { useEffect } from 'react';
 
 const tabData = [
   { key: '0', title: 'Abertos', content: FeaturedTab },
@@ -12,7 +13,10 @@ const tabData = [
   },
 ];
 
-export const HighlightTabs = () => {
+export const HighlightTabs = ({ isMounted }) => {
+  useEffect(() => {
+    isMounted(true);
+  }, [isMounted]);
   return (
     <Box
       backgroundColor="card"

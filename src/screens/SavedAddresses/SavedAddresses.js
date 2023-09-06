@@ -26,6 +26,10 @@ export const SavedAddresses = () => {
     navigation.navigate('AddAddress');
   };
 
+  const setAddress = () => {
+    console.log('kkkkkk');
+  };
+
   return (
     <ScrollView>
       <Section title="Escolha o Endereço" hasDivider={true}>
@@ -54,6 +58,7 @@ export const SavedAddresses = () => {
                     title={name}
                     subTitle={address}
                     rightElement={rightElement}
+                    onPress={setAddress}
                   />
                   <Divider />
                 </Box>
