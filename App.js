@@ -4,12 +4,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StartupContainer } from './StartupContainer';
 import { View, ActivityIndicator } from 'react-native';
 import { Text, StyleSheet } from 'react-native';
-import { RootNavigation } from '@src/navigation';
+import { MemoizedRootNavigation } from '@src/navigation';
 import { AppThemeProvider } from '@src/theme/AppThemeProvider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AuthProvider } from '@src/auth';
+import { MemoizedAuthProvider } from '@src/auth';
 import { CartProvider } from '@src/cart';
 
 import { Provider } from 'react-redux';
@@ -61,7 +61,7 @@ export default function App() {
 
   const fetchData = async () => {
     let jsonData = {};
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    //await new Promise((resolve) => setTimeout(resolve, 1));
     let response = await fetch(GET_ALL_ORGANIZATIONS_URL);
     let json = await response.json();
     jsonData.jsonAllOrganizations = json;
@@ -94,6 +94,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    console.log('app');
     SplashScreen.preventAutoHideAsync();
     fetchData()
       .then((jsonData) => {
@@ -126,12 +127,11 @@ export default function App() {
     <GestureHandlerRootView style={styles.container}>
       <Provider store={Store}>
         <PersistGate loading={<Text>Aguarde...</Text>} persistor={persistor}>
-          <StartupContainer />
+          {/* <StartupContainer /> */}
           <PortalProvider>
-            {/* <SafeAreaProvider onLayout={onLayoutRootView}> */}
             <SafeAreaProvider>
               <AppThemeProvider>
-                <AuthProvider
+                <MemoizedAuthProvider
                   fetchData={{
                     allOrganizations,
                     mostPopular,
@@ -142,11 +142,10 @@ export default function App() {
                     allClosedOrganizations,
                   }}>
                   <CartProvider>
-                    <RootNavigation />
+                    <MemoizedRootNavigation />
                   </CartProvider>
-                </AuthProvider>
+                </MemoizedAuthProvider>
               </AppThemeProvider>
-              {/* </SafeAreaProvider> */}
             </SafeAreaProvider>
           </PortalProvider>
         </PersistGate>

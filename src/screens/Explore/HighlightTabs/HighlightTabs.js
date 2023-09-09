@@ -13,10 +13,7 @@ const tabData = [
   },
 ];
 
-export const HighlightTabs = ({ isMounted }) => {
-  useEffect(() => {
-    isMounted(true);
-  }, [isMounted]);
+export const HighlightTabs = () => {
   return (
     <Box
       backgroundColor="card"

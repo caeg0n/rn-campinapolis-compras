@@ -3,14 +3,10 @@ import { Carousel, Section, Card } from '@src/components/elements';
 import { Dimensions } from 'react-native';
 import { PlaceCardInfo } from '@src/components';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
-export const RecommendedPlaces = ({ navigation, isMounted }) => {
+export const RecommendedPlaces = ({ navigation }) => {
   const { recommended_places } = useSelector((state) => state.userReducer);
-
-  useEffect(() => {
-    isMounted(true);
-  });
 
   const _onButtonActionPressed = () => {
     navigation.navigate('PlaceList', {

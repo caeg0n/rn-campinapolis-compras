@@ -43,6 +43,7 @@ const renderTabBarIcon = (routeName) => {
 };
 
 const TabNavigation = () => {
+  console.log('TabNavigation');
   return (
     <Navigator
       initialRouteName="ExploreTab"

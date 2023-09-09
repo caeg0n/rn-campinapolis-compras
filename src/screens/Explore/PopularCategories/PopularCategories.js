@@ -3,15 +3,11 @@ import { Dimensions } from 'react-native';
 //import { mockCategories } from '@src/data';
 import { Box, Image, Text, Touchable } from '@src/components';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
-export const PopularCategories = ({ navigation, isMounted }) => {
+export const PopularCategories = ({ navigation }) => {
   const { all_categories } = useSelector((state) => state.userReducer);
   const itemsPerRow = all_categories.length / 2;
-
-  useEffect(() => {
-    isMounted(true);
-  });
 
   const onCategoryItemPress = (name) => {
     return () => {

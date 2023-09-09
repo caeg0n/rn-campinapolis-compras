@@ -50,7 +50,6 @@ const AuthReducer = (state, action) => {
 };
 
 export const AuthProvider = ({ children, fetchData }) => {
-  console.log('AuthProvider');
   const localDispatch = useDispatch();
   const [state, dispatch] = React.useReducer(AuthReducer, initialAuthState);
   const { userToken } = state;
@@ -69,6 +68,7 @@ export const AuthProvider = ({ children, fetchData }) => {
   );
 
   useEffect(() => {
+    console.log('AuthProvider');
     //reidrata asyncstorage
     localDispatch(resetCategories());
     localDispatch(resetMostPopular());
@@ -91,3 +91,4 @@ export const AuthProvider = ({ children, fetchData }) => {
     <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>
   );
 };
+export const MemoizedAuthProvider = React.memo(AuthProvider);

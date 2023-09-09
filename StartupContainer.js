@@ -19,11 +19,11 @@ import { setUUID } from '@src/redux/actions/session';
 // export default StartupContainer;
 
 export const StartupContainer = () => {
-  console.log('startup container');
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer);
 
   useEffect(() => {
+    console.log('startup container');
     if (uuid === undefined || uuid === '') {
       dispatch(setUUID(v4()));
     }

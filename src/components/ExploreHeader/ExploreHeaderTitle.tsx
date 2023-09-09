@@ -7,7 +7,7 @@ export const ExploreHeaderTitle = () => {
     <Box flexDirection="row" alignItems="center">
       <Icon name="location" size={fontSize.m} isPrimary />
       <Text marginLeft="s" fontWeight="bold">
-        588 Blanda Square - Virginia
+        587 Blanda Square - Virginia
       </Text>
     </Box>
   );

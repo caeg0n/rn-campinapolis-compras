@@ -1,17 +1,26 @@
 import React from 'react';
 import { Carousel, Section, Card, PlaceCardInfo } from '@src/components';
 import { Dimensions } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+// import { useEffect } from 'react';
 // import { mockPlaces } from '@src/data';
 
-export const PopularPlaces = ({ navigation, isMounted }) => {
-  const dispatch = useDispatch();
+function shuffleArray(array) {
+  const shuffledArray = [...array];
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]]; // Swap elements
+  }
+  return shuffledArray;
+}
+
+const PopularPlaces = ({ navigation }) => {
+  //const dispatch = useDispatch();
   const { most_popular } = useSelector((state) => state.userReducer);
 
-  useEffect(() => {
-    isMounted(true);
-  });
+  // useEffect(() => {
+  //   isMounted(true);
+  // });
 
   const _onButtonActionPress = () => {
     navigation.navigate('PlaceList', {
@@ -67,10 +76,11 @@ export const PopularPlaces = ({ navigation, isMounted }) => {
         width={Dimensions.get('window').width}
         height={255}
         numItemsPerSlide={1.2}
-        data={most_popular}
+        data={shuffleArray(most_popular)}
         snapEnabled
         renderItem={renderItem}
       />
     </Section>
   );
 };
+export const MemoizedPopularPlaces = React.memo(PopularPlaces);
