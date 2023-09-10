@@ -68,7 +68,7 @@ export const AuthProvider = ({ children, fetchData }) => {
   );
 
   useEffect(() => {
-    console.log('AuthProvider');
+    console.log('MemoizedAuthProvider');
     //reidrata asyncstorage
     localDispatch(resetCategories());
     localDispatch(resetMostPopular());

@@ -5,12 +5,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useExploreStackNavigation } from '@src/hooks';
 // import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-//import { getAddresses } from '@src/redux/actions/user';
+import { useEffect } from 'react';
+import { TouchableOpacity } from 'react-native';
 
 export const SavedAddresses = () => {
   const navigation = useExploreStackNavigation();
-  const { all_addresses } = useSelector((state) => state.userReducer);
-  const isAddressesEmpty = !all_addresses || all_addresses.length === 0;
+  const { addresses } = useSelector((state) => state.sessionReducer);
+  console.log(addresses);
+  const isAddressesEmpty = !addresses || addresses.length === 0;
 
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -18,12 +20,17 @@ export const SavedAddresses = () => {
   //   }, [all_addresses]),
   // );
 
+  useEffect(() => {
+    console.log('SaveAddress');
+  }, []);
+
   const addAddressItemPress = () => {
     navigation.navigate('AddAddress');
   };
 
-  const removeAddressItemPress = () => {
-    navigation.navigate('AddAddress');
+  const removeAddressItemPress = (id) => {
+    console.log(id);
+    //navigation.navigate('AddAddress');
   };
 
   const setAddress = () => {
@@ -35,17 +42,15 @@ export const SavedAddresses = () => {
       <Section title="Escolha o Endereço" hasDivider={true}>
         {!isAddressesEmpty && (
           <Box>
-            {all_addresses.reverse().map((item, index) => {
+            {addresses.reverse().map((item, index) => {
               //const { id, name, description, isHome, isWork } = item;
               const { id, name, address, isHome = true } = item;
               let rightElement;
               if (isHome) {
                 rightElement = (
-                  <Icon
-                    name="trash"
-                    onPress={removeAddressItemPress}
-                    color="red"
-                  />
+                  <TouchableOpacity onPress={() => removeAddressItemPress(id)}>
+                    <Icon name="trash" color="red" />
+                  </TouchableOpacity>
                 );
                 // } else if (isWork) {
                 //   rightElement = <Icon name="briefcase" />;

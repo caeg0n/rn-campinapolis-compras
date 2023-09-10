@@ -1,11 +1,13 @@
+import { DEV_API_BASE, PROD_API_BASE } from '@env';
+
 import React from 'react';
 import { Text } from 'react-native';
 import { TextField, Button, Divider, Box } from '@src/components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { DEV_API_BASE, PROD_API_BASE } from '@env';
 import { useExploreStackNavigation } from '@src/hooks';
 import { getAddresses } from '@src/redux/actions/user';
+import { useEffect } from 'react';
 // import { useFocusEffect } from '@react-navigation/native';
 //import { savedAddresses } from '@src/data/mock-address';
 
@@ -23,6 +25,10 @@ export const AddAddress = () => {
   const [address, setAddress] = React.useState('');
   const [status, setStatus] = React.useState(false);
   const { goBack } = useExploreStackNavigation();
+
+  useEffect(() => {
+    console.log('addaddress');
+  }, []);
 
   const saveClick = async () => {
     setStatus(true);

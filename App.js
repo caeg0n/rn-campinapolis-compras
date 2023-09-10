@@ -127,7 +127,7 @@ export default function App() {
     <GestureHandlerRootView style={styles.container}>
       <Provider store={Store}>
         <PersistGate loading={<Text>Aguarde...</Text>} persistor={persistor}>
-          {/* <StartupContainer /> */}
+          <StartupContainer />
           <PortalProvider>
             <SafeAreaProvider>
               <AppThemeProvider>
