@@ -6,9 +6,8 @@ import { TextField, Button, Divider, Box } from '@src/components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useExploreStackNavigation } from '@src/hooks';
-import { getAddresses } from '@src/redux/actions/user';
+import { setAddresses } from '@src/redux/actions/session';
 import { useEffect } from 'react';
-// import { useFocusEffect } from '@react-navigation/native';
 //import { savedAddresses } from '@src/data/mock-address';
 
 if (__DEV__) {
@@ -17,9 +16,50 @@ if (__DEV__) {
   var API_BASE_URL = PROD_API_BASE;
 }
 
+async function putAddress(address_data, id, goback, dispatch, addresses) {
+  console.log(address_data.address);
+  let goToSavedAddress = goback;
+  let resultingAddresses = JSON.parse(JSON.stringify(addresses));
+  let tempAddress = {};
+  try {
+    let response = await fetch(API_BASE_URL + '/addresses', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address: {
+          device_id: id,
+          name: address_data.title,
+          cel: address_data.phone,
+          address_detail: address_data.address,
+        },
+      }),
+    });
+    if (response.status !== 201) {
+      throw new Error('FETCH_ERROR');
+    }
+    response = await response.json();
+    if (response.id > 0) {
+      tempAddress = {
+        name: address_data.title,
+        phone: address_data.phone,
+        address: address_data.address,
+      };
+      resultingAddresses.push(tempAddress);
+      dispatch(setAddresses(resultingAddresses));
+      goToSavedAddress();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const AddAddress = () => {
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer);
+  const { addresses } = useSelector((state) => state.sessionReducer);
   const [title, setTitle] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [address, setAddress] = React.useState('');
@@ -31,37 +71,15 @@ export const AddAddress = () => {
   }, []);
 
   const saveClick = async () => {
+    let address_data = {};
     setStatus(true);
     if (title !== '') {
       if (phone !== '') {
         if (address !== '') {
-          try {
-            let response = await fetch(API_BASE_URL + '/addresses', {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                address: {
-                  device_id: uuid,
-                  name: title,
-                  cel: phone,
-                  address_detail: address,
-                },
-              }),
-            });
-            if (response.status !== 201) {
-              throw new Error('FETCH_ERROR');
-            }
-            response = await response.json();
-            if (response.id > 0) {
-              dispatch(getAddresses(uuid));
-              goBack();
-            }
-          } catch (error) {
-            console.log(error);
-          }
+          address_data.title = title;
+          address_data.phone = phone;
+          address_data.address = address;
+          putAddress({ ...address_data }, uuid, goBack, dispatch, addresses);
         }
       }
     }

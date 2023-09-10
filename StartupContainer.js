@@ -40,7 +40,7 @@ export const StartupContainer = () => {
         let jsonData = {};
         const response = await fetch(GET_ADDRESSES_URL + '/' + uuid);
         const json = await response.json();
-        jsonData.jsonAllClosedOrganizations = json;
+        jsonData.jsonAddresses = json;
         return jsonData;
       } catch (error) {
         console.error('Error:', error);

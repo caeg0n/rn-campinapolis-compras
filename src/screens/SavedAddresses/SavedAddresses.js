@@ -11,7 +11,6 @@ import { TouchableOpacity } from 'react-native';
 export const SavedAddresses = () => {
   const navigation = useExploreStackNavigation();
   const { addresses } = useSelector((state) => state.sessionReducer);
-  console.log(addresses);
   const isAddressesEmpty = !addresses || addresses.length === 0;
 
   // useFocusEffect(
