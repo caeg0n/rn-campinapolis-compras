@@ -10,6 +10,9 @@ import {
   //Image,
 } from '@src/components';
 import { useExploreStackNavigation } from '@src/hooks';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
+//import { Icon } from '@src/components';
+import { Ionicons } from '@expo/vector-icons';
 
 export const DeliveryInformation = ({ localization }) => {
   const navigation = useExploreStackNavigation();
@@ -21,6 +24,18 @@ export const DeliveryInformation = ({ localization }) => {
     navigation.navigate('SavedAddresses');
     // navigation.navigate('ChangeAddress');
   };
+
+  const newAddress = () => {
+    return null;
+  };
+
+  // const rightElement = () => {
+  //   return (
+  //     <TouchableOpacity onPress={() => newAddress()}>
+  //       <Icon name="trash" color="red" />
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   // const onChange = (event, selectedDate) => {
   // const currentDate = selectedDate || date;
@@ -63,7 +78,17 @@ export const DeliveryInformation = ({ localization }) => {
             </Box>
           ) : (
             <Box>
-              <Text fontWeight="bold">Nenhum endereço cadastrado</Text>
+              <TouchableOpacity onPress={newAddress}>
+                <View style={styles.view}>
+                  <Text style={styles.text}>Nenhum endereço cadastrado</Text>
+                  <Ionicons
+                    name="ios-add-circle"
+                    size={24}
+                    color="green"
+                    style={styles.icon}
+                  />
+                </View>
+              </TouchableOpacity>
             </Box>
           )}
         </Box>
@@ -91,3 +116,22 @@ export const DeliveryInformation = ({ localization }) => {
     </Section>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  icon: {
+    marginRight: 10,
+    marginLeft: 5,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'black',
+  },
+});

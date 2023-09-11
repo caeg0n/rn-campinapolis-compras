@@ -61,7 +61,6 @@ export const Authentication = ({ navigation }) => {
             onPress={onSocialNetworkConnectButtonPress}
           />
           <Button
-            style={[styles.button, styles.transparentButton]}
             label="QUEROo SER UM ENTREGADOR"
             //variant="google"
             marginTop="s"
@@ -73,21 +72,3 @@ export const Authentication = ({ navigation }) => {
     </Box>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 2,
-    borderColor: 'white',
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-  },
-  transparentButton: {
-    backgroundColor: 'transparent',
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-});
