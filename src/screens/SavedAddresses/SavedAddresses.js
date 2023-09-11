@@ -30,6 +30,7 @@ async function deleteAddress(device_id, id) {
     },
     body: JSON.stringify(requestData),
   }).then((response) => {
+    console.log(response);
   });
 }
 
@@ -53,11 +54,13 @@ export const SavedAddresses = () => {
     const filteredArray = resultingAddresses.filter((obj) => obj.id !== id);
     deleteAddress(uuid, id);
     dispatch(setAddresses(filteredArray));
-    //navigation.navigate('AddAddress');
   };
 
-  const setAddress = () => {
-    console.log('kkkkkk');
+  const setAddress = (id) => {
+    const foundAddress = addresses.find((address) => address.id === id);
+    if (foundAddress) {
+      navigation.navigate('Checkout', foundAddress);
+    }
   };
 
   return (
@@ -86,7 +89,7 @@ export const SavedAddresses = () => {
                     title={name}
                     subTitle={address}
                     rightElement={rightElement}
-                    onPress={setAddress}
+                    onPress={() => setAddress(id)}
                   />
                   <Divider />
                 </Box>

@@ -4,7 +4,7 @@ import { DeliveryInformation } from './DeliveryInformation';
 import { OrderSummary } from './OrderSummary';
 import { PaymentMethod } from './PaymentMethod';
 import { PlaceOrder } from './PlaceOrder';
-// import { DishesAlsoOrdered } from './DishesAlsoOrdered';
+//import { DishesAlsoOrdered } from './DishesAlsoOrdered';
 import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
 import { useSelector } from 'react-redux';
@@ -33,10 +33,11 @@ function filterAndCalculateDeliveryFee(dataObject, idArray) {
   return sumDeliveryFee;
 }
 
-export const Checkout = () => {
+export const Checkout = ({ route }) => {
   const { cartItems, totalBasketPrice } = React.useContext(CartContext);
   const { all_organizations } = useSelector((state) => state.userReducer);
   const [myCartItems] = React.useState(JSON.parse(JSON.stringify(cartItems)));
+  const localization = route.params;
 
   const renderOrders = () => {
     return groupByOrganizationId(groupAndSumById(myCartItems)).map(
@@ -87,7 +88,7 @@ export const Checkout = () => {
   return (
     <Box flex={1}>
       <ScrollView>
-        <DeliveryInformation />
+        <DeliveryInformation localization={localization} />
         {renderOrders()}
         <PaymentMethod />
       </ScrollView>

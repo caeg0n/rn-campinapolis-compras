@@ -1,18 +1,19 @@
 import React from 'react';
-import { Platform } from 'react-native';
+//import { Platform } from 'react-native';
 import {
   Box,
   Text,
-  Button,
+  //Button,
   Section,
   Divider,
-  DateTimePicker,
-  Image,
+  //DateTimePicker,
+  //Image,
 } from '@src/components';
 import { useExploreStackNavigation } from '@src/hooks';
 
-export const DeliveryInformation = () => {
+export const DeliveryInformation = ({ localization }) => {
   const navigation = useExploreStackNavigation();
+  console.log(localization);
   //const [date, setDate] = React.useState(new Date(1598051730000));
   //const [showDateTimePicker, setShowDateTimePicker] = React.useState(false);
 
@@ -39,23 +40,32 @@ export const DeliveryInformation = () => {
       onButtonActionPress={onChangeAddressButtonPress}>
       <Box backgroundColor="card">
         <Box flexDirection="row" padding="m">
-          <Box marginRight="m">
+          {/* <Box marginRight="m">
             <Image
               source={require('@src/assets/checkout/map.png')}
               width={80}
               height={80}
               borderRadius="m"
             />
-          </Box>
-          <Box>
-            <Text fontWeight="bold" marginBottom="s">
-              588 Blanda Square - Virginia
-            </Text>
-            <Text variant="secondary" accessibilityRole="link" marginBottom="s">
-              Add floor / unit number
-            </Text>
-            <Text variant="secondary">Add a note to driver</Text>
-          </Box>
+          </Box> */}
+          {localization && Object.keys(localization).length > 0 ? (
+            <Box>
+              <Text fontWeight="bold" marginBottom="s">
+                Descrição: {localization.name}
+              </Text>
+              <Text
+                variant="secondary"
+                accessibilityRole="link"
+                marginBottom="s">
+                Endereço: {localization.address}
+              </Text>
+              <Text variant="secondary">Telefone: {localization.phone}</Text>
+            </Box>
+          ) : (
+            <Box>
+              <Text fontWeight="bold">Nenhum endereço cadastrado</Text>
+            </Box>
+          )}
         </Box>
         <Divider />
         {/* <Box padding="m" flexDirection="row" justifyContent="space-between">
