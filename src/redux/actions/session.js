@@ -4,6 +4,7 @@ import { DEV_API_BASE, PROD_API_BASE } from '@env';
 export const SET_USER_UUID = 'SET_USER_UUID';
 export const SET_USER_EXPO_TOKEN = 'SET_USER_EXPO_TOKEN';
 export const SET_ADDRESSES = 'SET_ADDRESSES';
+export const SET_SELECTED_ADDRESS = 'SET_SELECTED_ADDRESS';
 export const RESET_UUID = 'RESET_UUID';
 
 if (__DEV__) {
@@ -23,6 +24,13 @@ export const setAddresses = (json) => (dispatch) => {
   dispatch({
     type: SET_ADDRESSES,
     payload: json,
+  });
+};
+
+export const setSelectedAddresses = (id) => (dispatch) => {
+  dispatch({
+    type: SET_ADDRESSES,
+    payload: id,
   });
 };
 

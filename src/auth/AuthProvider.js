@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { AuthContext } from './auth';
 import { useDispatch } from 'react-redux';
-// import { resetUUID } from '@src/redux/actions/session';
 import { resetCategories } from '@src/redux/actions/user';
 import { resetMostPopular } from '@src/redux/actions/user';
 import { resetOrganizations } from '@src/redux/actions/user';

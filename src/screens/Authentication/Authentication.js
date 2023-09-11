@@ -2,16 +2,13 @@ import React from 'react';
 import { AuthContext } from '@src/auth';
 import { Box, Button, Image, Text } from '@src/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native';
 //import { useDispatch } from 'react-redux';
 // import { useEffect } from 'react';
 
 export const Authentication = ({ navigation }) => {
   const { signIn } = React.useContext(AuthContext);
   const { bottom } = useSafeAreaInsets();
-
-  // useEffect(() => {
-  //   console.log('authentication');
-  // }, []);
 
   const onConnectWithPhoneNumberButtonPress = () => {
     navigation.navigate('AuthenticationWithPhone');
@@ -58,14 +55,15 @@ export const Authentication = ({ navigation }) => {
           <Button
             label="QUERO VENDER"
             isFullWidth
-            // variant="facebook"
+            //variant="facebook"
             marginTop="s"
             backgroundColor="facebook"
             onPress={onSocialNetworkConnectButtonPress}
           />
           <Button
-            label="QUERO SER UM ENTREGADOR"
-            // variant="google"
+            style={[styles.button, styles.transparentButton]}
+            label="QUEROo SER UM ENTREGADOR"
+            //variant="google"
             marginTop="s"
             isFullWidth
             onPress={onSocialNetworkConnectButtonPress}
@@ -75,3 +73,21 @@ export const Authentication = ({ navigation }) => {
     </Box>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 10,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: 'white',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+  },
+  transparentButton: {
+    backgroundColor: 'transparent',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});

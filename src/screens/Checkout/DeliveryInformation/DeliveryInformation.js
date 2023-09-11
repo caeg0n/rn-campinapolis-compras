@@ -59,7 +59,7 @@ export const DeliveryInformation = ({ localization }) => {
                 marginBottom="s">
                 Endereço: {localization.address}
               </Text>
-              <Text variant="secondary">Telefone: {localization.phone}</Text>
+              <Text variant="secondary">Telefone: {localization.cel}</Text>
             </Box>
           ) : (
             <Box>
