@@ -1,26 +1,47 @@
+import { DEV_API_BASE, PROD_API_BASE } from '@env';
+
 import React from 'react';
 import { Box, Section, Divider, Icon, ListRowItem } from '@src/components';
 import { ScrollView } from 'react-native-gesture-handler';
-// import { favoriteAddresses } from '@src/data/mock-address';
 import { useExploreStackNavigation } from '@src/hooks';
-// import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setAddresses } from '@src/redux/actions/session';
+
+if (__DEV__) {
+  var DELETE_ADDRESS_URL = DEV_API_BASE + '/addresses';
+} else {
+  var DELETE_ADDRESS_URL = PROD_API_BASE + '/addresses';
+}
+
+async function deleteAddress(device_id, id) {
+  const requestData = {
+    address: {
+      device_id: device_id,
+      id: id,
+    },
+  };
+  fetch(DELETE_ADDRESS_URL, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestData),
+  }).then((response) => {
+  });
+}
 
 export const SavedAddresses = () => {
+  const dispatch = useDispatch();
+  const { uuid } = useSelector((state) => state.sessionReducer);
   const navigation = useExploreStackNavigation();
   const { addresses } = useSelector((state) => state.sessionReducer);
   const isAddressesEmpty = !addresses || addresses.length === 0;
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     //dispatch(getIsRegistered(uuid));
-  //   }, [all_addresses]),
-  // );
-
   useEffect(() => {
-    console.log('SaveAddress');
+    console.log('SavedAddress');
   }, []);
 
   const addAddressItemPress = () => {
@@ -28,7 +49,10 @@ export const SavedAddresses = () => {
   };
 
   const removeAddressItemPress = (id) => {
-    console.log(id);
+    let resultingAddresses = JSON.parse(JSON.stringify(addresses));
+    const filteredArray = resultingAddresses.filter((obj) => obj.id !== id);
+    deleteAddress(uuid, id);
+    dispatch(setAddresses(filteredArray));
     //navigation.navigate('AddAddress');
   };
 

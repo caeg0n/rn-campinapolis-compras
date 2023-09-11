@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { useExploreStackNavigation } from '@src/hooks';
 import { setAddresses } from '@src/redux/actions/session';
 import { useEffect } from 'react';
-//import { savedAddresses } from '@src/data/mock-address';
 
 if (__DEV__) {
   var API_BASE_URL = DEV_API_BASE;
@@ -17,7 +16,6 @@ if (__DEV__) {
 }
 
 async function putAddress(address_data, id, goback, dispatch, addresses) {
-  console.log(address_data.address);
   let goToSavedAddress = goback;
   let resultingAddresses = JSON.parse(JSON.stringify(addresses));
   let tempAddress = {};
