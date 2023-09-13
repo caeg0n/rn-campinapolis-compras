@@ -38,6 +38,8 @@ export const Checkout = ({ route }) => {
   const { all_organizations } = useSelector((state) => state.userReducer);
   const [myCartItems] = React.useState(JSON.parse(JSON.stringify(cartItems)));
   const localization = route.params;
+  const { uuid } = useSelector((state) => state.sessionReducer);
+  const { addresses } = useSelector((state) => state.sessionReducer);
 
   const renderOrders = () => {
     return groupByOrganizationId(groupAndSumById(myCartItems)).map(
@@ -88,7 +90,10 @@ export const Checkout = ({ route }) => {
   return (
     <Box flex={1}>
       <ScrollView>
-        <DeliveryInformation localization={localization} />
+        <DeliveryInformation
+          addresses={addresses}
+          localization={localization}
+        />
         {renderOrders()}
         <PaymentMethod />
       </ScrollView>

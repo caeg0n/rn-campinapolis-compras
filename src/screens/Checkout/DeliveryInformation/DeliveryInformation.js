@@ -14,18 +14,23 @@ import { TouchableOpacity, View, StyleSheet } from 'react-native';
 //import { Icon } from '@src/components';
 import { Ionicons } from '@expo/vector-icons';
 
-export const DeliveryInformation = ({ localization }) => {
+export const DeliveryInformation = ({ localization, addresses }) => {
   const navigation = useExploreStackNavigation();
-  console.log(localization);
   //const [date, setDate] = React.useState(new Date(1598051730000));
   //const [showDateTimePicker, setShowDateTimePicker] = React.useState(false);
 
   const onChangeAddressButtonPress = () => {
     navigation.navigate('SavedAddresses');
-    // navigation.navigate('ChangeAddress');
+    //navigation.navigate('ChangeAddress');
   };
 
   const newAddress = () => {
+    navigation.navigate('AddAddress');
+    return null;
+  };
+
+  const chooseAddress = () => {
+    navigation.navigate('SavedAddresses');
     return null;
   };
 
@@ -63,10 +68,11 @@ export const DeliveryInformation = ({ localization }) => {
               borderRadius="m"
             />
           </Box> */}
-          {localization && Object.keys(localization).length > 0 ? (
+          {localization &&
+          Object.keys(localization).length > 0 ? (
             <Box>
               <Text fontWeight="bold" marginBottom="s">
-                Descrição: {localization.name}
+                {localization.name}
               </Text>
               <Text
                 variant="secondary"
@@ -75,6 +81,20 @@ export const DeliveryInformation = ({ localization }) => {
                 Endereço: {localization.address}
               </Text>
               <Text variant="secondary">Telefone: {localization.cel}</Text>
+            </Box>
+          ) : addresses && addresses.length > 0 ? (
+            <Box>
+              <TouchableOpacity onPress={chooseAddress}>
+                <View style={styles.view}>
+                  <Text style={styles.text}>Escolha um dos seus endereços salvos</Text>
+                  <Ionicons
+                    name="ios-location"
+                    size={24}
+                    color="green"
+                    style={styles.icon}
+                  />
+                </View>
+              </TouchableOpacity>
             </Box>
           ) : (
             <Box>
