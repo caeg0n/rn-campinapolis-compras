@@ -14,6 +14,7 @@ import { AuthContext } from '@src/auth';
 import { AuthenticationStack } from './Stacks';
 import { PortalHost } from '@gorhom/portal';
 import { DishDetails, SearchDishes } from '@src/screens';
+import { RemoveItems } from '@src/screens/Checkout/RemoveItems';
 
 const RootStack = createNativeStackNavigator();
 
@@ -74,6 +75,15 @@ export const RootNavigation = () => {
             }}
             name="SearchDishesModal"
             component={SearchDishes}
+          />
+          <RootStack.Screen
+            options={{
+              headerTransparent: true,
+              title: '',
+              headerBackTitleVisible: false,
+            }}
+            name="RemoveItems"
+            component={RemoveItems}
           />
         </RootStack.Navigator>
       </NavigationContainer>

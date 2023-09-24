@@ -17,12 +17,15 @@ function findDeliveryFeeById(data, idToFind) {
   return null;
 }
 
-export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
+export let OrderSummary = ({ cartItem }) => {
   const navigation = useExploreStackNavigation();
   const { all_organizations } = useSelector((state) => state.userReducer);
 
-  const onAddItemButtonPress = () => {
-    navigation.navigate('DishDetailsModal');
+  const onRemoveItemButtonPress = () => {
+    navigation.navigate('DishDetailsModal',{ remove_item_mode:true, 
+                                             organizationTitle: getOrganizationTitle(),
+                                             subtotal: getSubtotal(),  
+                                            });
   };
 
   const getOrganizationTitle = () => {
@@ -75,7 +78,7 @@ export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
   };
 
   return (
-    <Section title={getOrganizationTitle()} actionButtonText="Remover">
+    <Section title={getOrganizationTitle()} actionButtonText="Remover" onButtonActionPress={onRemoveItemButtonPress}>
       <Box backgroundColor="card">
         <Box padding="m">
           {cartItem.map((item, i) => (
@@ -88,15 +91,6 @@ export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
             </Box>
           ))}
         </Box>
-        {/* <Box flexDirection="row"> */}
-        {/* <Text marginRight="m">{`${cartItem.length}`}</Text> */}
-        {/* <Text marginRight="m">0{cartItem[0].amount}</Text>
-            <Box key={cartItemIndex}>
-              <Text marginBottom="xs" fontWeight="bold">
-                {cartItem[0].dish.title}
-              </Text>
-            </Box>
-          </Box> */}
         <Divider />
         <Box padding="m">
           <Box flexDirection="row" justifyContent="space-between">
@@ -111,44 +105,4 @@ export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
       </Box>
     </Section>
   );
-
-  // return (
-  //   // <Section
-  //   // title="Resumo do Pedido"
-  //   //   actionButtonText="Comprar mais"
-  //   //   onButtonActionPress={onAddItemButtonPress}>
-  //   <Section title="Resumo do Pedido">
-  //     <Box backgroundColor="card">
-  //       <Box padding="m" flexDirection="row" justifyContent="space-between">
-  //         <Box flexDirection="row">
-  //           <Text marginRight="m">{`${cartItems.length}`}</Text>
-  //           {cartItems.map((cartItem, cartItemIndex) => (
-  //             <Box key={cartItemIndex}>
-  //               <Text marginBottom="xs" fontWeight="bold">
-  //                 {cartItem.dish.title}
-  //               </Text>
-  //               {/* {cartItem.sideDishes.map((dish, dishIndex) => (
-  //                 <Text variant="secondary" key={dishIndex} marginBottom="xxs">
-  //                   {dish.title}
-  //                 </Text>
-  //               ))} */}
-  //             </Box>
-  //           ))}
-  //         </Box>
-  //         <Text fontWeight="bold">{formatCurrency(totalPrice)}</Text>
-  //       </Box>
-  //       <Divider />
-  //       <Box padding="m">
-  //         <Box flexDirection="row" justifyContent="space-between">
-  //           <Text>Subtotal</Text>
-  //           <Text>{formatCurrency(totalPrice)}</Text>
-  //         </Box>
-  //         <Box marginTop="s" flexDirection="row" justifyContent="space-between">
-  //           <Text>Delivery: 6.1km</Text>
-  //           <Text>{formatCurrency(shippingFee)}</Text>
-  //         </Box>
-  //       </Box>
-  //     </Box>
-  //   </Section>
-  // );
 };

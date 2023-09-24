@@ -4,7 +4,6 @@ import { DeliveryInformation } from './DeliveryInformation';
 import { OrderSummary } from './OrderSummary';
 import { PaymentMethod } from './PaymentMethod';
 import { PlaceOrder } from './PlaceOrder';
-//import { DishesAlsoOrdered } from './DishesAlsoOrdered';
 import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
 import { useSelector } from 'react-redux';
@@ -38,9 +37,9 @@ export const Checkout = ({ route }) => {
   const { all_organizations } = useSelector((state) => state.userReducer);
   const [myCartItems] = React.useState(JSON.parse(JSON.stringify(cartItems)));
   const localization = route.params;
-  const { uuid } = useSelector((state) => state.sessionReducer);
   const { addresses } = useSelector((state) => state.sessionReducer);
-
+  //const { uuid } = useSelector((state) => state.sessionReducer);
+  
   const renderOrders = () => {
     return groupByOrganizationId(groupAndSumById(myCartItems)).map(
       (cartItem, index) => (

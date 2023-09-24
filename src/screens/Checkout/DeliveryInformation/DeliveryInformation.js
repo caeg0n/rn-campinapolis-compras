@@ -68,8 +68,7 @@ export const DeliveryInformation = ({ localization, addresses }) => {
               borderRadius="m"
             />
           </Box> */}
-          {localization &&
-          Object.keys(localization).length > 0 ? (
+          {localization && Object.keys(localization).length > 0 ? (
             <Box>
               <Text fontWeight="bold" marginBottom="s">
                 {localization.name}
@@ -86,11 +85,13 @@ export const DeliveryInformation = ({ localization, addresses }) => {
             <Box>
               <TouchableOpacity onPress={chooseAddress}>
                 <View style={styles.view}>
-                  <Text style={styles.text}>Escolha um dos seus endereços salvos</Text>
+                  <Text style={styles.text}>
+                    Escolha um dos seus endereços salvos
+                  </Text>
                   <Ionicons
                     name="ios-location"
                     size={24}
-                    color="green"
+                    color="red"
                     style={styles.icon}
                   />
                 </View>
@@ -104,7 +105,7 @@ export const DeliveryInformation = ({ localization, addresses }) => {
                   <Ionicons
                     name="ios-add-circle"
                     size={24}
-                    color="green"
+                    color="red"
                     style={styles.icon}
                   />
                 </View>
