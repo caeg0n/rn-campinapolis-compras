@@ -1,6 +1,6 @@
 {
-  "name": "food-star-expo-app",
-  "version": "1.0.0",
+  "name": "campinapolis-compras",
+  "version": "1.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -70,12 +70,6 @@
     "@babel/core": "^7.12.9",
     "@react-native-community/eslint-config": "^3.2.0",
     "@react-native-community/slider": "^4.4.2",
-    "@storybook/addon-actions": "^6.5.16",
-    "@storybook/addon-controls": "^6.5.16",
-    "@storybook/addon-ondevice-actions": "^6.5.3",
-    "@storybook/addon-ondevice-controls": "^6.5.3",
-    "@storybook/react-native": "^6.5.3",
-    "@storybook/react-native-server": "^6.5.3",
     "@types/accounting": "^0.4.2",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",

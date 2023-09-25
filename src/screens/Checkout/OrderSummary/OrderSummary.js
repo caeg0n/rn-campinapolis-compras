@@ -17,6 +17,17 @@ function findDeliveryFeeById(data, idToFind) {
   return null;
 }
 
+function getOrganization (data, idToFind) {
+  for (const category in data) {
+    const foundElement = data[category].find((item) => item.id === idToFind);
+    if (foundElement) {
+      return foundElement;
+    }
+  }
+  return {};
+};
+
+
 export let OrderSummary = ({ cartItem }) => {
   const navigation = useExploreStackNavigation();
   const { all_organizations } = useSelector((state) => state.userReducer);
@@ -24,7 +35,8 @@ export let OrderSummary = ({ cartItem }) => {
   const onRemoveItemButtonPress = () => {
     navigation.navigate('DishDetailsModal',{ remove_item_mode:true, 
                                              organizationTitle: getOrganizationTitle(),
-                                             subtotal: getSubtotal(),  
+                                             subtotal: getSubtotal(), 
+                                             organization: getOrganization(all_organizations, cartItem[0].dish.organization_id) 
                                             });
   };
 

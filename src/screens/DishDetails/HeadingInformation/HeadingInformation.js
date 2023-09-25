@@ -3,7 +3,6 @@ import { Box, Text } from '@src/components/elements';
 import { formatCurrency } from '@src/utils';
 
 export const HeadingInformation = ({ data, organizationTitle, subtotal }) => {
-  console.log(subtotal);
   const { title = '', 
           price = 0, 
           description = 'Remova os produtos que não deseja' } = data || {};

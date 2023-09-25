@@ -30,8 +30,9 @@ export const DishDetails = ({ route }) => {
   //const { remove_item_mode = false } = route.params;
   //const { colors } = useAppTheme();
   const { organizationTitle = '' } = route.params;
+  const { organization = {} } = route.params;
   const { subtotal = 'R$0.0' } = route.params;
-  const { product } = route?.params;
+  const { product = null } = route.params;
   const [scrollY] = React.useState(new Animated.Value(0));
   const { goBack } = useExploreStackNavigation();
   const [totalPrice, setTotalPrice] = React.useState(parseFloat(product?.price || "0"));
@@ -111,7 +112,7 @@ export const DishDetails = ({ route }) => {
               },
             ]}>
             <Animated.Image
-              source={{ uri: product?.image } || {}}
+              source={(product && product.image) != null ? { uri: product.image } : {uri: organization.cover}}
               style={[
                 styles.coverPhoto,
                 {
