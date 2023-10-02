@@ -85,15 +85,15 @@ export const DeliveryInformation = ({ localization, addresses }) => {
             <Box>
               <TouchableOpacity onPress={chooseAddress}>
                 <View style={styles.view}>
-                  <Text style={styles.text}>
-                    Escolha um dos seus endereços salvos
-                  </Text>
                   <Ionicons
                     name="ios-location"
-                    size={24}
+                    size={20}
                     color="red"
                     style={styles.icon}
                   />
+                  <Text style={styles.text}>
+                    Escolha um dos seus endereços salvos
+                  </Text>
                 </View>
               </TouchableOpacity>
             </Box>
@@ -153,6 +153,6 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: 'black',
+    color: 'white',
   },
 });

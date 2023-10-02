@@ -9,7 +9,8 @@ export const CheckBox = ({ label, onChange, rightElement }) => {
   const {
     colors: { primary, text, card },
   } = useAppTheme();
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState(true);
+ 
   const handleOnChange = () => {
     setChecked(!checked);
     onChange(!checked);

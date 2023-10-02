@@ -4030,10 +4030,10 @@ expo-font@~11.1.1:
   dependencies:
     fontfaceobserver "^2.1.0"
 
-expo-image@~1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-1.0.1.tgz#0cc04fac8e5204fc0d4d86f30f26273c0b1dce08"
-  integrity sha512-h3xDHaw3ZWzOKar1eFXY4CsFgDstw6fo5Tzv6BXXs+Zte5betPMb567f8zCNnhpkr7UCo5CN7Cg92o+lqzdvRA==
+expo-image@~1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-1.0.2.tgz#11f74c89812fcdb67a467fad41625b536ddb3612"
+  integrity sha512-wDLPdtU+9xNtl57NC9SQrnEqjD6obH6ZImwoeynewSTwAZ8rppKq5Kia0189fn6Kc1zzKT5kymOrwleruqS9Qg==
 
 expo-keep-awake@~12.0.1:
   version "12.0.1"
@@ -6673,10 +6673,10 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^2.7.1:
-  version "2.8.8"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.8.tgz#e8c5d7e98a4305ffe3de2e1fc4aca1a71c28b1da"
-  integrity sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==
+prettier@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.3.tgz#432a51f7ba422d1469096c0fdc28e235db8f9643"
+  integrity sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==
 
 pretty-bytes@5.6.0:
   version "5.6.0"

@@ -3,6 +3,7 @@ import { Box, Text, Section, Divider } from '@src/components';
 import { formatCurrency } from '@src/utils';
 import { useExploreStackNavigation } from '@src/hooks';
 import { useSelector } from 'react-redux';
+import { Image } from 'react-native';
 
 function findDeliveryFeeById(data, idToFind) {
   for (const category in data) {
@@ -17,7 +18,7 @@ function findDeliveryFeeById(data, idToFind) {
   return null;
 }
 
-function getOrganization (data, idToFind) {
+function getOrganization(data, idToFind) {
   for (const category in data) {
     const foundElement = data[category].find((item) => item.id === idToFind);
     if (foundElement) {
@@ -25,19 +26,22 @@ function getOrganization (data, idToFind) {
     }
   }
   return {};
-};
-
+}
 
 export let OrderSummary = ({ cartItem }) => {
   const navigation = useExploreStackNavigation();
   const { all_organizations } = useSelector((state) => state.userReducer);
 
   const onRemoveItemButtonPress = () => {
-    navigation.navigate('DishDetailsModal',{ remove_item_mode:true, 
-                                             organizationTitle: getOrganizationTitle(),
-                                             subtotal: getSubtotal(), 
-                                             organization: getOrganization(all_organizations, cartItem[0].dish.organization_id) 
-                                            });
+    navigation.navigate('DishDetailsModal', {
+      remove_item_mode: true,
+      organizationTitle: getOrganizationTitle(),
+      subtotal: getSubtotal(),
+      organization: getOrganization(
+        all_organizations,
+        cartItem[0].dish.organization_id,
+      ),
+    });
   };
 
   const getOrganizationTitle = () => {
@@ -78,7 +82,7 @@ export let OrderSummary = ({ cartItem }) => {
     cartItem.forEach((item) => {
       total += item.dish.price * item.dish.amount;
     });
-    return formatCurrency(total);
+    return total;
   };
 
   const getShippingFee = () => {
@@ -89,8 +93,26 @@ export let OrderSummary = ({ cartItem }) => {
     return formatCurrency(organizationShippingFee);
   };
 
+  const TitleWithImage = () => (
+    <Box flexDirection="row" alignItems="center">
+      <Image
+        source={{
+          uri: getOrganization(
+            all_organizations,
+            cartItem[0].dish.organization_id,
+          ).logo,
+        }}
+        style={{ width: 30, height: 30, borderRadius: 15, marginRight: 10 }}
+      />
+      <Text>{getOrganizationTitle()}</Text>
+    </Box>
+  );
+
   return (
-    <Section title={getOrganizationTitle()} actionButtonText="Remover" onButtonActionPress={onRemoveItemButtonPress}>
+    <Section
+      title={<TitleWithImage />}
+      actionButtonText="Remover"
+      onButtonActionPress={onRemoveItemButtonPress}>
       <Box backgroundColor="card">
         <Box padding="m">
           {cartItem.map((item, i) => (
@@ -107,7 +129,7 @@ export let OrderSummary = ({ cartItem }) => {
         <Box padding="m">
           <Box flexDirection="row" justifyContent="space-between">
             <Text>Subtotal</Text>
-            <Text>{getSubtotal()}</Text>
+            <Text>{formatCurrency(getSubtotal())}</Text>
           </Box>
           <Box marginTop="s" flexDirection="row" justifyContent="space-between">
             <Text>Entregador</Text>

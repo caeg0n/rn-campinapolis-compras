@@ -9,40 +9,67 @@ import styles from './DishDetails.style';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useExploreStackNavigation } from '@src/hooks';
 import { useEffect } from 'react';
-import { SideDishes } from "./SideDishes"
-import { mockDishDetails } from "@src/data"
+import { SideDishes } from './SideDishes';
+//import { mockDishDetails } from "@src/data"
 //import { useSelector } from 'react-redux';
 //import { useAppTheme } from '@src/theme';
 
-function findObjectById(id, data) {
-  for (const categoryKey in data) {
-    const categoryArray = data[categoryKey];
-    for (const object of categoryArray) {
-      if (object.id === id) {
-        return object;
-      }
-    }
-  }
-  return null;
+function getDishesByOrganizationId(arr, orgId) {
+  return arr.filter((item) => item.dish.organization_id === orgId);
 }
 
+function popDishBySelectedDishValue(array, selectedDish) {
+  const index = array.findIndex(item => item.selectedDish === selectedDish);
+  if (index !== -1) {
+    array.splice(index, 1);
+  }
+  return array;
+};
+
+const removeItemsById = (sourceArray, targetArray) => {
+  const idsToRemove = sourceArray.map(item => item.dish.id);
+  const updatedTarget = targetArray.filter(item => !idsToRemove.includes(item.dish.id));
+  return updatedTarget;
+};
+
+const removeItemsFromBasket = (sourceArray, targetArray) => {
+  const idsToRemove = sourceArray.map(item => item.dish.id);
+  for (let i = targetArray.length - 1; i >= 0; i--) {
+    if (idsToRemove.includes(targetArray[i].dish.id)) {
+      targetArray.splice(i, 1);
+    }
+  }
+};
+
 export const DishDetails = ({ route }) => {
-  //const { remove_item_mode = false } = route.params;
   //const { colors } = useAppTheme();
   const { organizationTitle = '' } = route.params;
   const { organization = {} } = route.params;
-  const { subtotal = 'R$0.0' } = route.params;
+  const [ subtotal, setSubtotal ] = React.useState(0);
   const { product = null } = route.params;
-  const [scrollY] = React.useState(new Animated.Value(0));
   const { goBack } = useExploreStackNavigation();
-  const [totalPrice, setTotalPrice] = React.useState(parseFloat(product?.price || "0"));
-  const { cartItems, updateCartItems } = React.useContext(CartContext);
   const { bottom } = useSafeAreaInsets();
+  const { cartItems, updateCartItems } = React.useContext(CartContext);
+  const [ basketItems ] = React.useState(getDishesByOrganizationId(cartItems, organization.id));
+  const [ removedItems, setRemovedItems ] = React.useState([]);
+  const [ totalPrice, setTotalPrice ] = React.useState(
+    parseFloat(product?.price || '0'),
+  );
+  const [scrollY] = React.useState(new Animated.Value(0));
   let [my_product, setMyProduct] = React.useState({});
   
   useEffect(() => {
+    var basketTotal = 0;
+    var removedFromBasketTotal = 0;
     setMyProduct({ ...product, amount: 1 });
-  }, [product]);
+    basketItems.forEach((item) => {
+      basketTotal += item.dish.price * item.dish.amount;
+    });
+    removedItems.forEach((item) => {
+      removedFromBasketTotal += item.dish.price * item.dish.amount;
+    });
+    setSubtotal(basketTotal-removedFromBasketTotal);
+  }, [product, removedItems]);
 
   const updateTotalDishAmount = React.useCallback(
     (amount) => {
@@ -56,6 +83,25 @@ export const DishDetails = ({ route }) => {
     cartItems.push({ dish: my_product });
     updateCartItems(cartItems, totalPrice);
     goBack();
+  };
+
+  const onUpdateBasketButtonPress = () => {
+    removeItemsFromBasket(removedItems, basketItems);
+    updateCartItems([],0);
+    goBack();
+  };
+
+  const removeItemFromBasket = (selectedDish, isChecked) => {
+    if ( isChecked == false ) {
+      const dishToCopy = basketItems[selectedDish];
+      if (!dishToCopy) return;
+      dishToCopy.selectedDish = selectedDish; 
+      setRemovedItems(prevItems => [...prevItems, dishToCopy]);
+    }
+    if ( isChecked == true ) {
+      popDishBySelectedDishValue(removedItems,selectedDish);  
+      setRemovedItems(prevItems => [...prevItems]);
+    }
   };
 
   const coverTranslateY = scrollY.interpolate({
@@ -112,7 +158,11 @@ export const DishDetails = ({ route }) => {
               },
             ]}>
             <Animated.Image
-              source={(product && product.image) != null ? { uri: product.image } : {uri: organization.cover}}
+              source={
+                (product && product.image) != null
+                  ? { uri: product.image }
+                  : { uri: organization.cover }
+              }
               style={[
                 styles.coverPhoto,
                 {
@@ -125,9 +175,21 @@ export const DishDetails = ({ route }) => {
               ]}
             />
           </Animated.View>
-          <HeadingInformation subtotal={subtotal} organizationTitle={organizationTitle} data={product} />
-          { !product && <SideDishes data={mockDishDetails} addSideDishToBasket={{}} /> }
-          { product && <AddToBasketForm updateTotalDishAmount={updateTotalDishAmount} /> }
+          <HeadingInformation
+            subtotal={subtotal}
+            organizationTitle={organizationTitle}
+            data={product}
+          />
+          {!product && (
+            <SideDishes
+              cartItems={cartItems}
+              basketItems={basketItems}
+              removeItemFromBasket={removeItemFromBasket}
+            />
+          )}
+          {product && (
+            <AddToBasketForm updateTotalDishAmount={updateTotalDishAmount} />
+          )}
         </Animated.ScrollView>
       </KeyboardAvoidingView>
       <Box
@@ -135,11 +197,20 @@ export const DishDetails = ({ route }) => {
         paddingVertical="s"
         alignItems="center"
         justifyContent="center">
-        <Button
-          isFullWidth
-          label={`Adicionar ao Carrinho - ${formatCurrency(totalPrice)}`}
-          onPress={onAddToBasketButtonPress}
-        />
+        {!product && (
+          <Button
+            isFullWidth
+            label={`Atualizar o Carrinho`}
+            onPress={onUpdateBasketButtonPress}
+          />
+        )}
+        {product && (
+          <Button
+            isFullWidth
+            label={`Adicionar ao Carrinho - ${formatCurrency(totalPrice)}`}
+            onPress={onAddToBasketButtonPress}
+          />
+        )}
       </Box>
       {/* <Animated.View
         style={[

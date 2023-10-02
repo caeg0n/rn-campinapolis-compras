@@ -34,7 +34,7 @@
     "dayjs": "^1.11.6",
     "expo": "~48.0.15",
     "expo-blur": "~12.2.2",
-    "expo-image": "~1.0.1",
+    "expo-image": "~1.0.2",
     "expo-location": "~15.1.1",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
@@ -75,7 +75,7 @@
     "@typescript-eslint/parser": "^5.43.0",
     "babel-loader": "^8.3.0",
     "eslint": "^8.28.0",
-    "prettier": "^2.7.1",
+    "prettier": "^3.0.3",
     "react-dom": "18.2.0"
   },
   "private": true
