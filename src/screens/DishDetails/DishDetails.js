@@ -26,16 +26,19 @@ function popDishBySelectedDishValue(array, selectedDish) {
   return array;
 };
 
-const removeItemsById = (sourceArray, targetArray) => {
-  const idsToRemove = sourceArray.map(item => item.dish.id);
-  const updatedTarget = targetArray.filter(item => !idsToRemove.includes(item.dish.id));
-  return updatedTarget;
-};
-
-const removeItemsFromBasket = (sourceArray, targetArray) => {
+function removeItemsFromBasket (sourceArray, targetArray) {
   const idsToRemove = sourceArray.map(item => item.dish.id);
   for (let i = targetArray.length - 1; i >= 0; i--) {
     if (idsToRemove.includes(targetArray[i].dish.id)) {
+      targetArray.splice(i, 1);
+    }
+  }
+};
+
+function removeItemsByUuids (sourceArray, targetArray) {
+  const uuidsToRemove = sourceArray.map(item => item.uuid);
+  for (let i = targetArray.length - 1; i >= 0; i--) {
+    if (uuidsToRemove.includes(targetArray[i].uuid)) {
       targetArray.splice(i, 1);
     }
   }
@@ -49,7 +52,7 @@ export const DishDetails = ({ route }) => {
   const { product = null } = route.params;
   const { goBack } = useExploreStackNavigation();
   const { bottom } = useSafeAreaInsets();
-  const { cartItems, updateCartItems } = React.useContext(CartContext);
+  const { cartItems, addCartItems, updateCartItems } = React.useContext(CartContext);
   const [ basketItems ] = React.useState(getDishesByOrganizationId(cartItems, organization.id));
   const [ removedItems, setRemovedItems ] = React.useState([]);
   const [ totalPrice, setTotalPrice ] = React.useState(
@@ -80,14 +83,16 @@ export const DishDetails = ({ route }) => {
   );
 
   const onAddToBasketButtonPress = () => {
-    cartItems.push({ dish: my_product });
+    cartItems.push({ dish: my_product, uuid: cartItems.length});
     updateCartItems(cartItems, totalPrice);
     goBack();
   };
 
   const onUpdateBasketButtonPress = () => {
+    const myCartItems = JSON.parse(JSON.stringify(cartItems));
     removeItemsFromBasket(removedItems, basketItems);
-    updateCartItems([],0);
+    removeItemsByUuids(removedItems, myCartItems);
+    addCartItems(myCartItems,0);
     goBack();
   };
 
