@@ -44,6 +44,13 @@ function removeItemsByUuids (sourceArray, targetArray) {
   }
 };
 
+function calculateTotalPrice (items) {
+  return items.reduce((acc, item) => {
+    const partialPrice = item.dish.amount * parseFloat(item.dish.price);
+    return acc + partialPrice;
+  }, 0);
+};
+
 export const DishDetails = ({ route }) => {
   //const { colors } = useAppTheme();
   const { organizationTitle = '' } = route.params;
@@ -92,7 +99,7 @@ export const DishDetails = ({ route }) => {
     const myCartItems = JSON.parse(JSON.stringify(cartItems));
     removeItemsFromBasket(removedItems, basketItems);
     removeItemsByUuids(removedItems, myCartItems);
-    addCartItems(myCartItems,0);
+    addCartItems(myCartItems, calculateTotalPrice(myCartItems));
     goBack();
   };
 
