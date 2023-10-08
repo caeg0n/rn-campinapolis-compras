@@ -18,9 +18,12 @@ import { DishDetails, SearchDishes } from '@src/screens';
 const RootStack = createNativeStackNavigator();
 
 export const RootNavigation = () => {
-  console.log('RootNavigation');
   const { theme } = useContext(ThemeContext);
   const { userToken } = useContext(AuthContext);
+
+  React.useEffect(() => {
+    console.log('MemoizedRootNavigation');
+  });
 
   const navigationTheme = React.useMemo(() => {
     return getNavigationTheme(theme);
@@ -78,3 +81,4 @@ export const RootNavigation = () => {
     </>
   );
 };
+export const MemoizedRootNavigation = React.memo(RootNavigation);

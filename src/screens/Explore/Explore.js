@@ -1,20 +1,40 @@
 import React from 'react';
+import { InteractionManager } from 'react-native';
 import { ScrollView } from 'react-native';
 import { useSafeAreaScrollViewStyles } from '@src/hooks';
-import { SearchHeader } from './SearchHeader';
+import { MemoizedSearchHeader } from './SearchHeader';
 import { PopularCategories } from './PopularCategories/PopularCategories';
-import { PopularPlaces } from './PopularPlaces';
+import { MemoizedPopularPlaces } from './PopularPlaces';
 import { MerchantCampaigns } from './MerchantCampaigns';
 import { RecommendedPlaces } from './RecommendedPlaces';
 import { HotDeals } from './HotDeals';
-import { Divider } from '@src/components';
+import { ActivityIndicator, Divider } from '@src/components';
 import { HighlightTabs } from './HighlightTabs';
 import { useScrollToTop } from '@react-navigation/native';
+import { useState, useEffect } from 'react';
 
 export const Explore = ({ navigation }) => {
   const ref = React.useRef(null);
-  useScrollToTop(ref);
   const styles = useSafeAreaScrollViewStyles(false);
+
+  useScrollToTop(ref);
+
+  useEffect(() => {
+    console.log('explore');
+    InteractionManager.runAfterInteractions(() => {});
+  });
+  // const handleChildMount = () => {
+  //   setChildMounted(true);
+  // };
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     const task = InteractionManager.runAfterInteractions(() => {
+  //       setIsNavigationTransitionFinished(true);
+  //     });
+  //     return () => task.cancel();
+  //   }, []),
+  // );
 
   return (
     <ScrollView
@@ -22,9 +42,9 @@ export const Explore = ({ navigation }) => {
       contentContainerStyle={styles.contentContainer}
       stickyHeaderHiddenOnScroll
       stickyHeaderIndices={[0]}>
-      {/* <SearchHeader /> */}
+      <MemoizedSearchHeader />
       <PopularCategories navigation={navigation} />
-      <PopularPlaces navigation={navigation} />
+      <MemoizedPopularPlaces navigation={navigation} />
       <Divider backgroundColor="background" marginVertical="s" />
       <MerchantCampaigns />
       <RecommendedPlaces navigation={navigation} />

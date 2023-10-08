@@ -1,17 +1,23 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { mockCategories } from '@src/data';
 import { Box, Image, Text, Touchable } from '@src/components';
 import { useSelector } from 'react-redux';
+// import { useEffect } from 'react';
+//import { mockCategories } from '@src/data';
 
 export const PopularCategories = ({ navigation }) => {
-  const itemsPerRow = mockCategories.length / 2;
   const { all_categories } = useSelector((state) => state.userReducer);
+  const itemsPerRow = all_categories.length / 2;
 
   const onCategoryItemPress = (name) => {
     return () => {
       navigation.navigate('PlaceList', { title: name });
     };
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    if (!string || typeof string !== 'string') return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
@@ -34,11 +40,18 @@ export const PopularCategories = ({ navigation }) => {
               }
               padding="s">
               <Box>
-                <Image height={50} width={50} source={{ uri: image_url }} />
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 25,
+                  }}
+                  source={{ uri: image_url }}
+                />
               </Box>
               <Box>
                 <Text fontSize={12} marginTop="s" fontWeight="bold">
-                  {name}
+                  {capitalizeFirstLetter(name)}
                 </Text>
               </Box>
             </Box>

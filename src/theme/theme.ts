@@ -27,7 +27,7 @@ export const theme = createTheme({
     '50%': '50%',
   },
   colors: {
-    primary: palette.orange,
+    primary: palette.red,
     secondary: palette.gray[500],
     background: palette.gray[100],
     card: palette.white,
@@ -38,6 +38,7 @@ export const theme = createTheme({
     success: palette.green,
     info: palette.blue,
     black: palette.black,
+    red: palette.red,
     white: palette.white,
     transparent: 'transparent',
     facebook: palette.facebook,

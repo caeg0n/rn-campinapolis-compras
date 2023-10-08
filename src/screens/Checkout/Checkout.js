@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { DeliveryInformation } from './DeliveryInformation';
 import { OrderSummary } from './OrderSummary';
 import { PaymentMethod } from './PaymentMethod';
 import { PlaceOrder } from './PlaceOrder';
-// import { DishesAlsoOrdered } from './DishesAlsoOrdered';
 import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
 import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 
 function getUniqueOrganizationIds(dataArray) {
   const uniqueIds = new Set();
@@ -33,12 +33,47 @@ function filterAndCalculateDeliveryFee(dataObject, idArray) {
   return sumDeliveryFee;
 }
 
-export const Checkout = () => {
+function groupAndSumById (arr) {
+  const groupedItems = {};
+  arr.forEach((item) => {
+    const id = item.dish.id;
+    if (!groupedItems[id]) {
+      groupedItems[id] = { ...item };
+    } else {
+      groupedItems[id].dish.amount += item.dish.amount;
+    }
+  });
+  const resultArray = Object.values(groupedItems);
+  return resultArray;
+};
+
+function groupByOrganizationId (items) {
+  const grouped = {};
+  items.forEach((item) => {
+    const { organization_id } = item.dish;
+    if (!grouped[organization_id]) {
+      grouped[organization_id] = [];
+    }
+    grouped[organization_id].push(item);
+  });
+  return Object.values(grouped);
+};
+
+export const Checkout = ({ route }) => {
+  const localization = route.params;
+  const [refresh, setRefresh] = useState(false);
   const { cartItems, totalBasketPrice } = React.useContext(CartContext);
   const { all_organizations } = useSelector((state) => state.userReducer);
-  const [myCartItems] = React.useState(JSON.parse(JSON.stringify(cartItems)));
-
+  const { addresses } = useSelector((state) => state.sessionReducer);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      setRefresh(!refresh);
+    }, [])
+  );
+  
   const renderOrders = () => {
+    const myCartItems = JSON.parse(JSON.stringify(cartItems)); 
     return groupByOrganizationId(groupAndSumById(myCartItems)).map(
       (cartItem, index) => (
         <OrderSummary
@@ -54,40 +89,17 @@ export const Checkout = () => {
   const getShippingFeeSum = () => {
     return filterAndCalculateDeliveryFee(
       all_organizations,
-      getUniqueOrganizationIds(myCartItems),
+      getUniqueOrganizationIds(cartItems),
     );
-  };
-
-  const groupAndSumById = (arr) => {
-    const groupedItems = {};
-    arr.forEach((item) => {
-      const id = item.dish.id;
-      if (!groupedItems[id]) {
-        groupedItems[id] = { ...item };
-      } else {
-        groupedItems[id].dish.amount += item.dish.amount;
-      }
-    });
-    const resultArray = Object.values(groupedItems);
-    return resultArray;
-  };
-
-  const groupByOrganizationId = (items) => {
-    const grouped = {};
-    items.forEach((item) => {
-      const { organization_id } = item.dish;
-      if (!grouped[organization_id]) {
-        grouped[organization_id] = [];
-      }
-      grouped[organization_id].push(item);
-    });
-    return Object.values(grouped);
   };
 
   return (
     <Box flex={1}>
       <ScrollView>
-        <DeliveryInformation />
+        <DeliveryInformation
+          addresses={addresses}
+          localization={localization}
+        />
         {renderOrders()}
         <PaymentMethod />
       </ScrollView>

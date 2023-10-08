@@ -3,6 +3,7 @@ import { Box, Text, Section, Divider } from '@src/components';
 import { formatCurrency } from '@src/utils';
 import { useExploreStackNavigation } from '@src/hooks';
 import { useSelector } from 'react-redux';
+import { Image } from 'react-native';
 
 function findDeliveryFeeById(data, idToFind) {
   for (const category in data) {
@@ -17,12 +18,30 @@ function findDeliveryFeeById(data, idToFind) {
   return null;
 }
 
-export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
+function getOrganization(data, idToFind) {
+  for (const category in data) {
+    const foundElement = data[category].find((item) => item.id === idToFind);
+    if (foundElement) {
+      return foundElement;
+    }
+  }
+  return {};
+}
+
+export let OrderSummary = ({ cartItem }) => {
   const navigation = useExploreStackNavigation();
   const { all_organizations } = useSelector((state) => state.userReducer);
 
-  const onAddItemButtonPress = () => {
-    navigation.navigate('DishDetailsModal');
+  const onRemoveItemButtonPress = () => {
+    navigation.navigate('DishDetailsModal', {
+      remove_item_mode: true,
+      organizationTitle: getOrganizationTitle(),
+      subtotal: getSubtotal(),
+      organization: getOrganization(
+        all_organizations,
+        cartItem[0].dish.organization_id,
+      ),
+    });
   };
 
   const getOrganizationTitle = () => {
@@ -63,7 +82,7 @@ export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
     cartItem.forEach((item) => {
       total += item.dish.price * item.dish.amount;
     });
-    return formatCurrency(total);
+    return total;
   };
 
   const getShippingFee = () => {
@@ -74,8 +93,26 @@ export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
     return formatCurrency(organizationShippingFee);
   };
 
+  const TitleWithImage = () => (
+    <Box flexDirection="row" alignItems="center">
+      <Image
+        source={{
+          uri: getOrganization(
+            all_organizations,
+            cartItem[0].dish.organization_id,
+          ).logo,
+        }}
+        style={{ width: 30, height: 30, borderRadius: 15, marginRight: 10 }}
+      />
+      <Text>{getOrganizationTitle()}</Text>
+    </Box>
+  );
+
   return (
-    <Section title={getOrganizationTitle()} actionButtonText="Remover">
+    <Section
+      title={<TitleWithImage />}
+      actionButtonText="Remover"
+      onButtonActionPress={onRemoveItemButtonPress}>
       <Box backgroundColor="card">
         <Box padding="m">
           {cartItem.map((item, i) => (
@@ -88,20 +125,11 @@ export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
             </Box>
           ))}
         </Box>
-        {/* <Box flexDirection="row"> */}
-        {/* <Text marginRight="m">{`${cartItem.length}`}</Text> */}
-        {/* <Text marginRight="m">0{cartItem[0].amount}</Text>
-            <Box key={cartItemIndex}>
-              <Text marginBottom="xs" fontWeight="bold">
-                {cartItem[0].dish.title}
-              </Text>
-            </Box>
-          </Box> */}
         <Divider />
         <Box padding="m">
           <Box flexDirection="row" justifyContent="space-between">
             <Text>Subtotal</Text>
-            <Text>{getSubtotal()}</Text>
+            <Text>{formatCurrency(getSubtotal())}</Text>
           </Box>
           <Box marginTop="s" flexDirection="row" justifyContent="space-between">
             <Text>Entregador</Text>
@@ -111,44 +139,4 @@ export let OrderSummary = ({ cartItem, cartItemIndex, totalPrice }) => {
       </Box>
     </Section>
   );
-
-  // return (
-  //   // <Section
-  //   // title="Resumo do Pedido"
-  //   //   actionButtonText="Comprar mais"
-  //   //   onButtonActionPress={onAddItemButtonPress}>
-  //   <Section title="Resumo do Pedido">
-  //     <Box backgroundColor="card">
-  //       <Box padding="m" flexDirection="row" justifyContent="space-between">
-  //         <Box flexDirection="row">
-  //           <Text marginRight="m">{`${cartItems.length}`}</Text>
-  //           {cartItems.map((cartItem, cartItemIndex) => (
-  //             <Box key={cartItemIndex}>
-  //               <Text marginBottom="xs" fontWeight="bold">
-  //                 {cartItem.dish.title}
-  //               </Text>
-  //               {/* {cartItem.sideDishes.map((dish, dishIndex) => (
-  //                 <Text variant="secondary" key={dishIndex} marginBottom="xxs">
-  //                   {dish.title}
-  //                 </Text>
-  //               ))} */}
-  //             </Box>
-  //           ))}
-  //         </Box>
-  //         <Text fontWeight="bold">{formatCurrency(totalPrice)}</Text>
-  //       </Box>
-  //       <Divider />
-  //       <Box padding="m">
-  //         <Box flexDirection="row" justifyContent="space-between">
-  //           <Text>Subtotal</Text>
-  //           <Text>{formatCurrency(totalPrice)}</Text>
-  //         </Box>
-  //         <Box marginTop="s" flexDirection="row" justifyContent="space-between">
-  //           <Text>Delivery: 6.1km</Text>
-  //           <Text>{formatCurrency(shippingFee)}</Text>
-  //         </Box>
-  //       </Box>
-  //     </Box>
-  //   </Section>
-  // );
 };

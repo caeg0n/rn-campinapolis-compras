@@ -2,10 +2,12 @@ import React from 'react';
 import { Dimensions, I18nManager } from 'react-native';
 import { mockMerchantCaimpaigns } from '@src/data';
 import { Box, Carousel, Image, Text } from '@src/components';
+// import { useEffect } from 'react';
 
 export const MerchantCampaigns = () => {
   const renderItem = (props) => {
     const { id, image, title, subTitle, backgroundColor } = props.item;
+
     return (
       <Box
         key={id}

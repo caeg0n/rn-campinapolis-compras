@@ -15,10 +15,15 @@ import {
 } from '@src/screens';
 import { fontSize } from '@src/theme';
 import { Button, ExploreHeaderTitle, Icon } from '@src/components';
+import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 
 export const ExploreStack = ({ navigation }) => {
+  useEffect(() => {
+    console.log('ExploreStack');
+  });
+
   const renderExploreHeaderLeft = () => <ExploreHeaderTitle />;
 
   const renderPlaceDetailHeaderRight = () => {
@@ -83,7 +88,7 @@ export const ExploreStack = ({ navigation }) => {
       <Stack.Screen
         name="ChangeAddress"
         options={{
-          headerTitle: '588 Blanda Square - Virginia',
+          headerTitle: '587 Blanda Square - Virginia',
           headerRight: renderAddressHeaderRight,
         }}
         component={ChangeAddress}
@@ -91,15 +96,15 @@ export const ExploreStack = ({ navigation }) => {
       <Stack.Screen
         name="SavedAddresses"
         options={{
-          headerTitle: 'Saved Addresses',
+          headerTitle: 'Endereços Salvos',
         }}
         component={SavedAddresses}
       />
       <Stack.Screen
         name="AddAddress"
         options={{
-          headerTitle: 'Add An Address',
-          headerRight: renderAddressHeaderRight,
+          headerTitle: 'Novo Endereço',
+          //headerRight: renderAddressHeaderRight,
         }}
         component={AddAddress}
       />

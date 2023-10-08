@@ -2,16 +2,13 @@ import React from 'react';
 import { AuthContext } from '@src/auth';
 import { Box, Button, Image, Text } from '@src/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native';
 //import { useDispatch } from 'react-redux';
 // import { useEffect } from 'react';
 
 export const Authentication = ({ navigation }) => {
   const { signIn } = React.useContext(AuthContext);
   const { bottom } = useSafeAreaInsets();
-
-  // useEffect(() => {
-  //   console.log('authentication');
-  // }, []);
 
   const onConnectWithPhoneNumberButtonPress = () => {
     navigation.navigate('AuthenticationWithPhone');
@@ -58,14 +55,14 @@ export const Authentication = ({ navigation }) => {
           <Button
             label="QUERO VENDER"
             isFullWidth
-            // variant="facebook"
+            //variant="facebook"
             marginTop="s"
             backgroundColor="facebook"
             onPress={onSocialNetworkConnectButtonPress}
           />
           <Button
-            label="QUERO SER UM ENTREGADOR"
-            // variant="google"
+            label="QUEROo SER UM ENTREGADOR"
+            //variant="google"
             marginTop="s"
             isFullWidth
             onPress={onSocialNetworkConnectButtonPress}

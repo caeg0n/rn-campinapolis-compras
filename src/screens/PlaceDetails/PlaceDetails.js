@@ -5,7 +5,7 @@ import styles from './PlaceDetails.style';
 import { BasketSummary } from './BasketSummary';
 import { HeadingInformation } from './HeadingInformation';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategoriesAndProducts } from '@src/redux/actions';
+import { getCategoriesAndProducts } from '@src/redux/actions/user';
 import { useEffect } from 'react';
 // import { PopularDishes } from './PopularDishes';
 

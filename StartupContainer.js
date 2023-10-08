@@ -1,28 +1,16 @@
-import React, { useEffect } from 'react';
-import { getAllCategories } from '@src/redux/actions';
-import { getMostPopular } from '@src/redux/actions';
-import { getRecommendedPlaces } from '@src/redux/actions';
-import { getHotDeals } from '@src/redux/actions';
-import { getAllOrganizations } from '@src/redux/actions';
-import { getAllOpenedOrganizations } from '@src/redux/actions';
-import { getAllClosedOrganizations } from '@src/redux/actions';
-import { resetCategories } from '@src/redux/actions';
-import { resetOrganizations } from '@src/redux/actions';
-import { resetRecommendedPlaces } from '@src/redux/actions';
-import { resetHotDeals } from '@src/redux/actions';
-import { resetAllOpenedOrganizations } from '@src/redux/actions';
-import { resetAllClosedOrganizations } from '@src/redux/actions';
-import { useDispatch } from 'react-redux';
+import { DEV_API_BASE, PROD_API_BASE } from '@env';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 } from 'uuid';
+import { setUUID } from '@src/redux/actions/session';
+import { setAddresses } from '@src/redux/actions/session';
 
-// import { useDispatch } from 'react-redux';
-// function fetchData() {
-// return new Promise((resolve, reject) => {
-// setTimeout(() => {
-//   const data = { message: 'Hello from fetched data!' };
-//   resolve(data);
-// }, 1);
-// });
-// }
+if (__DEV__) {
+  var GET_ADDRESSES_URL = DEV_API_BASE + '/get_addresses';
+} else {
+  var GET_ADDRESSES_URL = PROD_API_BASE + '/get_addresses';
+}
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const StartupContainer = {
 //   async init() {
@@ -36,34 +24,45 @@ import { useDispatch } from 'react-redux';
 //     }
 //   },
 // };
-
 // export default StartupContainer;
 
 export const StartupContainer = () => {
   const dispatch = useDispatch();
+  const { uuid } = useSelector((state) => state.sessionReducer);
 
   useEffect(() => {
-    const init = async () => {
+    console.log('startup container');
+    if (uuid === undefined || uuid === '') {
+      dispatch(setUUID(v4()));
+    }
+    async function fetchData() {
       try {
-        console.log('StartupContainer');
-        dispatch(resetCategories());
-        dispatch(resetOrganizations());
-        dispatch(resetRecommendedPlaces());
-        dispatch(resetHotDeals());
-        dispatch(resetAllOpenedOrganizations());
-        dispatch(resetAllClosedOrganizations());
-        await dispatch(getAllOrganizations());
-        await dispatch(getAllOpenedOrganizations());
-        await dispatch(getAllClosedOrganizations());
-        await dispatch(getHotDeals());
-        await dispatch(getRecommendedPlaces());
-        await dispatch(getAllCategories());
-        await dispatch(getMostPopular());
+        let jsonData = {};
+        const response = await fetch(GET_ADDRESSES_URL + '/' + uuid);
+        const json = await response.json();
+        jsonData.jsonAddresses = json;
+        return jsonData;
       } catch (error) {
-        console.error('An error occurred during app initialization:', error);
+        console.error('Error:', error);
       }
-    };
-    init();
-  });
-  return <></>;
+    }
+    fetchData()
+      .then((jsonData) => {
+        dispatch(setAddresses(jsonData.jsonAddresses));
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [dispatch, uuid]);
+
+  // useEffect(() => {
+  //   const init = async () => {
+  //     try {
+  //       //limpa asyncstorage
+  //     } catch (error) {
+  //       console.error('An error occurred during app initialization:', error);
+  //     }
+  //   };
+  //   init();
+  // }, [dispatch, uuid]);
 };

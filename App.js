@@ -1,26 +1,47 @@
-import { StartupContainer } from './StartupContainer';
+import { DEV_API_BASE, PROD_API_BASE } from '@env';
+
 import * as SplashScreen from 'expo-splash-screen';
-import { RootNavigation } from '@src/navigation';
+import { StartupContainer } from './StartupContainer';
+import { View, ActivityIndicator } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
+import { MemoizedRootNavigation } from '@src/navigation';
 import { AppThemeProvider } from '@src/theme/AppThemeProvider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AuthProvider } from '@src/auth';
+import { MemoizedAuthProvider } from '@src/auth';
 import { CartProvider } from '@src/cart';
-import { Text, StyleSheet } from 'react-native';
+
 import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import { useCallback, useEffect, useState } from 'react';
-//import { v4 } from 'uuid';
-//import AsyncStorage from '@react-native-async-storage/async-storage';
-//import { setDeviceId } from '@src/redux/actions';
-//import { useEffect } from 'react';
-//import { Provider } from 'react-redux';
-//import { Store } from '@src/redux/store';
+import { useEffect, useState } from 'react';
 
-// StartupContainer.init();
-SplashScreen.preventAutoHideAsync();
+if (__DEV__) {
+  var GET_ALL_ORGANIZATIONS_URL =
+    DEV_API_BASE + '/get_all_organizations_with_distinct_category';
+  var GET_MOST_POPULAR_URL = DEV_API_BASE + '/get_most_popular/5';
+  var GET_ALL_CATEGORIES_URL = DEV_API_BASE + '/get_all_categories';
+  var GET_RECOMMENDED_PLACES_URL = DEV_API_BASE + '/get_recommended_places';
+  var GET_HOT_DEALS_URL = DEV_API_BASE + '/get_hot_deals';
+  var GET_ALL_OPENED_ORGANIZATIONS_URL =
+    DEV_API_BASE + '/get_all_opened_organizations';
+  var GET_ALL_CLOSED_ORGANIZATIONS_URL =
+    DEV_API_BASE + '/get_all_closed_organizations';
+} else {
+  var GET_ALL_ORGANIZATIONS_URL =
+    PROD_API_BASE + '/get_all_organizations_with_distinct_category';
+  var GET_MOST_POPULAR_URL = PROD_API_BASE + '/get_most_popular/5';
+  var GET_ALL_CATEGORIES_URL = PROD_API_BASE + '/get_all_categories';
+  var GET_RECOMMENDED_PLACES_URL = PROD_API_BASE + '/get_recommended_places';
+  var GET_HOT_DEALS_URL = PROD_API_BASE + '/get_hot_deals';
+  var GET_ALL_OPENED_ORGANIZATIONS_URL =
+    PROD_API_BASE + '/get_all_opened_organizations';
+  var GET_ALL_CLOSED_ORGANIZATIONS_URL =
+    PROD_API_BASE + '/get_all_closed_organizations';
+}
+
+//StartupContainer.init();
 
 const styles = StyleSheet.create({
   container: {
@@ -29,54 +50,101 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const [appIsReady, setAppIsReady] = useState(false);
+  const [allOrganizations, setAllOrganizations] = useState([]);
+  const [mostPopular, setMostPopular] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
+  const [recommendedPlaces, setRecommendedPlaces] = useState([]);
+  const [hotDeals, setHotDeals] = useState([]);
+  const [allOpenedOrganizations, setAllOpenedOrganizations] = useState([]);
+  const [allClosedOrganizations, setAllClosedOrganizations] = useState([]);
+  const [isFetching, setFetching] = useState(true);
+
+  const fetchData = async () => {
+    let jsonData = {};
+    //await new Promise((resolve) => setTimeout(resolve, 1));
+    let response = await fetch(GET_ALL_ORGANIZATIONS_URL);
+    let json = await response.json();
+    jsonData.jsonAllOrganizations = json;
+
+    response = await fetch(GET_MOST_POPULAR_URL);
+    json = await response.json();
+    jsonData.jsonMostPopular = json;
+
+    response = await fetch(GET_ALL_CATEGORIES_URL);
+    json = await response.json();
+    jsonData.jsonAllCategories = json;
+
+    response = await fetch(GET_RECOMMENDED_PLACES_URL);
+    json = await response.json();
+    jsonData.jsonRecommendedPlaces = json;
+
+    response = await fetch(GET_HOT_DEALS_URL);
+    json = await response.json();
+    jsonData.jsonHotDeals = json;
+
+    response = await fetch(GET_ALL_OPENED_ORGANIZATIONS_URL);
+    json = await response.json();
+    jsonData.jsonAllOpenedOrganizations = json;
+
+    response = await fetch(GET_ALL_CLOSED_ORGANIZATIONS_URL);
+    json = await response.json();
+    jsonData.jsonAllClosedOrganizations = json;
+
+    return jsonData;
+  };
 
   useEffect(() => {
-    console.log('App');
-    async function prepare() {
-      try {
-        console.log('useeffect in app');
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    }
-    prepare();
+    console.log('app');
+    SplashScreen.preventAutoHideAsync();
+    fetchData()
+      .then((jsonData) => {
+        setAllOrganizations(jsonData.jsonAllOrganizations);
+        setMostPopular(jsonData.jsonMostPopular);
+        setAllCategories(jsonData.jsonAllCategories);
+        setRecommendedPlaces(jsonData.jsonRecommendedPlaces);
+        setHotDeals(jsonData.jsonHotDeals);
+        setAllOpenedOrganizations(jsonData.jsonAllOpenedOrganizations);
+        setAllClosedOrganizations(jsonData.jsonAllClosedOrganizations);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      })
+      .finally(() => {
+        SplashScreen.hideAsync();
+        setFetching(false);
+      });
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  if (!appIsReady) {
-    return null;
+  if (isFetching) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="red" />
+      </View>
+    );
   }
-
-  // const uuid = v4();
-  // const { deviceId } = useSelector((state) => state.userReducer);
-
-  // useEffect(() => {
-  //   if (deviceId == undefined) {
-  //     dispatch(setDeviceId(uuid));
-  //   }
-  // }, []);
 
   return (
     <GestureHandlerRootView style={styles.container}>
       <Provider store={Store}>
-        <StartupContainer />
         <PersistGate loading={<Text>Aguarde...</Text>} persistor={persistor}>
+          <StartupContainer />
           <PortalProvider>
-            <SafeAreaProvider onLayout={onLayoutRootView}>
+            <SafeAreaProvider>
               <AppThemeProvider>
-                <AuthProvider>
+                <MemoizedAuthProvider
+                  fetchData={{
+                    allOrganizations,
+                    mostPopular,
+                    allCategories,
+                    recommendedPlaces,
+                    hotDeals,
+                    allOpenedOrganizations,
+                    allClosedOrganizations,
+                  }}>
                   <CartProvider>
-                    <RootNavigation />
+                    <MemoizedRootNavigation />
                   </CartProvider>
-                </AuthProvider>
+                </MemoizedAuthProvider>
               </AppThemeProvider>
             </SafeAreaProvider>
           </PortalProvider>

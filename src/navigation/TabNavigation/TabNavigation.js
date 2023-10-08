@@ -9,7 +9,7 @@ import {
 import { Icon } from '@src/components';
 import { fontSize } from '@src/theme';
 import styles from './TabNavigation.style';
-import { Documentation } from '@src/screens';
+//import { Documentation } from '@src/screens';
 
 const Tab = createBottomTabNavigator();
 const { Navigator } = Tab;
@@ -43,6 +43,7 @@ const renderTabBarIcon = (routeName) => {
 };
 
 const TabNavigation = () => {
+  console.log('TabNavigation');
   return (
     <Navigator
       initialRouteName="ExploreTab"
