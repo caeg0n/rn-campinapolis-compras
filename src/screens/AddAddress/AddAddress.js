@@ -17,8 +17,8 @@ if (__DEV__) {
 
 async function putAddress(address_data, id, goback, dispatch, addresses) {
   let goToSavedAddress = goback;
-  let resultingAddresses = JSON.parse(JSON.stringify(addresses));
-  let tempAddress = {};
+  //let resultingAddresses = JSON.parse(JSON.stringify(addresses));
+  //let tempAddress = {};
   try {
     let response = await fetch(API_BASE_URL + '/addresses', {
       method: 'POST',
@@ -40,13 +40,13 @@ async function putAddress(address_data, id, goback, dispatch, addresses) {
     }
     response = await response.json();
     if (response.id > 0) {
-      tempAddress = {
-        name: address_data.title,
-        phone: address_data.phone,
-        address: address_data.address,
-      };
-      resultingAddresses.push(tempAddress);
-      dispatch(setAddresses(resultingAddresses));
+      //tempAddress = {
+      //   name: address_data.title,
+      //   phone: address_data.phone,
+      //   address: address_data.address,
+      //};
+      //resultingAddresses.push(tempAddress);
+      //dispatch(setAddresses(resultingAddresses));
       goToSavedAddress();
     }
   } catch (error) {
@@ -58,11 +58,11 @@ export const AddAddress = () => {
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer);
   const { addresses } = useSelector((state) => state.sessionReducer);
+  const { goBack } = useExploreStackNavigation();
   const [title, setTitle] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [status, setStatus] = React.useState(false);
-  const { goBack } = useExploreStackNavigation();
 
   useEffect(() => {
     console.log('addaddress');
