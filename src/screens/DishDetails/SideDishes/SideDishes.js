@@ -10,6 +10,10 @@ export const SideDishes = ({ cartItems, basketItems, removeItemFromBasket }) => 
     };
   };
 
+  // useEffect(() => {
+  //   console.log('SideDishes');
+  // });
+
   return (
     <View>
       {basketItems.map((dish, dishIndex) => (

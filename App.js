@@ -18,6 +18,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { useEffect, useState } from 'react';
 
 if (__DEV__) {
+  var GET_ALL_PAYMENTS_METHODS_URL = DEV_API_BASE + '/get_payments_methods';
   var GET_ALL_ORGANIZATIONS_URL =
     DEV_API_BASE + '/get_all_organizations_with_distinct_category';
   var GET_MOST_POPULAR_URL = DEV_API_BASE + '/get_most_popular/5';
@@ -28,7 +29,10 @@ if (__DEV__) {
     DEV_API_BASE + '/get_all_opened_organizations';
   var GET_ALL_CLOSED_ORGANIZATIONS_URL =
     DEV_API_BASE + '/get_all_closed_organizations';
+  var GET_ALL_CATEGORIES_AND_PRODUCTS_URL =
+    DEV_API_BASE + '/get_categories_and_products';
 } else {
+  var GET_ALL_PAYMENTS_METHODS_URL = PROD_API_BASE + '/get_payments_methods';
   var GET_ALL_ORGANIZATIONS_URL =
     PROD_API_BASE + '/get_all_organizations_with_distinct_category';
   var GET_MOST_POPULAR_URL = PROD_API_BASE + '/get_most_popular/5';
@@ -39,6 +43,8 @@ if (__DEV__) {
     PROD_API_BASE + '/get_all_opened_organizations';
   var GET_ALL_CLOSED_ORGANIZATIONS_URL =
     PROD_API_BASE + '/get_all_closed_organizations';
+  var GET_ALL_CATEGORIES_AND_PRODUCTS_URL =
+    PROD_API_BASE + '/get_categories_and_products';
 }
 
 //StartupContainer.init();
@@ -50,6 +56,8 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
+  const [allCategoriesAndProducts, setAllCategoriesAndProducts] = useState([]);
+  const [allPaymentsMethods, setAllPaymentsMethods] = useState([]);
   const [allOrganizations, setAllOrganizations] = useState([]);
   const [mostPopular, setMostPopular] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
@@ -61,10 +69,14 @@ export default function App() {
 
   const fetchData = async () => {
     let jsonData = {};
-    //await new Promise((resolve) => setTimeout(resolve, 1));
+
     let response = await fetch(GET_ALL_ORGANIZATIONS_URL);
     let json = await response.json();
     jsonData.jsonAllOrganizations = json;
+
+    response = await fetch(GET_ALL_PAYMENTS_METHODS_URL);
+    json = await response.json();
+    jsonData.jsonAllPaymentsMethods = json;
 
     response = await fetch(GET_MOST_POPULAR_URL);
     json = await response.json();
@@ -90,6 +102,10 @@ export default function App() {
     json = await response.json();
     jsonData.jsonAllClosedOrganizations = json;
 
+    response = await fetch(GET_ALL_CATEGORIES_AND_PRODUCTS_URL);
+    json = await response.json();
+    jsonData.jsonAllCategoriesAndProducts = json;
+
     return jsonData;
   };
 
@@ -98,6 +114,8 @@ export default function App() {
     SplashScreen.preventAutoHideAsync();
     fetchData()
       .then((jsonData) => {
+        setAllCategoriesAndProducts(jsonData.jsonAllCategoriesAndProducts);
+        setAllPaymentsMethods(jsonData.jsonAllPaymentsMethods);
         setAllOrganizations(jsonData.jsonAllOrganizations);
         setMostPopular(jsonData.jsonMostPopular);
         setAllCategories(jsonData.jsonAllCategories);
@@ -133,6 +151,8 @@ export default function App() {
               <AppThemeProvider>
                 <MemoizedAuthProvider
                   fetchData={{
+                    allCategoriesAndProducts,
+                    allPaymentsMethods,
                     allOrganizations,
                     mostPopular,
                     allCategories,

@@ -107,7 +107,7 @@ export const Checkout = ({ route }) => {
         totalPrice={totalBasketPrice}
         shippingFeeSum={getShippingFeeSum()}
       />
-      {/* <PlaceOrder totalPrice={totalBasketPrice} /> */}
+      {/*<PlaceOrder totalPrice={totalBasketPrice} /> */}
     </Box>
   );
 };

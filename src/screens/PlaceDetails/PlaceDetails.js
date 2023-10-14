@@ -1,27 +1,86 @@
-import React from 'react';
+import React , { useState } from 'react';
 import { Animated, SafeAreaView } from 'react-native';
 import { Box, Text, TabSectionList, Divider, DishItem } from '@src/components';
 import styles from './PlaceDetails.style';
 import { BasketSummary } from './BasketSummary';
 import { HeadingInformation } from './HeadingInformation';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategoriesAndProducts } from '@src/redux/actions/user';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-// import { PopularDishes } from './PopularDishes';
+import { mockPlaceDetails } from '@src/data';
+//import { PopularDishes } from './PopularDishes';
+
+function transformData (inputData, orgId) {
+  let result = [];
+  const filteredData = inputData.filter(org => org.organization_id === orgId);
+  filteredData.forEach(org => {
+    org.categories.forEach(category => {
+      const existingCategory = result.find(item => item.title === category.title);
+      if (existingCategory) {
+        existingCategory.data.push(...category.products);
+      } else {
+        result.push({
+          title: category.title,
+          data: category.products
+        });
+      }
+    });
+  });
+  return result.filter(category => category.data.length > 0);
+};
+
+// const transformData = (inputData, orgId) => {
+//   let result = [];
+//   const filteredData = inputData.filter(org => org.organization_id === orgId);
+//   filteredData.forEach(org => {
+//     org.categories.forEach(category => {
+//       const existingCategory = result.find(item => item.title === category.title);
+//       if (existingCategory) {
+//         existingCategory.data.push(...category.products);
+//       } else {
+//         result.push({
+//           title: category.title,
+//           data: category.products
+//         });
+//       }
+//     });
+//   });
+//   console.log("#",result);
+//   return result;
+// };
+
+// function transformData (inputData) {
+//   console.log(JSON.stringify(inputData));
+//   let result = [];
+//   inputData.forEach(org => {
+//     org.categories.forEach(category => {
+//       const existingCategory = result.find(item => item.title === category.title);
+//       if (existingCategory) {
+//         existingCategory.data.push(...category.products);
+//       } else {
+//         result.push({
+//           title: category.title,
+//           data: category.products
+//         });
+//       }
+//     });
+//   });
+//   return result;
+// };
 
 export const PlaceDetails = ({ route }) => {
-  const dispatch = useDispatch();
   const { categories_and_products } = useSelector((state) => state.userReducer);
+  const [categoriesAndProducts, setCategoriesAndProducts] = useState([]);
   const [scrollY] = React.useState(new Animated.Value(0));
   const { organization } = route.params;
-  // console.log(JSON.stringify(categories_and_products, null, 2));
-  // const [isNavigationTransitionFinished, setIsNavigationTransitionFinished] =
-  // React.useState(false);
-  // console.log(JSON.stringify(mockPlaceDetails.dishSection, null, 2));
+  //console.log(JSON.stringify(mockPlaceDetails.dishSection), null, 2);
 
   useEffect(() => {
-    dispatch(getCategoriesAndProducts(organization));
-  }, [dispatch, organization]);
+    console.log('PlaceDetails');
+    // console.log('=====================');
+    // console.log(JSON.stringify(transformData(categories_and_products)));
+    // console.log(JSON.stringify(mockPlaceDetails.dishSection));
+    // console.log('=====================');
+  });
 
   const coverTranslateY = scrollY.interpolate({
     inputRange: [-4, 0, 10],
@@ -78,11 +137,11 @@ export const PlaceDetails = ({ route }) => {
                 )}
               </Animated.View>
               <HeadingInformation data={organization} />
-              {/* <PopularDishes /> */}
+              {/*<PopularDishes/>*/}
             </>
           }
-          // sections={mockPlaceDetails.dishSection || []}
-          sections={categories_and_products || []}
+          //sections={mockPlaceDetails.dishSection || []}
+          sections={transformData(categories_and_products, organization.id) || []}
           keyExtractor={(item) => item.title}
           stickySectionHeadersEnabled={false}
           scrollToLocationOffset={5}

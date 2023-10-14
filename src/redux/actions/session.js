@@ -5,6 +5,7 @@ export const SET_USER_UUID = 'SET_USER_UUID';
 export const SET_USER_EXPO_TOKEN = 'SET_USER_EXPO_TOKEN';
 export const SET_ADDRESSES = 'SET_ADDRESSES';
 export const SET_SELECTED_ADDRESS = 'SET_SELECTED_ADDRESS';
+export const SET_SELECTED_PAYMENT_METHOD = 'SET_SELECTED_PAYMENT_METHOD';
 export const RESET_UUID = 'RESET_UUID';
 
 if (__DEV__) {
@@ -31,6 +32,13 @@ export const setSelectedAddresses = (id) => (dispatch) => {
   dispatch({
     type: SET_ADDRESSES,
     payload: id,
+  });
+};
+
+export const setSelectedPaymentMethod = (json) => (dispatch) => {
+  dispatch({
+    type: SET_SELECTED_PAYMENT_METHOD,
+    payload: json,
   });
 };
 

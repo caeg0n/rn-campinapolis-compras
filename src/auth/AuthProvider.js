@@ -8,7 +8,9 @@ import { resetRecommendedPlaces } from '@src/redux/actions/user';
 import { resetHotDeals } from '@src/redux/actions/user';
 import { resetAllOpenedOrganizations } from '@src/redux/actions/user';
 import { resetAllClosedOrganizations } from '@src/redux/actions/user';
+import { resetCategoriesAndProducts } from '@src/redux/actions/user';
 
+import { setAllPaymentsMethods } from '@src/redux/actions/user';
 import { setAllOrganizations } from '@src/redux/actions/user';
 import { setMostPopular } from '@src/redux/actions/user';
 import { setAllCategories } from '@src/redux/actions/user';
@@ -16,6 +18,7 @@ import { setRecommendedPlaces } from '@src/redux/actions/user';
 import { setHotDeals } from '@src/redux/actions/user';
 import { setAllOpenedOrganizations } from '@src/redux/actions/user';
 import { setAllClosedOrganizations } from '@src/redux/actions/user';
+import { setCategoriesAndProducts } from '@src/redux/actions/user';
 
 const initialAuthState = {
   isLoading: false,
@@ -67,8 +70,8 @@ export const AuthProvider = ({ children, fetchData }) => {
   );
 
   useEffect(() => {
-    console.log('MemoizedAuthProvider');
     //reidrata asyncstorage
+    console.log('MemoizedAuthProvider');
     localDispatch(resetCategories());
     localDispatch(resetMostPopular());
     localDispatch(resetOrganizations());
@@ -76,7 +79,9 @@ export const AuthProvider = ({ children, fetchData }) => {
     localDispatch(resetHotDeals());
     localDispatch(resetAllOpenedOrganizations());
     localDispatch(resetAllClosedOrganizations());
+    localDispatch(resetCategoriesAndProducts());
 
+    localDispatch(setAllPaymentsMethods(fetchData.allPaymentsMethods));
     localDispatch(setAllOrganizations(fetchData.allOrganizations));
     localDispatch(setMostPopular(fetchData.mostPopular));
     localDispatch(setAllCategories(fetchData.allCategories));
@@ -84,6 +89,7 @@ export const AuthProvider = ({ children, fetchData }) => {
     localDispatch(setHotDeals(fetchData.hotDeals));
     localDispatch(setAllOpenedOrganizations(fetchData.allOpenedOrganizations));
     localDispatch(setAllClosedOrganizations(fetchData.allClosedOrganizations));
+    localDispatch(setCategoriesAndProducts(fetchData.allCategoriesAndProducts));
   });
 
   return (

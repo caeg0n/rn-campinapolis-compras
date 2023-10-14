@@ -118,7 +118,7 @@ export const ExploreStack = ({ navigation }) => {
       <Stack.Screen
         name="PaymentMethod"
         options={{
-          headerTitle: 'Select a payment method',
+          headerTitle: 'Selecione o Pagamento',
         }}
         component={PaymentMethod}
       />

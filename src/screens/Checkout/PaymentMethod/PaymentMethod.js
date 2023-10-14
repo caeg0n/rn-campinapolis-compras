@@ -5,9 +5,9 @@ import { useExploreStackNavigation } from '@src/hooks';
 export const PaymentMethod = () => {
   const navigation = useExploreStackNavigation();
 
-  const onAddAPromoButtonPress = () => {
-    navigation.navigate('Promotion');
-  };
+  // const onAddAPromoButtonPress = () => {
+  //   navigation.navigate('Promotion');
+  // };
 
   const onPaymentMethodButtonPress = () => {
     navigation.navigate('PaymentMethod');
@@ -25,7 +25,7 @@ export const PaymentMethod = () => {
             <Box flexDirection="row" alignItems="center">
               <Icon name="cash" isPrimary />
               <Text marginLeft="s" color="primary">
-                Cash On Delivery
+                Pagar na entrega
               </Text>
             </Box>
           </Button>

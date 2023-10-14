@@ -1,6 +1,7 @@
 /* eslint-disable no-unreachable */
-import { DEV_API_BASE, PROD_API_BASE } from '@env';
+//import { DEV_API_BASE, PROD_API_BASE } from '@env';
 
+export const SET_ALL_PAYMENTS_METHODS = 'SET_ALL_PAYMENTS_METHODS';
 export const SET_ALL_ORGANIZATIONS = 'SET_ALL_ORGANIZATIONS';
 export const SET_MOST_POPULAR = 'SET_MOST_POPULAR';
 export const SET_ALL_CATEGORIES = 'SET_ALL_CATEGORIES';
@@ -8,7 +9,7 @@ export const SET_RECOMMENDED_PLACES = 'SET_RECOMMENDED_PLACES';
 export const SET_HOT_DEALS = 'SET_HOT_DEALS';
 export const SET_ALL_OPENED_ORGANIZATIONS = 'SET_ALL_OPENED_ORGANIZATIONS';
 export const SET_ALL_CLOSED_ORGANIZATIONS = 'SET_ALL_CLOSED_ORGANIZATIONS';
-export const GET_CATEGORIES_AND_PRODUCTS = 'GET_CATEGORIES_AND_PRODUCTS';
+export const SET_CATEGORIES_AND_PRODUCTS = 'SET_CATEGORIES_AND_PRODUCTS';
 export const RESET_CATEGORIES = 'RESET_CATEGORIES';
 export const RESET_MOST_POPULAR = 'RESET_MOST_POPULAR';
 export const RESET_ORGANIZATIONS = 'RESET_ORGANIZATIONS';
@@ -16,14 +17,23 @@ export const RESET_RECOMMENDED_PLACES = 'RESET_RECOMMENDED_PLACES';
 export const RESET_HOT_DEALS = 'RESET_HOT_DEALS';
 export const RESET_ALL_OPENED_ORGANIZATIONS = 'RESET_ALL_OPENED_ORGANIZATIONS';
 export const RESET_ALL_CLOSED_ORGANIZATIONS = 'RESET_ALL_CLOSED_ORGANIZATIONS';
+export const RESET_CATEGORIES_AND_PRODUCTS = 'RESET_CATEGORIES_AND_PRODUCTS';
 
-if (__DEV__) {
-  var GET_CATEGORIES_AND_PRODUCTS_URL =
-    DEV_API_BASE + '/get_categories_and_products';
-} else {
-  var GET_CATEGORIES_AND_PRODUCTS_URL =
-    PROD_API_BASE + '/get_categories_and_products';
-}
+
+// if (__DEV__) {
+//   var GET_CATEGORIES_AND_PRODUCTS_URL =
+//     DEV_API_BASE + '/get_categories_and_products';
+// } else {
+//   var GET_CATEGORIES_AND_PRODUCTS_URL =
+//     PROD_API_BASE + '/get_categories_and_products';
+// }
+
+export const setAllPaymentsMethods = (json) => (dispatch) => {
+  dispatch({
+    type: SET_ALL_PAYMENTS_METHODS,
+    payload: json,
+  });
+};
 
 export const setAllOrganizations = (json) => (dispatch) => {
   dispatch({
@@ -74,25 +84,11 @@ export const setAllClosedOrganizations = (json) => (dispatch) => {
   });
 };
 
-export const getCategoriesAndProducts = (organization) => {
-  const url = GET_CATEGORIES_AND_PRODUCTS_URL + '/' + organization.id;
-  try {
-    return async (dispatch) => {
-      const result = await fetch(url);
-      const json = await result.json();
-      if (json) {
-        console.log('getCategoriesAndProducts()');
-        dispatch({
-          type: GET_CATEGORIES_AND_PRODUCTS,
-          payload: json,
-        });
-      } else {
-        console.log('unable to fetch get_categories_and_products');
-      }
-    };
-  } catch (error) {
-    console.log(error);
-  }
+export const setCategoriesAndProducts = (json) => (dispatch) => {
+  dispatch({
+    type: SET_CATEGORIES_AND_PRODUCTS,
+    payload: json,
+  });
 };
 
 export const resetCategories = () => (dispatch) => {
@@ -140,6 +136,13 @@ export const resetAllOpenedOrganizations = () => (dispatch) => {
 export const resetAllClosedOrganizations = () => (dispatch) => {
   dispatch({
     type: RESET_ALL_CLOSED_ORGANIZATIONS,
+    payload: [],
+  });
+};
+
+export const resetCategoriesAndProducts = () => (dispatch) => {
+  dispatch({
+    type: RESET_CATEGORIES_AND_PRODUCTS,
     payload: [],
   });
 };
