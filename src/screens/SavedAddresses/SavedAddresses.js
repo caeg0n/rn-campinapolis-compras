@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setAddresses } from '@src/redux/actions/session';
+import { setSelectedAddress } from '@src/redux/actions/session';
 import { useFocusEffect } from '@react-navigation/native';
 
 if (__DEV__) {
@@ -32,7 +33,7 @@ async function deleteAddress(device_id, id) {
     },
     body: JSON.stringify(requestData),
   }).then((response) => {
-    console.log(response);
+    //console.log(response);
   });
 }
 
@@ -52,23 +53,24 @@ export const SavedAddresses = () => {
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer);
   const { addresses } = useSelector((state) => state.sessionReducer);
-  const { selected_address } = useSelector((state) => state.sessionReducer);
   const navigation = useExploreStackNavigation();
   const isAddressesEmpty = !addresses || addresses.length === 0;
 
   useEffect(() => {
     console.log('SavedAddress');
-  }, []);
-
-  useFocusEffect(() => {
-    fetchData(uuid)
-      .then((jsonData) => {
-        dispatch(setAddresses(jsonData.jsonAddresses));
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+        fetchData(uuid)
+          .then((jsonData) => {
+            dispatch(setAddresses(jsonData.jsonAddresses));
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+    }, [dispatch]),
+  );
 
   const addAddressItemPress = () => {
     navigation.navigate('AddAddress');
@@ -83,8 +85,8 @@ export const SavedAddresses = () => {
 
   const setAddress = (id) => {
     const foundAddress = addresses.find((address) => address.id === id);
-    console.log(addresses);
     if (foundAddress) {
+      //dispatch(setSelectedAddress(foundAddress));
       navigation.navigate('Checkout', foundAddress);
     }
   };

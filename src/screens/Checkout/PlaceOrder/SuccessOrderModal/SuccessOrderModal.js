@@ -54,7 +54,7 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
   return (
     <BottomSheetModal
       isOpened={isVisible}
-      snapPoints={['50%']}
+      snapPoints={['90%']}
       onClose={onBackdropPress}>
       <Box flex={1} justifyContent="center" alignItems="center">
         <Box width="100%" alignItems="center">

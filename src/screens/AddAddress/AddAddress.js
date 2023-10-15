@@ -17,8 +17,6 @@ if (__DEV__) {
 
 async function putAddress(address_data, id, goback, dispatch, addresses) {
   let goToSavedAddress = goback;
-  //let resultingAddresses = JSON.parse(JSON.stringify(addresses));
-  //let tempAddress = {};
   try {
     let response = await fetch(API_BASE_URL + '/addresses', {
       method: 'POST',
@@ -40,13 +38,6 @@ async function putAddress(address_data, id, goback, dispatch, addresses) {
     }
     response = await response.json();
     if (response.id > 0) {
-      //tempAddress = {
-      //   name: address_data.title,
-      //   phone: address_data.phone,
-      //   address: address_data.address,
-      //};
-      //resultingAddresses.push(tempAddress);
-      //dispatch(setAddresses(resultingAddresses));
       goToSavedAddress();
     }
   } catch (error) {
