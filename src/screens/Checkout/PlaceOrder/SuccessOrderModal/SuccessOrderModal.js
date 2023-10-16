@@ -16,6 +16,7 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
   const fadeIn = React.useRef(new Animated.Value(0)).current;
   const fadeOut = React.useRef(new Animated.Value(1)).current;
   const [isAnimationFinished, setIsAnimationFinished] = React.useState(false);
+
   React.useEffect(() => {
     Animated.timing(fadeIn, {
       toValue: isAnimationFinished ? 1 : 0,

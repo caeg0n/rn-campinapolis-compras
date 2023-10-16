@@ -86,7 +86,7 @@ export const SavedAddresses = () => {
   const setAddress = (id) => {
     const foundAddress = addresses.find((address) => address.id === id);
     if (foundAddress) {
-      //dispatch(setSelectedAddress(foundAddress));
+      dispatch(setSelectedAddress(foundAddress));
       navigation.navigate('Checkout', foundAddress);
     }
   };

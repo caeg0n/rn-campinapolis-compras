@@ -11,7 +11,7 @@ const initialState = {
   expo_token: '',
   addresses: [],
   selected_address: {},
-  selected_payment_method: 0
+  selected_payment_method: {}
 };
 
 function sessionReducer(state = initialState, action) {

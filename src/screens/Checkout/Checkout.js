@@ -65,6 +65,7 @@ export const Checkout = ({ route }) => {
   const { cartItems, totalBasketPrice } = React.useContext(CartContext);
   const { all_organizations } = useSelector((state) => state.userReducer);
   const { addresses } = useSelector((state) => state.sessionReducer);
+  // const { selected_payment_method }
   
   useFocusEffect(
     React.useCallback(() => {

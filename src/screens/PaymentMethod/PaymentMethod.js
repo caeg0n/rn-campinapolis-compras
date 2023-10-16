@@ -1,23 +1,18 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { RadioButton, Icon, Box } from '@src/components';
-//import { useEffect } from 'react-native';
-//import { paymentMethods } from '@src/data/mock-payment-method';
+import { useDispatch } from 'react-redux';
+import { setSelectedPaymentMethod } from '@src/redux/actions/session';
 import { useSelector } from 'react-redux';
 
-export const PaymentMethod = () => {
-  const { all_payments_methods } = useSelector((state) => state.userReducer);
-  //useEffect(() => {
-  //},[]);
+function findObjectById(array, id) {
+  return array.find(item => item.id === id);
+}
 
-  // const data = paymentMethods.map((item) => {
-  //   const { id, name, icon } = item;
-  //   return {
-  //     label: name,
-  //     value: id,
-  //     rightElement: <Icon name={icon} />,
-  //   };
-  // });
+export const PaymentMethod = () => {
+  const dispatch = useDispatch();
+  const { all_payments_methods } = useSelector((state) => state.userReducer);
+  const { selected_payment_method } = useSelector((state) => state.sessionReducer);
 
   const data = all_payments_methods.map((item) => {
     const { id, name, icon } = item;
@@ -29,9 +24,7 @@ export const PaymentMethod = () => {
   });
 
   const onItemPress = (item) => {
-    return () => {
-      console.log(item);
-    };
+    dispatch(setSelectedPaymentMethod(findObjectById(all_payments_methods, item.value)));
   };
 
   return (
@@ -39,6 +32,7 @@ export const PaymentMethod = () => {
       <ScrollView>
         <RadioButton
           data={data}
+          defaultValue={selected_payment_method.id}
           onItemPress={onItemPress}
           containerProps={{
             paddingHorizontal: 'm',
