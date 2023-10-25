@@ -11,7 +11,7 @@ import styles from './SuccessOrderModal.style';
 import { CartContext } from '@src/cart';
 import { useExploreStackNavigation } from '@src/hooks';
 
-export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
+export const OrderFailModal = ({ isVisible, setIsVisble }) => {
   const navigation = useExploreStackNavigation();
   const fadeIn = React.useRef(new Animated.Value(0)).current;
   const fadeOut = React.useRef(new Animated.Value(1)).current;
@@ -60,7 +60,7 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
       <Box flex={1} justifyContent="center" alignItems="center">
         <Box width="100%" alignItems="center">
           <LottieView
-            source={require('@src/assets/animations/order-success.json')}
+            source={require('@src/assets/animations/order-error3.json')}
             autoPlay
             loop={false}
             onAnimationFinish={onAnimationFinish}

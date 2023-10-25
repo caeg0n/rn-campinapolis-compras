@@ -1,6 +1,5 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import { ActivityHistory, ActivityHistoryDetail } from '@src/screens';
 
 const Stack = createNativeStackNavigator();

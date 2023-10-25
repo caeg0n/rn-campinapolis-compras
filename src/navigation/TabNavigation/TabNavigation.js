@@ -6,10 +6,10 @@ import {
   ExploreStack,
   NotificationStack,
 } from '../Stacks';
-import { Icon } from '@src/components';
+import { Icon, Text } from '@src/components';
 import { fontSize } from '@src/theme';
 import styles from './TabNavigation.style';
-//import { Documentation } from '@src/screens';
+import { Checkout } from '@src/screens';
 
 const Tab = createBottomTabNavigator();
 const { Navigator } = Tab;
@@ -20,7 +20,6 @@ const renderTabBarIcon = (routeName) => {
     let iconName = 'compass';
     switch (routeName) {
       case 'ExploreTab':
-        // iconName = 'compass';
         iconName = 'home';
         break;
       case 'ActivityHistoryTab':
@@ -29,13 +28,14 @@ const renderTabBarIcon = (routeName) => {
       case 'NotificationTab':
         iconName = 'notifications';
         break;
+      case 'CheckoutTab':
+        iconName = 'cart';
+        break;
       case 'AccountTab':
         iconName = 'person-circle';
         break;
-      case 'DocumentationTab':
-        iconName = 'logo-react';
-        break;
       default:
+        iconName = 'person-circle';
         break;
     }
     return <Icon name={iconName} size={fontSize.xl} color={color} />;
@@ -43,7 +43,6 @@ const renderTabBarIcon = (routeName) => {
 };
 
 const TabNavigation = () => {
-  console.log('TabNavigation');
   return (
     <Navigator
       initialRouteName="ExploreTab"
@@ -68,8 +67,17 @@ const TabNavigation = () => {
         name="ActivityHistoryTab"
         component={ActivityHistoryStack}
         options={{
-          // title: 'Historico',
           title: 'Pedidos',
+        }}
+      />
+      <Tab.Screen
+        name="CheckoutTab"
+        component={Checkout}
+        options={{
+          title: 'Carrinho',
+          headerTitle: () => <Text fontWeight="bold" color="red">CARRINHO</Text>,
+          headerTitleAlign: 'center',
+          headerShown: true,
         }}
       />
       <Tab.Screen
@@ -86,13 +94,6 @@ const TabNavigation = () => {
           title: 'Accounts',
         }}
       />
-      {/* <Tab.Screen
-        name="DocumentationTab"
-        component={Documentation}
-        options={{
-          title: 'Storybook',
-        }}
-      /> */}
     </Navigator>
   );
 };

@@ -9,7 +9,7 @@ import { resetHotDeals } from '@src/redux/actions/user';
 import { resetAllOpenedOrganizations } from '@src/redux/actions/user';
 import { resetAllClosedOrganizations } from '@src/redux/actions/user';
 import { resetCategoriesAndProducts } from '@src/redux/actions/user';
-import { resetSelectedAddress } from '@src/redux/actions/session';
+import { resetSelectedAddress, resetUUID } from '@src/redux/actions/session';
 
 import { setAllPaymentsMethods } from '@src/redux/actions/user';
 import { setAllOrganizations } from '@src/redux/actions/user';
@@ -72,8 +72,8 @@ export const AuthProvider = ({ children, fetchData }) => {
 
   useEffect(() => {
     //reidrata asyncstorage
-    console.log('MemoizedAuthProvider');
-    localDispatch(resetSelectedAddress());
+    //localDispatch(resetUUID());
+    //localDispatch(resetSelectedAddress());
     localDispatch(resetCategories());
     localDispatch(resetMostPopular());
     localDispatch(resetOrganizations());

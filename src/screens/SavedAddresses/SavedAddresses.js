@@ -33,7 +33,7 @@ async function deleteAddress(device_id, id) {
     },
     body: JSON.stringify(requestData),
   }).then((response) => {
-    //console.log(response);
+    console.log(response);
   });
 }
 

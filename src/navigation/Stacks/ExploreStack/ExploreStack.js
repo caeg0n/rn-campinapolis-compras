@@ -15,15 +15,12 @@ import {
 } from '@src/screens';
 import { fontSize } from '@src/theme';
 import { Button, ExploreHeaderTitle, Icon } from '@src/components';
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 
 export const ExploreStack = ({ navigation }) => {
-  useEffect(() => {
-    console.log('ExploreStack');
-  });
-
+  
   const renderExploreHeaderLeft = () => <ExploreHeaderTitle />;
 
   const renderPlaceDetailHeaderRight = () => {

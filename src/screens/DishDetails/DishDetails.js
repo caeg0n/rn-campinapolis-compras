@@ -69,7 +69,6 @@ export const DishDetails = ({ route }) => {
   let [my_product, setMyProduct] = React.useState({});
   
   useEffect(() => {
-    console.log('DishDetails');
     var basketTotal = 0;
     var removedFromBasketTotal = 0;
     setMyProduct({ ...product, amount: 1 });

@@ -21,10 +21,6 @@ export const RootNavigation = () => {
   const { theme } = useContext(ThemeContext);
   const { userToken } = useContext(AuthContext);
 
-  React.useEffect(() => {
-    console.log('MemoizedRootNavigation');
-  });
-
   const navigationTheme = React.useMemo(() => {
     return getNavigationTheme(theme);
   }, [theme]);

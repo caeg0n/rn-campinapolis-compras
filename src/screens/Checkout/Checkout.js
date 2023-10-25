@@ -8,6 +8,8 @@ import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
 import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
+import { Image } from 'react-native';
+import emptyBag from '@src/assets/checkout/empty-bag.gif';
 
 function getUniqueOrganizationIds(dataArray) {
   const uniqueIds = new Set();
@@ -33,7 +35,7 @@ function filterAndCalculateDeliveryFee(dataObject, idArray) {
   return sumDeliveryFee;
 }
 
-function groupAndSumById (arr) {
+function groupAndSumById(arr) {
   const groupedItems = {};
   arr.forEach((item) => {
     const id = item.dish.id;
@@ -45,9 +47,9 @@ function groupAndSumById (arr) {
   });
   const resultArray = Object.values(groupedItems);
   return resultArray;
-};
+}
 
-function groupByOrganizationId (items) {
+function groupByOrganizationId(items) {
   const grouped = {};
   items.forEach((item) => {
     const { organization_id } = item.dish;
@@ -57,7 +59,7 @@ function groupByOrganizationId (items) {
     grouped[organization_id].push(item);
   });
   return Object.values(grouped);
-};
+}
 
 export const Checkout = ({ route }) => {
   const localization = route.params;
@@ -65,16 +67,15 @@ export const Checkout = ({ route }) => {
   const { cartItems, totalBasketPrice } = React.useContext(CartContext);
   const { all_organizations } = useSelector((state) => state.userReducer);
   const { addresses } = useSelector((state) => state.sessionReducer);
-  // const { selected_payment_method }
-  
+
   useFocusEffect(
     React.useCallback(() => {
       setRefresh(!refresh);
-    }, [])
+    }, []),
   );
-  
+
   const renderOrders = () => {
-    const myCartItems = JSON.parse(JSON.stringify(cartItems)); 
+    const myCartItems = JSON.parse(JSON.stringify(cartItems));
     return groupByOrganizationId(groupAndSumById(myCartItems)).map(
       (cartItem, index) => (
         <OrderSummary
@@ -95,20 +96,32 @@ export const Checkout = ({ route }) => {
   };
 
   return (
-    <Box flex={1}>
-      <ScrollView>
-        <DeliveryInformation
-          addresses={addresses}
-          localization={localization}
-        />
-        {renderOrders()}
-        <PaymentMethod />
-      </ScrollView>
-      <PlaceOrder
-        totalPrice={totalBasketPrice}
-        shippingFeeSum={getShippingFeeSum()}
-      />
-      {/*<PlaceOrder totalPrice={totalBasketPrice} /> */}
-    </Box>
+    <>
+      {cartItems.length > 0 ? (
+        <Box flex={1}>
+          <ScrollView>
+            <DeliveryInformation
+              addresses={addresses}
+              localization={localization}
+            />
+            {renderOrders()}
+            <PaymentMethod />
+          </ScrollView>
+          <PlaceOrder
+            totalPrice={totalBasketPrice}
+            shippingFeeSum={getShippingFeeSum()}
+          />
+          {/*<PlaceOrder totalPrice={totalBasketPrice} /> */}
+        </Box>
+      ) : (
+        <Box flex={1}>
+          <Image
+            source={emptyBag}
+            style={{ flex: 1, width: '100%', height: '100%' }}
+            resizeMode="center"
+          />
+        </Box>
+      )}
+    </>
   );
 };

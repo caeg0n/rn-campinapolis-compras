@@ -6,8 +6,8 @@ import { TextField, Button, Divider, Box } from '@src/components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useExploreStackNavigation } from '@src/hooks';
-import { setAddresses } from '@src/redux/actions/session';
 import { useEffect } from 'react';
+//import { setAddresses } from '@src/redux/actions/session';
 
 if (__DEV__) {
   var API_BASE_URL = DEV_API_BASE;
@@ -15,8 +15,8 @@ if (__DEV__) {
   var API_BASE_URL = PROD_API_BASE;
 }
 
-async function putAddress(address_data, id, goback, dispatch, addresses) {
-  let goToSavedAddress = goback;
+async function putAddress(address_data, id, dispatch, addresses, nav) {
+  //let goToSavedAddress = goback;
   try {
     let response = await fetch(API_BASE_URL + '/addresses', {
       method: 'POST',
@@ -38,7 +38,8 @@ async function putAddress(address_data, id, goback, dispatch, addresses) {
     }
     response = await response.json();
     if (response.id > 0) {
-      goToSavedAddress();
+      //goToSavedAddress();
+      nav.navigate('SavedAddresses');
     }
   } catch (error) {
     console.log(error);
@@ -46,15 +47,16 @@ async function putAddress(address_data, id, goback, dispatch, addresses) {
 }
 
 export const AddAddress = () => {
+  const navigation = useExploreStackNavigation();
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer);
   const { addresses } = useSelector((state) => state.sessionReducer);
-  const { goBack } = useExploreStackNavigation();
   const [title, setTitle] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [status, setStatus] = React.useState(false);
-
+  //const { goBack } = useExploreStackNavigation();
+  
   useEffect(() => {
     console.log('addaddress');
   }, []);
@@ -68,7 +70,7 @@ export const AddAddress = () => {
           address_data.title = title;
           address_data.phone = phone;
           address_data.address = address;
-          putAddress({ ...address_data }, uuid, goBack, dispatch, addresses);
+          await putAddress({ ...address_data }, uuid, dispatch, addresses, navigation);
         }
       }
     }

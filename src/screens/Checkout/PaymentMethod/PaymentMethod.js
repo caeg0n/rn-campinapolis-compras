@@ -25,9 +25,9 @@ export const PaymentMethod = () => {
         <Box flexDirection="row" alignItems="center">
           <Button variant="transparent" onPress={onPaymentMethodButtonPress}>
             <Box flexDirection="row" alignItems="center">
-              <Icon name={selected_payment_method.icon} isPrimary />
+              <Icon name={selected_payment_method?.icon} isPrimary />
               <Text marginLeft="s" color="primary">
-                {selected_payment_method.name}
+                {selected_payment_method?.name}
               </Text>
             </Box>
           </Button>
