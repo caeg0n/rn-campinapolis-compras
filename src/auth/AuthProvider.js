@@ -10,7 +10,6 @@ import { resetAllOpenedOrganizations } from '@src/redux/actions/user';
 import { resetAllClosedOrganizations } from '@src/redux/actions/user';
 import { resetCategoriesAndProducts } from '@src/redux/actions/user';
 import { resetSelectedAddress, resetUUID } from '@src/redux/actions/session';
-
 import { setAllPaymentsMethods } from '@src/redux/actions/user';
 import { setAllOrganizations } from '@src/redux/actions/user';
 import { setMostPopular } from '@src/redux/actions/user';

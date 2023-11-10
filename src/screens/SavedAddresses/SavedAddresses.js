@@ -4,12 +4,16 @@ import { Box, Section, Divider, Icon, ListRowItem } from '@src/components';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useExploreStackNavigation } from '@src/hooks';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setAddresses } from '@src/redux/actions/session';
 import { setSelectedAddress } from '@src/redux/actions/session';
 import { useFocusEffect } from '@react-navigation/native';
+import { resetSelectedAddress } from '@src/redux/actions/session';
+//import { Ionicons } from '@expo/vector-icons';
+//import Icon from 'react-native-vector-icons/FontAwesome';
+//import { StyleSheet, View } from 'react-native';
+//import { useEffect } from 'react';
 
 if (__DEV__) {
   var DELETE_ADDRESS_URL = DEV_API_BASE + '/addresses';
@@ -49,26 +53,34 @@ async function fetchData(uuid) {
   }
 }
 
+function removeAddressFromSelectedAddress(selected_address, id, dispatch) {
+  if (selected_address.id == id) {
+    dispatch(resetSelectedAddress());
+  }
+  return null;
+}
+
 export const SavedAddresses = () => {
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer);
   const { addresses } = useSelector((state) => state.sessionReducer);
+  const { selected_address } = useSelector((state) => state.sessionReducer);
   const navigation = useExploreStackNavigation();
   const isAddressesEmpty = !addresses || addresses.length === 0;
 
-  useEffect(() => {
-    console.log('SavedAddress');
-  });
+  //useEffect(() => {
+  //  console.log('SavedAddress');
+  //});
 
   useFocusEffect(
     React.useCallback(() => {
-        fetchData(uuid)
-          .then((jsonData) => {
-            dispatch(setAddresses(jsonData.jsonAddresses));
-          })
-          .catch((error) => {
-            console.error('Error fetching data:', error);
-          });
+      fetchData(uuid)
+        .then((jsonData) => {
+          dispatch(setAddresses(jsonData.jsonAddresses));
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
     }, [dispatch]),
   );
 
@@ -80,6 +92,7 @@ export const SavedAddresses = () => {
     let resultingAddresses = JSON.parse(JSON.stringify(addresses));
     const filteredArray = resultingAddresses.filter((obj) => obj.id !== id);
     deleteAddress(uuid, id);
+    removeAddressFromSelectedAddress(selected_address, id, dispatch);
     dispatch(setAddresses(filteredArray));
   };
 
@@ -123,6 +136,10 @@ export const SavedAddresses = () => {
               title="Adicionar Endereço"
               subTitle="Salve seus endereços favoritos"
               onPress={addAddressItemPress}
+              rightElement={
+                <TouchableOpacity onPress={() => removeAddressItemPress(id)}>
+                  <Icon name="add-circle" color="red" />
+                </TouchableOpacity>}
             />
           </Box>
         )}
@@ -131,9 +148,32 @@ export const SavedAddresses = () => {
             title="Adicionar Endereço"
             subTitle="Salve seus endereços favoritos"
             onPress={addAddressItemPress}
+            rightElement={
+              <TouchableOpacity onPress={() => removeAddressItemPress(id)}>
+                <Icon name="add-circle" color="red" />
+              </TouchableOpacity>}
           />
         )}
       </Section>
     </ScrollView>
   );
 };
+
+// const styles = StyleSheet.create({
+//   view: {
+//     paddingVertical: 15,
+//     paddingHorizontal: 10,
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//   },
+//   icon: {
+//     marginRight: 10,
+//     marginLeft: 5,
+//   },
+//   text: {
+//     fontWeight: 'bold',
+//     fontSize: 16,
+//     color: 'white',
+//   },
+// });

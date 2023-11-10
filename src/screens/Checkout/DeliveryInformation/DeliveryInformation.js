@@ -1,23 +1,34 @@
-import React from 'react';
-//import { Platform } from 'react-native';
+import React, { useState } from 'react';
 import {
   Box,
   Text,
-  //Button,
   Section,
   Divider,
   //DateTimePicker,
   //Image,
+  //Button,
 } from '@src/components';
+import { useSelector } from 'react-redux';
 import { useExploreStackNavigation } from '@src/hooks';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
-//import { Icon } from '@src/components';
 import { Ionicons } from '@expo/vector-icons';
+import { useEffect } from 'react';
+//import { setAddresses } from '@src/redux/actions/session';
+//import { Icon } from '@src/components';
+//import { Platform } from 'react-native';
 
 export const DeliveryInformation = ({ localization, addresses }) => {
-  const navigation = useExploreStackNavigation();
   //const [date, setDate] = React.useState(new Date(1598051730000));
   //const [showDateTimePicker, setShowDateTimePicker] = React.useState(false);
+  const navigation = useExploreStackNavigation();
+  const { selected_address } = useSelector((state) => state.sessionReducer);
+  const [ address, setAddress ] = useState([]);
+
+  useEffect(() => {
+    if (selected_address && Object.keys(selected_address).length > 0) {
+      setAddress(selected_address);
+    }
+  }, []);
 
   const onChangeAddressButtonPress = () => {
     navigation.navigate('SavedAddresses');
@@ -34,24 +45,6 @@ export const DeliveryInformation = ({ localization, addresses }) => {
     return null;
   };
 
-  // const rightElement = () => {
-  //   return (
-  //     <TouchableOpacity onPress={() => newAddress()}>
-  //       <Icon name="trash" color="red" />
-  //     </TouchableOpacity>
-  //   );
-  // };
-
-  // const onChange = (event, selectedDate) => {
-  // const currentDate = selectedDate || date;
-  // setShowDateTimePicker(Platform.OS === 'ios');
-  // setDate(currentDate);
-  // };
-
-  // const onChangeTimeButtonPress = () => {
-  //   setShowDateTimePicker(!showDateTimePicker);
-  // };
-
   return (
     <Section
       title="Entregar em"
@@ -60,14 +53,6 @@ export const DeliveryInformation = ({ localization, addresses }) => {
       onButtonActionPress={onChangeAddressButtonPress}>
       <Box backgroundColor="card">
         <Box flexDirection="row" padding="m">
-          {/* <Box marginRight="m">
-            <Image
-              source={require('@src/assets/checkout/map.png')}
-              width={80}
-              height={80}
-              borderRadius="m"
-            />
-          </Box> */}
           {localization && Object.keys(localization).length > 0 ? (
             <Box>
               <Text fontWeight="bold" marginBottom="s">
@@ -81,21 +66,18 @@ export const DeliveryInformation = ({ localization, addresses }) => {
               </Text>
               <Text variant="secondary">Telefone: {localization.cel}</Text>
             </Box>
-          ) : addresses && addresses.length > 0 ? (
+          ) : address && Object.keys(selected_address).length > 0 ? (
             <Box>
-              <TouchableOpacity onPress={chooseAddress}>
-                <View style={styles.view}>
-                  <Ionicons
-                    name="ios-location"
-                    size={20}
-                    color="red"
-                    style={styles.icon}
-                  />
-                  <Text style={styles.text}>
-                    Escolha um dos seus endereços salvos
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <Text fontWeight="bold" marginBottom="s">
+                {address.name}
+              </Text>
+              <Text
+                variant="secondary"
+                accessibilityRole="link"
+                marginBottom="s">
+                Endereço: {address.address}
+              </Text>
+              <Text variant="secondary">Telefone: {address.cel}</Text>
             </Box>
           ) : (
             <Box>
@@ -114,26 +96,7 @@ export const DeliveryInformation = ({ localization, addresses }) => {
           )}
         </Box>
         <Divider />
-        {/* <Box padding="m" flexDirection="row" justifyContent="space-between">
-          <Box>
-            <Text variant="secondary" marginBottom="s">
-              Delivery time
-            </Text>
-            <Text>Deliver now (15 mins)</Text>
-          </Box>
-          <Box justifyContent="center">
-            <Button
-              variant="outline"
-              buttonSize="s"
-              label={showDateTimePicker ? 'Done' : 'Change time'}
-              onPress={onChangeTimeButtonPress}
-            />
-          </Box>
-        </Box> */}
       </Box>
-      {/* {showDateTimePicker && (
-        <DateTimePicker value={date} onChange={onChange} margin="m" />
-      )} */}
     </Section>
   );
 };
@@ -156,3 +119,12 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+{/* <Box>
+  <TouchableOpacity onPress={chooseAddress}>
+    <View style={styles.view}>
+      <Ionicons name="ios-location" size={20} color="red" style={styles.icon} />
+      <Text style={styles.text}>Escolha um dos seus endereços salvos</Text>
+    </View>
+  </TouchableOpacity>
+</Box>; */}

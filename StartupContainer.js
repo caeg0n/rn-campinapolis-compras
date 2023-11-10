@@ -12,9 +12,9 @@ if (__DEV__) {
   var GET_ADDRESSES_URL = PROD_API_BASE + '/get_addresses';
 }
 
-function findObjectById(array, id) {
-  return array.find((item) => item.id === id);
-}
+//function findObjectById(array, id) {
+//  return array.find((item) => item.id === id);
+//}
 
 export const StartupContainer = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,6 @@ export const StartupContainer = () => {
   //const { all_payments_methods } = useSelector((state) => state.userReducer);
 
   useEffect(() => {
-    console.log('StartupContainer')
     //dispatch(setSelectedPaymentMethod(findObjectById(all_payments_methods, 131)));
     if (uuid === undefined || uuid === '') {
       dispatch(setUUID(v4()));

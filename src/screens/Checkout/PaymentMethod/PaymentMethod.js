@@ -2,14 +2,25 @@ import React from 'react';
 import { Section, Box, Text, Icon, Button } from '@src/components';
 import { useExploreStackNavigation } from '@src/hooks';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { setSelectedPaymentMethod } from '@src/redux/actions/session';
+import { useDispatch } from 'react-redux';
 
 export const PaymentMethod = () => {
+  const dispatch = useDispatch();
   const navigation = useExploreStackNavigation();
+  const { all_payments_methods } = useSelector((state) => state.userReducer);
   const { selected_payment_method } = useSelector((state) => state.sessionReducer);
+  
+  //const onAddAPromoButtonPress = () => {
+  //  navigation.navigate('Promotion');
+  //};
 
-  // const onAddAPromoButtonPress = () => {
-  //   navigation.navigate('Promotion');
-  // };
+  useEffect(() => {
+    if (!selected_payment_method) {
+      dispatch(setSelectedPaymentMethod(all_payments_methods[0]));     
+    }
+  });
 
   const onPaymentMethodButtonPress = () => {
     navigation.navigate('PaymentMethod');

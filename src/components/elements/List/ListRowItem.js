@@ -2,11 +2,10 @@ import React from 'react';
 import { Touchable } from '../Touchable';
 import { Box } from '../Box';
 import { Text } from '../Text';
-import { ListRowItemProps } from './ListRowItem.type';
-import { Icon, IconProps } from '../Icon';
+import { Icon } from '../Icon';
 import { I18nManager } from 'react-native';
 
-export const ListRowItem: React.FC<ListRowItemProps> = ({
+export const ListRowItem = ({
   id,
   note,
   title,
@@ -21,7 +20,7 @@ export const ListRowItem: React.FC<ListRowItemProps> = ({
   rightContainerProps,
   onPress,
 }) => {
-  const chevronIconName: IconProps['name'] = I18nManager.isRTL
+  const chevronIconName = I18nManager.isRTL
     ? 'chevron-back'
     : 'chevron-forward';
 

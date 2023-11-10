@@ -13,7 +13,7 @@ export const PaymentMethod = () => {
   const dispatch = useDispatch();
   const { all_payments_methods } = useSelector((state) => state.userReducer);
   const { selected_payment_method } = useSelector((state) => state.sessionReducer);
-
+  
   const data = all_payments_methods.map((item) => {
     const { id, name, icon } = item;
     return {
@@ -24,7 +24,6 @@ export const PaymentMethod = () => {
   });
 
   const onItemPress = (item) => {
-    console.log(item);
     dispatch(setSelectedPaymentMethod(findObjectById(all_payments_methods, item.value)));
   };
 
