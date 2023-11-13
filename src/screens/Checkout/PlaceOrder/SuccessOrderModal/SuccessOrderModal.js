@@ -16,6 +16,7 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
   const fadeIn = React.useRef(new Animated.Value(0)).current;
   const fadeOut = React.useRef(new Animated.Value(1)).current;
   const [isAnimationFinished, setIsAnimationFinished] = React.useState(false);
+  const { clearCart } = React.useContext(CartContext);
 
   React.useEffect(() => {
     Animated.timing(fadeIn, {
@@ -29,7 +30,7 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
       useNativeDriver: true,
     }).start();
   }, [isAnimationFinished, fadeIn, fadeOut]);
-  const { clearCart } = React.useContext(CartContext);
+  
 
   const onAnimationFinish = () => {
     setIsAnimationFinished(true);
@@ -52,10 +53,15 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
     navigation.replace('TrackOrder');
   };
 
+  const handleModalClose = () => {
+    clearCart();
+  };
+
   return (
     <BottomSheetModal
       isOpened={isVisible}
       snapPoints={['95%']}
+      onDismiss={handleModalClose}
       onClose={onBackdropPress}>
       <Box flex={1} justifyContent="center" alignItems="center">
         <Box width="100%" alignItems="center">
@@ -69,28 +75,28 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
           {!isAnimationFinished && (
             <Animated.View
               style={[styles.processingOrderContainer, { opacity: fadeOut }]}>
-              <Text fontWeight="bold">Processing Your Order...</Text>
+              <Text fontWeight="bold">Processando Seu Pedido...</Text>
             </Animated.View>
           )}
           <Animated.View
             style={[styles.successMessageContainer, { opacity: fadeIn }]}>
             <Text variant="header" fontWeight="bold" color="primary">
-              Thank you for your order.
+              Obrigado Por Sua Compra.
             </Text>
             <Text textAlign="center" marginTop="s">
-              You can track the delivery in the "Orders" section.
+              Você pode acompanhar a sua entrega na sessão "Pedidos".
             </Text>
           </Animated.View>
         </Box>
         <Animated.View
           style={[styles.footerButtonContainer, { opacity: fadeIn }]}>
           <Button
-            label="Track My Order"
+            label="Acompanhar o Meu Pedido"
             isFullWidth
             onPress={onTrackOrderButtonPress}
           />
           <Button
-            label="Order Something Else"
+            label="Continua Comprando"
             isFullWidth
             variant="transparent"
             marginTop="s"

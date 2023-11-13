@@ -8,6 +8,7 @@ export const SET_SELECTED_ADDRESS = 'SET_SELECTED_ADDRESS';
 export const SET_SELECTED_PAYMENT_METHOD = 'SET_SELECTED_PAYMENT_METHOD';
 export const RESET_UUID = 'RESET_UUID';
 export const RESET_SELECTED_ADDRESS = 'RESET_SELECTED_ADDRESS';
+export const RESET_SELECTED_PAYMENT_METHOD = 'RESET_SELECTED_PAYMENT_METHOD';
 
 if (__DEV__) {
   var SET_USER_EXPO_TOKEN_URL = DEV_API_BASE + '/update_token';
@@ -78,6 +79,13 @@ export const resetUUID = () => (dispatch) => {
 export const resetSelectedAddress = () => (dispatch) => {
   dispatch({
     type: RESET_SELECTED_ADDRESS,
+    payload: {},
+  });
+};
+
+export const resetSelectedPaymentMethod = () => (dispatch) => {
+  dispatch({
+    type: RESET_SELECTED_PAYMENT_METHOD,
     payload: {},
   });
 };

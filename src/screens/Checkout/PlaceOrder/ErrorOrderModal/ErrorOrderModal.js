@@ -31,7 +31,6 @@ export const OrderErrorModal = ({ isVisible, setIsVisble, modalError }) => {
     }).start();
   }, [isAnimationFinished, fadeIn, fadeOut]);
   
-
   const onAnimationFinish = () => {
     setIsAnimationFinished(true);
   };
@@ -41,12 +40,6 @@ export const OrderErrorModal = ({ isVisible, setIsVisble, modalError }) => {
     setIsAnimationFinished(false);
   };
 
-  // const onOrderSomethingElseButtonPress = () => {
-  //   clearCart();
-  //   setIsVisble(false);
-  //   navigation.navigate('Explore');
-  // };
-
   const onTrackOrderButtonPress = () => {
     clearCart();
     setIsVisble(false);
@@ -54,10 +47,10 @@ export const OrderErrorModal = ({ isVisible, setIsVisble, modalError }) => {
   };
 
   const renderAnimatedView1 = () => {
-    //const txtSuccess = 'Obrigado por comprar com a gente.';
-    //const txtTrack = 'Você pode rastrear sua entrega na seção "Pedidos".';
     const txtOrganizationClosedHeader = 'Tivemos Um Problema!';
     const txtMissingAddressHeader = 'Escolha um Endereço';
+    const txtMissingPaymentMethodHeader = 'Escolha um Meio de Pagamento';
+    const txtMissingPaymentMethod = 'É necessario que você escolha uma das formas de pagamento disponiveis.';
     const txtMissingAddress = 'É necessario cadastrar e escolher um endereço para a entrega.';
     const txtOrganizationClosed =
       'Infelizmente o estabelecimento fechou enquanto você fazia sua compra.';
@@ -65,12 +58,14 @@ export const OrderErrorModal = ({ isVisible, setIsVisble, modalError }) => {
       <Text variant="header" fontWeight="bold" color="primary">
         {'closedOrganizations' in modalError ? txtOrganizationClosedHeader : null}
         {'selected_address' in modalError ? txtMissingAddressHeader : null}
+        {'payment_method' in modalError ? txtMissingPaymentMethodHeader : null}
       </Text>
     );
     const txt = (
       <Text textAlign="center" marginTop="s">
         {'closedOrganizations' in modalError ? txtOrganizationClosed : null}
         {'selected_address' in modalError ? txtMissingAddress : null}
+        {'payment_method' in modalError ? txtMissingPaymentMethod : null}
       </Text>
     );
     return (
@@ -84,11 +79,12 @@ export const OrderErrorModal = ({ isVisible, setIsVisble, modalError }) => {
 
   const renderAnimatedView2 = () => {
     let label = '';
-    //const labelSuccess = 'Rastrear minha Entrega';
     const labelOrganizationClosed = 'Esvaziar carrinho desse estabelecimento';
     const labelMissingAddress = 'Escolher um Endereço';
+    const labelMissingPaymentMethod = 'Escolher Forma de Pagamento';
     if ('closedOrganizations' in modalError) label = labelOrganizationClosed;
     if ('selected_address' in modalError) label = labelMissingAddress;
+    if ('payment_method' in modalError) label = labelMissingPaymentMethod;
     return (
       <Animated.View
         style={[styles.footerButtonContainer, { opacity: fadeIn }]}>

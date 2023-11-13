@@ -8,73 +8,83 @@ import { OrderFailModal } from './FailOrderModal';
 import { formatCurrency } from '@src/utils';
 import { useSelector } from 'react-redux';
 import { CartContext } from '@src/cart';
-//import { useFocusEffect } from '@react-navigation/native';
-//import { useDispatch } from 'react-redux';
-//import { paymentMethods } from '@src/data';
 
 if (__DEV__) {
-  var GET_ALL_OPENED_ORGANIZATIONS_URL = DEV_API_BASE + '/get_all_opened_organizations';
+  var GET_ALL_OPENED_ORGANIZATIONS_URL =
+    DEV_API_BASE + '/get_all_opened_organizations';
 } else {
-  var GET_ALL_OPENED_ORGANIZATIONS_URL = PROD_API_BASE + '/get_all_opened_organizations';
+  var GET_ALL_OPENED_ORGANIZATIONS_URL =
+    PROD_API_BASE + '/get_all_opened_organizations';
 }
 
 const getAllOpenedOrganizations = async () => {
   let jsonData = {};
   let response = await fetch(GET_ALL_OPENED_ORGANIZATIONS_URL);
   let json = await response.json();
-  jsonData = json;  
+  jsonData = json;
   return jsonData;
 };
 
 function findMissingObjects(sourceArray, targetArray, organizationObject) {
-  const sourceIDs = sourceArray.map(item => item.id);
-  const missingIDs = targetArray.filter(id => !sourceIDs.includes(id));
+  const sourceIDs = sourceArray.map((item) => item.id);
+  const missingIDs = targetArray.filter((id) => !sourceIDs.includes(id));
   const missingObjects = [];
   for (const category in organizationObject) {
-      for (const org of organizationObject[category]) {
-          if (missingIDs.includes(org.id)) {
-              missingObjects.push(org);
-          }
+    for (const org of organizationObject[category]) {
+      if (missingIDs.includes(org.id)) {
+        missingObjects.push(org);
       }
+    }
   }
   return missingObjects;
 }
 
 async function isOrganizationOpen(cartItems, allOrganizations) {
-  const organizationsIds = cartItems.map(item => item.dish.organization_id);
+  const organizationsIds = cartItems.map((item) => item.dish.organization_id);
   const allOpenedOrganizations = await getAllOpenedOrganizations();
-  const allClosedOrganizations = findMissingObjects(allOpenedOrganizations, organizationsIds, allOrganizations);
-  if (allClosedOrganizations.length > 0) 
-    return allClosedOrganizations;
-  else
-    return true;
+  const allClosedOrganizations = findMissingObjects(
+    allOpenedOrganizations,
+    organizationsIds,
+    allOrganizations,
+  );
+  if (allClosedOrganizations.length > 0) return allClosedOrganizations;
+  else return true;
 }
 
-async function isOrderReady(cartItems, selected_address, payment_method, allOrganizations) {
+async function isOrderReady(
+  cartItems,
+  selected_address,
+  payment_method,
+  allOrganizations,
+) {
   var status = {};
-  const closedOrganizations = await isOrganizationOpen(cartItems, allOrganizations);
-  if (closedOrganizations !== true){
+  const closedOrganizations = await isOrganizationOpen(
+    cartItems,
+    allOrganizations,
+  );
+  if (closedOrganizations !== true) {
     status.isOrganizationOpen = false;
     status.closedOrganizations = closedOrganizations;
     return status;
   }
-  if (!(cartItems.length > 0)){
+  if (!(cartItems.length > 0)) {
     status.cartItems = null;
     return status;
   }
-  if (!(selected_address.id > 0)){
+  if (!(selected_address.id > 0)) {
     status.selected_address = null;
     return status;
   }
-  if (!(payment_method.id > 0)){
+  if (!(payment_method.id > 0)) {
     status.payment_method = null;
     return status;
   }
-  if (!(status.isOrganizationOpen === false) &&
-      !(status.cartItems === null) &&
-      !(status.selected_address === null) &&
-      !(status.payment_method === null))
-  {
+  if (
+    !(status.isOrganizationOpen === false) &&
+    !(status.cartItems === null) &&
+    !(status.selected_address === null) &&
+    !(status.payment_method === null)
+  ) {
     status.success = true;
     return status;
   }
@@ -85,7 +95,9 @@ async function isOrderReady(cartItems, selected_address, payment_method, allOrga
 export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
   const { all_organizations } = useSelector((state) => state.userReducer);
   const { selected_address } = useSelector((state) => state.sessionReducer);
-  const { selected_payment_method } = useSelector((state) => state.sessionReducer);
+  const { selected_payment_method } = useSelector(
+    (state) => state.sessionReducer,
+  );
   const { cartItems } = React.useContext(CartContext);
   const [isSuccessOrderModalVisible, setIsSuccessOrderModalVisible] =
     React.useState(false);
@@ -95,43 +107,25 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
     React.useState(false);
   const [modalError, setModalError] = React.useState({});
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //   }, []),
-  // );
-
   const onPlaceOrderButtonPress = async () => {
-    const orderReadyStatus = await isOrderReady(cartItems, selected_address, selected_payment_method, all_organizations);
+    const orderReadyStatus = await isOrderReady(
+      cartItems,
+      selected_address,
+      selected_payment_method,
+      all_organizations,
+    );
     setModalError(orderReadyStatus);
-    if (orderReadyStatus?.isOrganizationOpen === false){
-      setIsErrorOrderModalVisible(true);
-      setIsFailOrderModalVisible(false);
-      setIsSuccessOrderModalVisible(false);
-    }else{
-      if (orderReadyStatus.cartItems === null){
-        setIsErrorOrderModalVisible(false);
-        setIsFailOrderModalVisible(true);
-        setIsSuccessOrderModalVisible(false);
-      }else{
-        if (orderReadyStatus.selected_address === null){
-          setIsErrorOrderModalVisible(true);
-          setIsFailOrderModalVisible(false);
-          setIsSuccessOrderModalVisible(false);
-        }else{
-          if (orderReadyStatus.payment_method === null){
-            setIsErrorOrderModalVisible(true);
-            setIsFailOrderModalVisible(false);
-            setIsSuccessOrderModalVisible(false);
-          }else{
-            if (orderReadyStatus.success === true){
-              setIsErrorOrderModalVisible(false);
-              setIsFailOrderModalVisible(false);
-              setIsSuccessOrderModalVisible(true);
-            }
-          }
-        }
-      }
-    }
+
+    const isError =
+      !orderReadyStatus?.isOrganizationOpen ||
+      orderReadyStatus.selected_address === null ||
+      orderReadyStatus.payment_method === null;
+    const isFail = orderReadyStatus.cartItems === null && !isError;
+    const isSuccess = orderReadyStatus.success === true;
+
+    setIsErrorOrderModalVisible(isError);
+    setIsFailOrderModalVisible(isFail);
+    setIsSuccessOrderModalVisible(isSuccess);
   };
 
   return (

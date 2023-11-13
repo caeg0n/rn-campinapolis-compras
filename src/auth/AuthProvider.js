@@ -9,7 +9,6 @@ import { resetHotDeals } from '@src/redux/actions/user';
 import { resetAllOpenedOrganizations } from '@src/redux/actions/user';
 import { resetAllClosedOrganizations } from '@src/redux/actions/user';
 import { resetCategoriesAndProducts } from '@src/redux/actions/user';
-import { resetSelectedAddress, resetUUID } from '@src/redux/actions/session';
 import { setAllPaymentsMethods } from '@src/redux/actions/user';
 import { setAllOrganizations } from '@src/redux/actions/user';
 import { setMostPopular } from '@src/redux/actions/user';
@@ -19,6 +18,12 @@ import { setHotDeals } from '@src/redux/actions/user';
 import { setAllOpenedOrganizations } from '@src/redux/actions/user';
 import { setAllClosedOrganizations } from '@src/redux/actions/user';
 import { setCategoriesAndProducts } from '@src/redux/actions/user';
+import {
+  resetSelectedPaymentMethod,
+  resetSelectedAddress,
+  resetUUID,
+} from '@src/redux/actions/session';
+
 
 const initialAuthState = {
   isLoading: false,
@@ -73,6 +78,7 @@ export const AuthProvider = ({ children, fetchData }) => {
     //reidrata asyncstorage
     //localDispatch(resetUUID());
     //localDispatch(resetSelectedAddress());
+    //localDispatch(resetSelectedPaymentMethod());
     localDispatch(resetCategories());
     localDispatch(resetMostPopular());
     localDispatch(resetOrganizations());

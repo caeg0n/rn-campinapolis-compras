@@ -11,10 +11,6 @@ export const PaymentMethod = () => {
   const navigation = useExploreStackNavigation();
   const { all_payments_methods } = useSelector((state) => state.userReducer);
   const { selected_payment_method } = useSelector((state) => state.sessionReducer);
-  
-  //const onAddAPromoButtonPress = () => {
-  //  navigation.navigate('Promotion');
-  //};
 
   useEffect(() => {
     if (!selected_payment_method) {
