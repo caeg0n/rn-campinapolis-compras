@@ -10,11 +10,16 @@ export const PaymentMethod = () => {
   const dispatch = useDispatch();
   const navigation = useExploreStackNavigation();
   const { all_payments_methods } = useSelector((state) => state.userReducer);
-  const { selected_payment_method } = useSelector((state) => state.sessionReducer);
+  const { selected_payment_method } = useSelector(
+    (state) => state.sessionReducer,
+  );
 
   useEffect(() => {
-    if (!selected_payment_method) {
-      dispatch(setSelectedPaymentMethod(all_payments_methods[0]));     
+    if (
+      Object.keys(selected_payment_method).length === 0 &&
+      selected_payment_method.constructor === Object
+    ) {
+      dispatch(setSelectedPaymentMethod(all_payments_methods[0]));
     }
   });
 

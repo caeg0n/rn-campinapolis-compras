@@ -10,10 +10,6 @@ import { setAddresses } from '@src/redux/actions/session';
 import { setSelectedAddress } from '@src/redux/actions/session';
 import { useFocusEffect } from '@react-navigation/native';
 import { resetSelectedAddress } from '@src/redux/actions/session';
-//import { Ionicons } from '@expo/vector-icons';
-//import Icon from 'react-native-vector-icons/FontAwesome';
-//import { StyleSheet, View } from 'react-native';
-//import { useEffect } from 'react';
 
 if (__DEV__) {
   var DELETE_ADDRESS_URL = DEV_API_BASE + '/addresses';
@@ -68,10 +64,6 @@ export const SavedAddresses = () => {
   const navigation = useExploreStackNavigation();
   const isAddressesEmpty = !addresses || addresses.length === 0;
 
-  //useEffect(() => {
-  //  console.log('SavedAddress');
-  //});
-
   useFocusEffect(
     React.useCallback(() => {
       fetchData(uuid)
@@ -110,7 +102,7 @@ export const SavedAddresses = () => {
         {!isAddressesEmpty && (
           <Box>
             {addresses.reverse().map((item, index) => {
-              const { id, name, address, isHome = true } = item;
+              const { id, title, name, address, isHome = true } = item;
               let rightElement;
               if (isHome) {
                 rightElement = (
@@ -123,7 +115,8 @@ export const SavedAddresses = () => {
                 <Box key={index}>
                   <ListRowItem
                     id={id}
-                    title={name}
+                    title={title}
+                    name={name}
                     subTitle={address}
                     rightElement={rightElement}
                     onPress={() => setAddress(id)}
@@ -159,21 +152,3 @@ export const SavedAddresses = () => {
   );
 };
 
-// const styles = StyleSheet.create({
-//   view: {
-//     paddingVertical: 15,
-//     paddingHorizontal: 10,
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//   },
-//   icon: {
-//     marginRight: 10,
-//     marginLeft: 5,
-//   },
-//   text: {
-//     fontWeight: 'bold',
-//     fontSize: 16,
-//     color: 'white',
-//   },
-// });

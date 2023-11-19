@@ -65,3 +65,5 @@ useEffect(() => {
   console.log('*************************8');
 });
 
+navigation.navigate('PaymentMethod');
+

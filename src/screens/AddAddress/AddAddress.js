@@ -3,11 +3,8 @@ import { DEV_API_BASE, PROD_API_BASE } from '@env';
 import React from 'react';
 import { Text } from 'react-native';
 import { TextField, Button, Divider, Box } from '@src/components';
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useExploreStackNavigation } from '@src/hooks';
-import { useEffect } from 'react';
-//import { setAddresses } from '@src/redux/actions/session';
 
 if (__DEV__) {
   var API_BASE_URL = DEV_API_BASE;
@@ -15,8 +12,7 @@ if (__DEV__) {
   var API_BASE_URL = PROD_API_BASE;
 }
 
-async function putAddress(address_data, id, dispatch, addresses, nav) {
-  //let goToSavedAddress = goback;
+async function putAddress(address_data, id, nav) {
   try {
     let response = await fetch(API_BASE_URL + '/addresses', {
       method: 'POST',
@@ -27,18 +23,18 @@ async function putAddress(address_data, id, dispatch, addresses, nav) {
       body: JSON.stringify({
         address: {
           device_id: id,
-          name: address_data.title,
+          title: address_data.title,
+          name: address_data.name,
           cel: address_data.phone,
           address_detail: address_data.address,
         },
       }),
     });
     if (response.status !== 201) {
-      throw new Error('FETCH_ERROR');
+      console.log('erro');
     }
     response = await response.json();
     if (response.id > 0) {
-      //goToSavedAddress();
       nav.navigate('SavedAddresses');
     }
   } catch (error) {
@@ -48,29 +44,30 @@ async function putAddress(address_data, id, dispatch, addresses, nav) {
 
 export const AddAddress = () => {
   const navigation = useExploreStackNavigation();
-  const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer);
-  const { addresses } = useSelector((state) => state.sessionReducer);
   const [title, setTitle] = React.useState('');
+  const [name, setName] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [status, setStatus] = React.useState(false);
-  //const { goBack } = useExploreStackNavigation();
   
-  useEffect(() => {
-    console.log('addaddress');
-  }, []);
-
   const saveClick = async () => {
     let address_data = {};
     setStatus(true);
     if (title !== '') {
-      if (phone !== '') {
-        if (address !== '') {
-          address_data.title = title;
-          address_data.phone = phone;
-          address_data.address = address;
-          await putAddress({ ...address_data }, uuid, dispatch, addresses, navigation);
+      if (name !== '') {
+        if (phone !== '') {
+          if (address !== '') {
+            address_data.title = title;
+            address_data.name = name;
+            address_data.phone = phone;
+            address_data.address = address;
+            await putAddress(
+              { ...address_data },
+              uuid,
+              navigation,
+            );
+          }
         }
       }
     }
@@ -81,10 +78,11 @@ export const AddAddress = () => {
     return (
       <>
         <Box paddingVertical="s" paddingHorizontal="m">
+  
           <TextField
             borderColor={title === '' && status === true ? 'red' : 'white'}
             inputProps={{
-              placeholder: 'Titulo',
+              placeholder: 'Referência ex: CASA, TRABALHO',
               onChangeText: (text) => {
                 setTitle(text);
                 setStatus(true);
@@ -94,14 +92,33 @@ export const AddAddress = () => {
           />
           {title === '' && status === true ? (
             <Text style={{ color: 'red', fontSize: 16 }}>
-              {'Titulo não pode ficar em branco.'}
+              {'Referência não pode ficar em branco.'}
             </Text>
           ) : null}
           <Divider backgroundColor="card" marginVertical="s" />
+
+          <TextField
+            borderColor={name === '' && status === true ? 'red' : 'white'}
+            inputProps={{
+              placeholder: 'Nome ex: JOÃO, MARIA',
+              onChangeText: (text) => {
+                setName(text);
+                setStatus(true);
+              },
+              defaultValue: name,
+            }}
+          />
+          {name === '' && status === true ? (
+            <Text style={{ color: 'red', fontSize: 16 }}>
+              {'Nome de quem vai receber a entrega não pode ficar em branco.'}
+            </Text>
+          ) : null}
+          <Divider backgroundColor="card" marginVertical="s" />
+
           <TextField
             borderColor={phone === '' && status === true ? 'red' : 'white'}
             inputProps={{
-              placeholder: 'Telefone',
+              placeholder: 'Telefone para contato',
               keyboardType: 'numeric',
               onChangeText: (text) => {
                 setPhone(text);
@@ -118,7 +135,8 @@ export const AddAddress = () => {
           <TextField
             borderColor={address === '' && status === true ? 'red' : 'white'}
             inputProps={{
-              placeholder: 'Endereço',
+              placeholder:
+                'Endereço ex: casa de portão vermelho em frente a praça',
               multiline: true,
               numberOfLines: 5,
               onChangeText: (text) => {

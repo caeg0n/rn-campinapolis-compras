@@ -10,11 +10,9 @@ import { useSelector } from 'react-redux';
 import { CartContext } from '@src/cart';
 
 if (__DEV__) {
-  var GET_ALL_OPENED_ORGANIZATIONS_URL =
-    DEV_API_BASE + '/get_all_opened_organizations';
+  var POST_ORDER_URL = DEV_API_BASE + '/order';
 } else {
-  var GET_ALL_OPENED_ORGANIZATIONS_URL =
-    PROD_API_BASE + '/get_all_opened_organizations';
+  var POST_ORDER_URL = PROD_API_BASE + '/order';
 }
 
 const getAllOpenedOrganizations = async () => {
@@ -58,12 +56,13 @@ async function isOrderReady(
   allOrganizations,
 ) {
   var status = {};
+  let registerOrderReady = false;
   const closedOrganizations = await isOrganizationOpen(
     cartItems,
     allOrganizations,
   );
   if (closedOrganizations !== true) {
-    status.isOrganizationOpen = false;
+    status.is_organization_open = null;
     status.closedOrganizations = closedOrganizations;
     return status;
   }
@@ -80,15 +79,19 @@ async function isOrderReady(
     return status;
   }
   if (
-    !(status.isOrganizationOpen === false) &&
+    !(status.is_organization_open === null) &&
     !(status.cartItems === null) &&
     !(status.selected_address === null) &&
     !(status.payment_method === null)
   ) {
-    status.success = true;
-    return status;
+    registerOrderReady = await registerOrder(cartItems);
+    if (registerOrderReady === true) {
+      status.success = true;
+      return status;
+    } else {
+      status.register_order = null;
+    }
   }
-
   return status;
 }
 
@@ -107,6 +110,27 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
     React.useState(false);
   const [modalError, setModalError] = React.useState({});
 
+  const createOrder = async (orderData) => {
+    const url = '/orders';
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ order: orderData }),
+      });
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        return jsonResponse;
+      } else {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  };
+
   const onPlaceOrderButtonPress = async () => {
     const orderReadyStatus = await isOrderReady(
       cartItems,
@@ -117,10 +141,12 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
     setModalError(orderReadyStatus);
 
     const isError =
-      !orderReadyStatus?.isOrganizationOpen ||
+      orderReadyStatus.is_organization_open === null ||
       orderReadyStatus.selected_address === null ||
       orderReadyStatus.payment_method === null;
-    const isFail = orderReadyStatus.cartItems === null && !isError;
+    const isFail =
+      orderReadyStatus.cartItems === null ||
+      (orderReadyStatus.register_order === null && !isError);
     const isSuccess = orderReadyStatus.success === true;
 
     setIsErrorOrderModalVisible(isError);
