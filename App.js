@@ -110,7 +110,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log('app');
     SplashScreen.preventAutoHideAsync();
     fetchData()
       .then((jsonData) => {
