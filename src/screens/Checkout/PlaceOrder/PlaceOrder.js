@@ -11,8 +11,12 @@ import { CartContext } from '@src/cart';
 
 if (__DEV__) {
   var POST_ORDER_URL = DEV_API_BASE + '/order';
+  var GET_ALL_OPENED_ORGANIZATIONS_URL =
+    DEV_API_BASE + '/get_all_opened_organizations';
 } else {
   var POST_ORDER_URL = PROD_API_BASE + '/order';
+  var GET_ALL_OPENED_ORGANIZATIONS_URL =
+    PROD_API_BASE + '/get_all_opened_organizations';
 }
 
 const getAllOpenedOrganizations = async () => {
