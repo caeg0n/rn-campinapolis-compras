@@ -9,14 +9,17 @@ import {
 } from '@src/components';
 import styles from './SuccessOrderModal.style';
 import { useExploreStackNavigation } from '@src/hooks';
-//import { CartContext } from '@src/cart';
 
-export const OrderErrorModal = ({ isVisible, setIsVisble, modalError, emptyOrganizationCart}) => {
+export const OrderErrorModal = ({
+  isVisible,
+  setIsVisble,
+  modalError,
+  emptyOrganizationCart,
+}) => {
   const navigation = useExploreStackNavigation();
   const fadeIn = React.useRef(new Animated.Value(0)).current;
   const fadeOut = React.useRef(new Animated.Value(1)).current;
   const [isAnimationFinished, setIsAnimationFinished] = React.useState(false);
-  //const { clearCart } = React.useContext(CartContext);
 
   React.useEffect(() => {
     Animated.timing(fadeIn, {
@@ -46,10 +49,9 @@ export const OrderErrorModal = ({ isVisible, setIsVisble, modalError, emptyOrgan
       navigation.navigate('SavedAddresses');
     if (modalError.payment_method === null)
       navigation.navigate('PaymentMethod');
-    if(modalError.is_organization_open === null){
+    if (modalError.is_organization_open === null) {
       emptyOrganizationCart(modalError.closedOrganizations);
     }
-      
   };
 
   const renderAnimatedView1 = () => {
@@ -99,13 +101,6 @@ export const OrderErrorModal = ({ isVisible, setIsVisble, modalError, emptyOrgan
       <Animated.View
         style={[styles.footerButtonContainer, { opacity: fadeIn }]}>
         <Button label={label} isFullWidth onPress={onTrackOrderButtonPress} />
-        {/* <Button
-          label="Continuar Comprando"
-          isFullWidth
-          variant="transparent"
-          marginTop="s"
-          onPress={onOrderSomethingElseButtonPress}
-        /> */}
       </Animated.View>
     );
   };
