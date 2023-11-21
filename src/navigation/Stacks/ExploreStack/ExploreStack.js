@@ -8,7 +8,7 @@ import {
   PaymentMethod,
   PlaceDetails,
   PlaceList,
-  Promotion,
+  //Promotion,
   SavedAddresses,
   SelectLocation,
   TrackOrder,
@@ -119,13 +119,13 @@ export const ExploreStack = ({ navigation }) => {
         }}
         component={PaymentMethod}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Promotion"
         options={{
           headerTitle: 'Add A Promo',
         }}
         component={Promotion}
-      />
+      /> */}
       <Stack.Screen
         name="TrackOrder"
         options={{

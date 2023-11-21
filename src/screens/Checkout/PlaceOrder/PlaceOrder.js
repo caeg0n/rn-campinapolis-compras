@@ -8,6 +8,7 @@ import { OrderFailModal } from './FailOrderModal';
 import { formatCurrency } from '@src/utils';
 import { useSelector } from 'react-redux';
 import { CartContext } from '@src/cart';
+import md5 from 'crypto-js/md5';
 
 if (__DEV__) {
   var POST_ORDER_URL = DEV_API_BASE + '/orders';
@@ -93,16 +94,18 @@ async function isOrderReady(
   return status;
 }
 
-function calculateTotalPrice (items) {
+function calculateTotalPrice(items) {
   return items.reduce((acc, item) => {
     const partialPrice = item.dish.amount * parseFloat(item.dish.price);
     return acc + partialPrice;
   }, 0);
-};
+}
 
 export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
   const { all_organizations } = useSelector((state) => state.userReducer);
-  const { selected_address } = useSelector((state) => state.sessionReducer);
+  const { uuid, selected_address } = useSelector(
+    (state) => state.sessionReducer,
+  );
   const { selected_payment_method } = useSelector(
     (state) => state.sessionReducer,
   );
@@ -159,28 +162,41 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
   }
 
   async function createOrder() {
-    console.log(cartItems);
-    return false;
-    // const url = POST_ORDER_URL;
-    // try {
-    //   const response = await fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       order: orderData
-    //     }),
-    //   });
-    //   if (response.ok) {
-    //     const jsonResponse = await response.json();
-    //     return jsonResponse;
-    //   } else {
-    //     return false;
-    //   }
-    // } catch {
-    //   return false;
-    // }
+    const url = POST_ORDER_URL; 
+    let order = {};
+    let transactions = [];
+    let transaction = {};
+    order.device_id = uuid;
+    order.address = selected_address.id;
+    order.payment = selected_payment_method.id;
+    order.consumer_name = selected_address.name;
+    order.data = new Date().toString();
+    order.reference = md5(JSON.stringify(order)).toString();
+    for (const item of cartItems) {
+      transaction.id = item.dish.id;
+      transaction.state = null;
+      order.product_id = item.dish.id;     
+      order.total = item.dish.amount * item.dish.price;
+      order.amount = item.dish.amount;        
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({...order}),
+        });
+        if (!response.ok) {
+          transaction.state = false;
+        }
+        const json = await response.json();
+        transaction.state = true;
+        transaction.json = json;
+      } catch (error) {
+        transaction.state = false;
+      }
+      transactions.push(transaction);
+    }
   }
 
   return (

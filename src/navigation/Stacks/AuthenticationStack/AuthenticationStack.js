@@ -3,10 +3,10 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   Authentication,
-  AuthenticationCodeVerification,
-  AuthenticationWithPhone,
-  ForgotPassword,
-  Login,
+  // AuthenticationCodeVerification,
+  // AuthenticationWithPhone,
+  // ForgotPassword,
+  // Login,
 } from '@src/screens';
 import { useTransparentHeaderOptions } from '@src/utils';
 
@@ -23,26 +23,26 @@ export const AuthenticationStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Authentication" component={Authentication} />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="AuthenticationWithPhone"
         component={AuthenticationWithPhone}
         options={transparentHeaderOptions}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="AuthenticationCodeVerification"
         component={AuthenticationCodeVerification}
         options={transparentHeaderOptions}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="Login"
         component={Login}
         options={transparentHeaderOptions}
-      />
-      <Stack.Screen
+      /> */}
+      {/* <Stack.Screen
         name="ForgotPassword"
         component={ForgotPassword}
         options={transparentHeaderOptions}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

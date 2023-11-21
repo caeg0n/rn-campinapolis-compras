@@ -42,7 +42,7 @@ export const DeliveryInformation = ({ localization }) => {
           {localization && Object.keys(localization).length > 0 ? (
             <Box>
               <Text fontWeight="bold" marginBottom="s">
-                {localization.name}
+                {localization.title.toUpperCase()}
               </Text>
               <Text variant="secondary">Entregar para: {localization.name}</Text>
               <Text variant="secondary">Telefone: {localization.cel}</Text>
@@ -55,7 +55,7 @@ export const DeliveryInformation = ({ localization }) => {
           ) : address && Object.keys(selected_address).length > 0 ? (
             <Box>
               <Text fontWeight="bold" marginBottom="s">
-                {address.title}
+                {address.title?.toUpperCase()}
               </Text>
               <Text variant="secondary">Entregar para: {address.name}</Text>
               <Text variant="secondary">Telefone: {address.cel}</Text>
