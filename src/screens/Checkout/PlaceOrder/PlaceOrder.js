@@ -9,6 +9,7 @@ import { formatCurrency } from '@src/utils';
 import { useSelector } from 'react-redux';
 import { CartContext } from '@src/cart';
 import md5 from 'crypto-js/md5';
+import fetchWithTimeout from '@gluons/react-native-fetch-with-timeout';
 
 if (__DEV__) {
   var POST_ORDER_URL = DEV_API_BASE + '/orders';
@@ -162,10 +163,8 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
   }
 
   async function createOrder() {
-    const url = POST_ORDER_URL; 
     let order = {};
     let transactions = [];
-    let transaction = {};
     order.device_id = uuid;
     order.address = selected_address.id;
     order.payment = selected_payment_method.id;
@@ -173,30 +172,47 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
     order.data = new Date().toString();
     order.reference = md5(JSON.stringify(order)).toString();
     for (const item of cartItems) {
+      let transaction = {};
       transaction.id = item.dish.id;
       transaction.state = null;
-      order.product_id = item.dish.id;     
+      order.product_id = item.dish.id;
       order.total = item.dish.amount * item.dish.price;
-      order.amount = item.dish.amount;        
+      order.amount = item.dish.amount;
       try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetchWithTimeout(
+          POST_ORDER_URL,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ...order }),
           },
-          body: JSON.stringify({...order}),
-        });
+          {
+            timeout: 5000,
+          },
+        );
         if (!response.ok) {
           transaction.state = false;
+          transactions.push(transaction);
+        } else {
+          const json = await response.json();
+          transaction.state = true;
+          transaction.json = json;
+          transactions.push(transaction);
         }
-        const json = await response.json();
-        transaction.state = true;
-        transaction.json = json;
-      } catch (error) {
+      } catch (err) {
         transaction.state = false;
+        transaction.err = err;
+        transactions.push(transaction);
       }
-      transactions.push(transaction);
     }
+    return validateTransactions(transactions);
+  }
+
+  const validateTransactions = (transactions) => {
+    const hasFalseState = transactions.some(item => item.state === false);
+    return !hasFalseState;
   }
 
   return (

@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@eva-design/eva": "^2.2.0",
+    "@gluons/react-native-fetch-with-timeout": "^0.0.1",
     "@gorhom/bottom-sheet": "^4",
     "@gorhom/portal": "^1.0.14",
     "@react-native-async-storage/async-storage": "1.17.11",
@@ -30,6 +31,7 @@
     "@types/react": "~18.0.27",
     "accounting": "^0.4.1",
     "add": "^2.0.6",
+    "axios": "^1.6.2",
     "chance": "^1.1.9",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.6",
