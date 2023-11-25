@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
-  AccountStack,
+  //AccountStack,
   ActivityHistoryStack,
   ExploreStack,
   NotificationStack,
@@ -60,14 +60,7 @@ const TabNavigation = () => {
         name="ExploreTab"
         component={ExploreStack}
         options={{
-          title: 'Inicio',
-        }}
-      />
-      <Tab.Screen
-        name="ActivityHistoryTab"
-        component={ActivityHistoryStack}
-        options={{
-          title: 'Pedidos',
+          title: 'Comprar',
         }}
       />
       <Tab.Screen
@@ -81,19 +74,26 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="NotificationTab"
-        component={NotificationStack}
+        name="ActivityHistoryTab"
+        component={ActivityHistoryStack}
         options={{
-          title: 'Notifications',
+          title: 'Pedidos',
         }}
       />
       <Tab.Screen
+        name="NotificationTab"
+        component={NotificationStack}
+        options={{
+          title: 'Mensagens',
+        }}
+      />
+      {/* <Tab.Screen
         name="AccountTab"
         component={AccountStack}
         options={{
           title: 'Accounts',
         }}
-      />
+      /> */}
     </Navigator>
   );
 };

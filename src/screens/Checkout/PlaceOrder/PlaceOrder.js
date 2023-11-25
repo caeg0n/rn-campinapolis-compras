@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import { CartContext } from '@src/cart';
 import md5 from 'crypto-js/md5';
 import fetchWithTimeout from '@gluons/react-native-fetch-with-timeout';
+import { ActivityIndicator } from 'react-native';
+import { useState } from 'react';
 
 if (__DEV__) {
   var POST_ORDER_URL = DEV_API_BASE + '/orders';
@@ -103,6 +105,7 @@ function calculateTotalPrice(items) {
 }
 
 export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { all_organizations } = useSelector((state) => state.userReducer);
   const { uuid, selected_address } = useSelector(
     (state) => state.sessionReducer,
@@ -120,6 +123,7 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
   const [modalError, setModalError] = React.useState({});
 
   const onPlaceOrderButtonPress = async () => {
+    setIsLoading(true);
     const orderReadyStatus = await isOrderReady(
       cartItems,
       selected_address,
@@ -146,10 +150,10 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
         isFail = true;
       }
     }
-
     setIsErrorOrderModalVisible(isError);
     setIsFailOrderModalVisible(isFail);
     setIsSuccessOrderModalVisible(isSuccess);
+    setIsLoading(false);
   };
 
   function emptyOrganizationCart(closedOrganizations) {
@@ -189,7 +193,7 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
             body: JSON.stringify({ ...order }),
           },
           {
-            timeout: 5000,
+            timeout: 6000,
           },
         );
         if (!response.ok) {
@@ -230,7 +234,8 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
       <Button
         isFullWidth
         onPress={onPlaceOrderButtonPress}
-        label="Finalizar Pedido"
+        label={isLoading ? <ActivityIndicator color="#fff" /> : "Finalizar Pedido"}
+        disabled={isLoading}
       />
       <OrderSuccessModal
         isVisible={isSuccessOrderModalVisible}
