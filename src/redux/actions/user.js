@@ -1,6 +1,3 @@
-/* eslint-disable no-unreachable */
-//import { DEV_API_BASE, PROD_API_BASE } from '@env';
-
 export const SET_ALL_PAYMENTS_METHODS = 'SET_ALL_PAYMENTS_METHODS';
 export const SET_ALL_ORGANIZATIONS = 'SET_ALL_ORGANIZATIONS';
 export const SET_MOST_POPULAR = 'SET_MOST_POPULAR';
@@ -18,15 +15,6 @@ export const RESET_HOT_DEALS = 'RESET_HOT_DEALS';
 export const RESET_ALL_OPENED_ORGANIZATIONS = 'RESET_ALL_OPENED_ORGANIZATIONS';
 export const RESET_ALL_CLOSED_ORGANIZATIONS = 'RESET_ALL_CLOSED_ORGANIZATIONS';
 export const RESET_CATEGORIES_AND_PRODUCTS = 'RESET_CATEGORIES_AND_PRODUCTS';
-
-
-// if (__DEV__) {
-//   var GET_CATEGORIES_AND_PRODUCTS_URL =
-//     DEV_API_BASE + '/get_categories_and_products';
-// } else {
-//   var GET_CATEGORIES_AND_PRODUCTS_URL =
-//     PROD_API_BASE + '/get_categories_and_products';
-// }
 
 export const setAllPaymentsMethods = (json) => (dispatch) => {
   dispatch({

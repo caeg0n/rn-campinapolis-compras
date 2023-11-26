@@ -1,8 +1,9 @@
 import React from 'react';
 import { Image, List, ListRowItem } from '@src/components';
-import { activityHistoryList } from '@src/data/mock-activity-history';
 import { useActivityHistoryStackNavigation } from '@src/hooks';
 import { formatCurrency } from '@src/utils';
+import { activityHistoryList } from '@src/data/mock-activity-history';
+
 
 export const ActivityHistory = () => {
   const navigation = useActivityHistoryStackNavigation();

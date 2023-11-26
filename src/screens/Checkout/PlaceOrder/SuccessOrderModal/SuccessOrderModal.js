@@ -50,7 +50,8 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
   const onTrackOrderButtonPress = () => {
     clearCart();
     setIsVisble(false);
-    navigation.replace('TrackOrder');
+    // navigation.replace('TrackOrder');
+    navigation.replace('ActivityHistory');
   };
 
   const handleModalClose = () => {

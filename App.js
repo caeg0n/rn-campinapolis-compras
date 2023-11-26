@@ -11,11 +11,11 @@ import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MemoizedAuthProvider } from '@src/auth';
 import { CartProvider } from '@src/cart';
+import { useEffect, useState } from 'react';
 
 import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import { useEffect, useState } from 'react';
 
 if (__DEV__) {
   var GET_ALL_PAYMENTS_METHODS_URL = DEV_API_BASE + '/get_payments_methods';

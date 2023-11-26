@@ -13,7 +13,7 @@ import TabNavigation from './TabNavigation';
 import { AuthContext } from '@src/auth';
 import { AuthenticationStack } from './Stacks';
 import { PortalHost } from '@gorhom/portal';
-import { DishDetails, SearchDishes } from '@src/screens';
+import { DishDetails, SearchDishes, ActivityHistory } from '@src/screens';
 
 const RootStack = createNativeStackNavigator();
 
@@ -70,6 +70,13 @@ export const RootNavigation = () => {
             }}
             name="SearchDishesModal"
             component={SearchDishes}
+          />
+          <RootStack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="ActivityHistory"
+            component={ActivityHistory}
           />
         </RootStack.Navigator>
       </NavigationContainer>
