@@ -62,7 +62,7 @@ export const SavedAddresses = () => {
   const { addresses } = useSelector((state) => state.sessionReducer);
   const { selected_address } = useSelector((state) => state.sessionReducer);
   const navigation = useExploreStackNavigation();
-  const isAddressesEmpty = !addresses || addresses.length === 0;
+  const isAddressesEmpty = !addresses || !(addresses.length > 0);
 
   useFocusEffect(
     React.useCallback(() => {
