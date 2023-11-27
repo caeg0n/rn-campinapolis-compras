@@ -2,6 +2,7 @@ import { DEV_API_BASE, PROD_API_BASE } from '@env';
 
 import * as SplashScreen from 'expo-splash-screen';
 import { StartupContainer } from './StartupContainer';
+import { ExpoPushNotifications } from './ExpoPushNotifications';
 import { View, ActivityIndicator } from 'react-native';
 import { Text, StyleSheet } from 'react-native';
 import { MemoizedRootNavigation } from '@src/navigation';
@@ -16,6 +17,15 @@ import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+} from 'firebase/firestore';
+import { database } from './firebaseConfig';
 
 if (__DEV__) {
   var GET_ALL_PAYMENTS_METHODS_URL = DEV_API_BASE + '/get_payments_methods';
@@ -110,6 +120,10 @@ export default function App() {
   };
 
   useEffect(() => {
+    addDoc(collection(database, 'chats'), {
+      a: 'a',
+      b: 'b',
+    });
     SplashScreen.preventAutoHideAsync();
     fetchData()
       .then((jsonData) => {
@@ -145,6 +159,7 @@ export default function App() {
       <Provider store={Store}>
         <PersistGate loading={<Text>Aguarde...</Text>} persistor={persistor}>
           <StartupContainer />
+          <ExpoPushNotifications />
           <PortalProvider>
             <SafeAreaProvider>
               <AppThemeProvider>

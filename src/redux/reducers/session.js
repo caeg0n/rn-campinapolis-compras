@@ -1,5 +1,5 @@
 import { SET_USER_UUID } from '@src/redux/actions/session';
-import { SET_USER_EXPO_TOKEN } from '@src/redux/actions/session';
+import { SET_EXPO_TOKEN } from '@src/redux/actions/session';
 import { SET_ADDRESSES } from '@src/redux/actions/session';
 import { SET_SELECTED_ADDRESS } from '@src/redux/actions/session';
 import { SET_SELECTED_PAYMENT_METHOD } from '@src/redux/actions/session';
@@ -11,7 +11,7 @@ import { RESET_SELECTED_PAYMENT_METHOD } from '@src/redux/actions/session';
 
 const initialState = {
   uuid: '',
-  expo_token: '',
+  expo_token: {},
   addresses: [],
   selected_address: {},
   selected_payment_method: {},
@@ -22,7 +22,7 @@ function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER_UUID:
       return { ...state, uuid: action.payload };
-    case SET_USER_EXPO_TOKEN:
+    case SET_EXPO_TOKEN:
       return { ...state, expo_token: action.payload };
     case SET_ADDRESSES:
       return { ...state, addresses: action.payload };

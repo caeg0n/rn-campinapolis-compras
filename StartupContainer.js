@@ -38,7 +38,7 @@ async function fetchOrders(device_id) {
 
 export const StartupContainer = () => {
   const dispatch = useDispatch();
-  const { uuid } = useSelector((state) => state.sessionReducer);
+  const { uuid } = useSelector((state) => state.sessionReducer);  
 
   useEffect(() => {
     let temp_uuid = setUUID(v4());
