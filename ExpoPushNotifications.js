@@ -38,7 +38,6 @@ async function registerForPushNotificationsAsync() {
     token = await Notifications.getExpoPushTokenAsync({
       projectId: Constants.expoConfig.extra.eas.projectId,
     });
-    console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
   }
@@ -55,36 +54,45 @@ async function registerExpoToken (token, uuid) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ token:token,device:uuid }),
+        body: JSON.stringify({ notification:{token:token, device:uuid, device_class:0}}),
       },
       {
         timeout: 6000,
       },
     );
+    //examina o cabeçalho head
     if (!response.ok) {
       transaction.state = false;
+      return transaction;
     } else {
-      const json = await response.json();
-      transaction.state = true;
-      transaction.json = json;
+      //deu ok e examina a resposta se tá na faixa dos 200
+      if (response.status >= 200 && response.status <= 299){
+        const json = await response.json();
+        transaction.state = true;
+        transaction.json = json;
+        return transaction;
+      }else{
+        transaction.state = false;
+        transaction.json = json;
+        return transaction;
+      }
     }
   } catch (err) {
     transaction.state = false;
     transaction.err = err;
+    return transaction;
   }
 }
 
 export const ExpoPushNotifications = () => {
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer); 
-  //const [expoPushToken, setExpoPushToken] = useState('');
-  //const [notification, setNotification] = useState(false);
-  //const notificationListener = useRef();
-  //const responseListener = useRef();
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => {
-      registerExpoToken(token, uuid);
-      dispatch(setExpoToken(token));
+    registerForPushNotificationsAsync().then(async (token) => {
+      const transaction = await registerExpoToken(token, uuid);
+      if (transaction === true){
+        dispatch(setExpoToken(token));
+      }
     });
   },[]);
 }
