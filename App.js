@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
+  console.log('App');
   const [allCategoriesAndProducts, setAllCategoriesAndProducts] = useState([]);
   const [allPaymentsMethods, setAllPaymentsMethods] = useState([]);
   const [allOrganizations, setAllOrganizations] = useState([]);
