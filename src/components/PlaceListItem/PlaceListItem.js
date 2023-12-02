@@ -11,7 +11,12 @@ export const PlaceListItem = ({
   const { image, title, subTitle } = data;
   const navigation = useExploreStackNavigation();
   const onPlaceItemPress = () => {
-    navigation.navigate('PlaceDetails', { organization: data });
+    navigation.navigate('PlaceDetails', { 
+      organization: data,
+      title:
+        data.subTitle.charAt(0).toUpperCase() +
+        data.subTitle.slice(1),
+    });
   };
   return (
     <Box>

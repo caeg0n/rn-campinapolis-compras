@@ -15,16 +15,11 @@ function shuffleArray(array) {
 }
 
 const PopularPlaces = ({ navigation }) => {
-  //const dispatch = useDispatch();
   const { most_popular } = useSelector((state) => state.userReducer);
-
-  // useEffect(() => {
-  //   isMounted(true);
-  // });
 
   const _onButtonActionPress = () => {
     navigation.navigate('PlaceList', {
-      title: 'Popular Near You',
+      title: '!!!!!',
     });
   };
 

@@ -19,10 +19,8 @@ import { Button, ExploreHeaderTitle, Icon } from '@src/components';
 
 const Stack = createNativeStackNavigator();
 
-export const ExploreStack = ({ navigation }) => {
-  
+export const ExploreStack = ({ navigation }) => {  
   const renderExploreHeaderLeft = () => <ExploreHeaderTitle />;
-
   const renderPlaceDetailHeaderRight = () => {
     return (
       <Button
@@ -63,7 +61,7 @@ export const ExploreStack = ({ navigation }) => {
         component={PlaceList}
         options={({ route: { params } }) => {
           return {
-            headerTitle: params?.title || 'Places',
+            headerTitle: params?.title
           };
         }}
       />
@@ -72,8 +70,8 @@ export const ExploreStack = ({ navigation }) => {
         component={PlaceDetails}
         options={({ route: { params } }) => {
           return {
-            headerTitle: params?.title || '',
-            headerRight: renderPlaceDetailHeaderRight,
+            headerTitle: params?.title,
+            //headerRight: renderPlaceDetailHeaderRight,
           };
         }}
       />

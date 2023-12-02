@@ -51,7 +51,7 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
     clearCart();
     setIsVisble(false);
     // navigation.replace('TrackOrder');
-    navigation.replace('ActivityHistory');
+    navigation.navigate('ActivityHistory');
   };
 
   const handleModalClose = () => {

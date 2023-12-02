@@ -8,10 +8,10 @@ import { MemoizedPopularPlaces } from './PopularPlaces';
 import { MerchantCampaigns } from './MerchantCampaigns';
 import { RecommendedPlaces } from './RecommendedPlaces';
 import { HotDeals } from './HotDeals';
-import { ActivityIndicator, Divider } from '@src/components';
 import { HighlightTabs } from './HighlightTabs';
 import { useScrollToTop } from '@react-navigation/native';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { Divider } from '@src/components';
 
 export const Explore = ({ navigation }) => {
   const ref = React.useRef(null);
@@ -20,9 +20,9 @@ export const Explore = ({ navigation }) => {
   useScrollToTop(ref);
 
   useEffect(() => {
-    console.log('explore');
     InteractionManager.runAfterInteractions(() => {});
   });
+
   // const handleChildMount = () => {
   //   setChildMounted(true);
   // };

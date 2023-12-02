@@ -2,7 +2,7 @@ import React from 'react';
 import { FeaturedTab, NewTab } from './tabs';
 import { Box, TabView } from '@src/components';
 import styles from './HighlightTabs.style';
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 
 const tabData = [
   { key: '0', title: 'Abertos', content: FeaturedTab },
