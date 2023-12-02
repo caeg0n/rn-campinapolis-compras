@@ -68,8 +68,7 @@ const TabNavigation = () => {
         component={Checkout}
         options={{
           title: 'Carrinho',
-          headerTitle: () => <Text fontWeight="bold" color="red">CARRINHO</Text>,
-          headerTitleAlign: 'center',
+          headerTitleAlign: 'left',
           headerShown: true,
         }}
       />

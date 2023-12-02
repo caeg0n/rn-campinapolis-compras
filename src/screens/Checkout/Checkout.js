@@ -8,8 +8,9 @@ import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
 import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-import { Image } from 'react-native';
-import emptyBag from '@src/assets/checkout/empty-bag.gif';
+//import emptyBag from '@src/assets/animations/empty-cart.json';
+import { LottieView } from '@src/components';
+//import { Image } from 'react-native';
 
 function getUniqueOrganizationIds(dataArray) {
   const uniqueIds = new Set();
@@ -115,10 +116,15 @@ export const Checkout = ({ route }) => {
         </Box>
       ) : (
         <Box flex={1}>
-          <Image
+          {/* <Image
             source={emptyBag}
             style={{ flex: 1, width: '100%', height: '100%' }}
             resizeMode="center"
+          /> */}
+          <LottieView
+            source={require('@src/assets/animations/empty-cart.json')}
+            autoPlay
+            loop
           />
         </Box>
       )}
