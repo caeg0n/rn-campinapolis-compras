@@ -73,7 +73,8 @@ export const RootNavigation = () => {
           />
           <RootStack.Screen
             options={{
-              headerShown: false,
+              headerShown: true,
+              title: 'Pedidos'
             }}
             name="ActivityHistory"
             component={ActivityHistory}

@@ -19,7 +19,7 @@ export const ActivityHistoryStack = () => {
       <Stack.Screen
         options={() => {
           return {
-            title: 'Details',
+            title: 'Detalhes do pedido',
           };
         }}
         name="ActivityHistoryDetail"

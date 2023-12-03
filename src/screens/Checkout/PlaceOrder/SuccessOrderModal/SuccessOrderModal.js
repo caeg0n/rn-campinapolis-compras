@@ -30,7 +30,6 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
       useNativeDriver: true,
     }).start();
   }, [isAnimationFinished, fadeIn, fadeOut]);
-  
 
   const onAnimationFinish = () => {
     setIsAnimationFinished(true);
@@ -50,7 +49,8 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
   const onTrackOrderButtonPress = () => {
     clearCart();
     setIsVisble(false);
-    // navigation.replace('TrackOrder');
+    //navigation.replace('TrackOrder');
+    //navigation.navigate('ActivityHistory');
     navigation.navigate('ActivityHistory');
   };
 
@@ -83,7 +83,11 @@ export const OrderSuccessModal = ({ isVisible, setIsVisble }) => {
           )}
           <Animated.View
             style={[styles.successMessageContainer, { opacity: fadeIn }]}>
-            <Text textAlign="center" variant="header" fontWeight="bold" color="primary">
+            <Text
+              textAlign="center"
+              variant="header"
+              fontWeight="bold"
+              color="primary">
               Obrigado Por Sua Compra.
             </Text>
             <Text textAlign="center" marginTop="s">

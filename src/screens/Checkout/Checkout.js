@@ -8,9 +8,11 @@ import { CartContext } from '@src/cart';
 import { Box } from '@src/components';
 import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-//import emptyBag from '@src/assets/animations/empty-cart.json';
-import { LottieView } from '@src/components';
+import { LottieView, Button } from '@src/components';
+import styles from '@src/screens/Checkout/PlaceOrder/SuccessOrderModal/SuccessOrderModal.style';
+import { Animated } from 'react-native';
 //import { Image } from 'react-native';
+//import emptyBag from '@src/assets/animations/empty-cart.json';
 
 function getUniqueOrganizationIds(dataArray) {
   const uniqueIds = new Set();
@@ -125,6 +127,12 @@ export const Checkout = ({ route }) => {
             source={require('@src/assets/animations/empty-cart.json')}
             autoPlay
             loop
+          />
+          <Button
+            label="Comprar"
+            isFullWidth
+            style={{ position: 'absolute', bottom: 0 }}
+            // onPress={onTrackOrderButtonPress}
           />
         </Box>
       )}
