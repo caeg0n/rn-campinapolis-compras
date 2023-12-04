@@ -2,15 +2,16 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import { TabView as RNTabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { useStyles } from './TabView.style';
-import { Cenes, TabViewProps } from './TabView.type';
 import { Icon } from '../Icon';
 import { useAppTheme } from '@src/theme';
+// import { useSelector } from 'react-redux';
 
-export const TabView: React.FC<TabViewProps> = ({
+export const TabView = ({
   tabData,
   onTabIndexChange,
   isFullWidth,
   tabBarStyle,
+  getIndex
 }) => {
   const {
     colors: { card, primary, text },
@@ -18,7 +19,7 @@ export const TabView: React.FC<TabViewProps> = ({
   const [navigationStateIndex, setNavigationStateIndex] = React.useState(0);
   const styles = useStyles();
 
-  const renderIcon = (props: any) => {
+  const renderIcon = (props) => {
     const { route } = props;
     if (route.icon) {
       return <Icon name={route.icon} size={20} color="white" />;
@@ -26,7 +27,8 @@ export const TabView: React.FC<TabViewProps> = ({
     return null;
   };
 
-  const onIndexChange = (index: number) => {
+  const onIndexChange = (index) => {
+    getIndex(index)
     setNavigationStateIndex(index);
     if (onTabIndexChange) {
       onTabIndexChange(index);
@@ -46,7 +48,7 @@ export const TabView: React.FC<TabViewProps> = ({
     routes: tabViewRoutes,
   };
 
-  const scenes: Cenes = {};
+  const scenes = {};
   tabData.forEach((item) => {
     scenes[item.key] = item.content;
   });

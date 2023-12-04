@@ -79,13 +79,13 @@ const TabNavigation = () => {
           title: 'Pedidos',
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="NotificationTab"
         component={NotificationStack}
         options={{
           title: 'Mensagens',
         }}
-      />
+      /> */}
       {/* <Tab.Screen
         name="AccountTab"
         component={AccountStack}

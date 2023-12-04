@@ -7,7 +7,6 @@ import { setAddresses } from '@src/redux/actions/session';
 import { setOrders } from '@src/redux/actions/session';
 //import { plus } from './Helpers';
 
-
 if (__DEV__) {
   var GET_ADDRESSES_URL = DEV_API_BASE + '/get_addresses';
   var GET_ORDERS_URL = DEV_API_BASE + '/get_orders/device';

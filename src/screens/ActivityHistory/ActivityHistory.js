@@ -42,7 +42,7 @@ export const ActivityHistory = () => {
             navigation.navigate('TrackOrder', {
               reference,
               organizationId,
-            }),
+            }), 
           leftElement: (
             <View
               style={{
