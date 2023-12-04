@@ -9,6 +9,7 @@ export const ListRowItem = ({
   id,
   note,
   title,
+  dataInfo,
   subTitle,
   isCompact,
   leftElement,
@@ -49,14 +50,19 @@ export const ListRowItem = ({
             </Box>
           )}
           <Box flex={11}>
+            <Text fontWeight="bold" marginVertical="xs" textAlign="left">
+              {title}
+            </Text>
             {note && (
               <Text variant="secondary" textAlign="left">
                 {note}
               </Text>
             )}
-            <Text fontWeight="bold" marginVertical="xs" textAlign="left">
-              {title}
-            </Text>
+            {dataInfo && (
+              <Text variant="secondary" textAlign="left">
+                {dataInfo}
+              </Text>
+            )}
             {subTitle && (
               <Text textAlign="left" variant="secondary">
                 {subTitle}

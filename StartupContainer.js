@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 import { setUUID } from '@src/redux/actions/session';
 import { setAddresses } from '@src/redux/actions/session';
 import { setOrders } from '@src/redux/actions/session';
-import { plus } from './Helpers';
+//import { plus } from './Helpers';
 
 
 if (__DEV__) {
@@ -37,7 +37,6 @@ async function fetchOrders(device_id) {
 }
 
 export const StartupContainer = () => {
-  console.log(StartupContainer);
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer);  
 
