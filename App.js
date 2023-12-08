@@ -18,14 +18,6 @@ import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  query,
-  orderBy,
-} from 'firebase/firestore';
-import { database } from './firebaseConfig';
 
 if (__DEV__) {
   var GET_ALL_PAYMENTS_METHODS_URL = DEV_API_BASE + '/get_payments_methods';
@@ -41,6 +33,8 @@ if (__DEV__) {
     DEV_API_BASE + '/get_all_closed_organizations';
   var GET_ALL_CATEGORIES_AND_PRODUCTS_URL =
     DEV_API_BASE + '/get_categories_and_products';
+  var GET_ALL_ORDER_STATUS_LIST_URL = DEV_API_BASE + '/order_status_list';
+  var GET_ALL_ORDER_MANAGED_STATUS_URL = DEV_API_BASE + '/order_managed_status';
 } else {
   var GET_ALL_PAYMENTS_METHODS_URL = PROD_API_BASE + '/get_payments_methods';
   var GET_ALL_ORGANIZATIONS_URL =
@@ -55,6 +49,8 @@ if (__DEV__) {
     PROD_API_BASE + '/get_all_closed_organizations';
   var GET_ALL_CATEGORIES_AND_PRODUCTS_URL =
     PROD_API_BASE + '/get_categories_and_products';
+  var GET_ALL_ORDER_STATUS_LIST_URL = PROD_API_BASE + '/order_status_list';
+  var GET_ALL_ORDER_MANAGED_STATUS_URL = PROD_API_BASE + '/order_managed_status';
 }
 
 //StartupContainer.init();
@@ -66,7 +62,6 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  console.log('App');
   const [allCategoriesAndProducts, setAllCategoriesAndProducts] = useState([]);
   const [allPaymentsMethods, setAllPaymentsMethods] = useState([]);
   const [allOrganizations, setAllOrganizations] = useState([]);
@@ -76,6 +71,8 @@ export default function App() {
   const [hotDeals, setHotDeals] = useState([]);
   const [allOpenedOrganizations, setAllOpenedOrganizations] = useState([]);
   const [allClosedOrganizations, setAllClosedOrganizations] = useState([]);
+  const [allOrderStatusList, setAllOrderStatusList] = useState([]);
+  const [allOrderManagedStatus, setAllOrderManagedStatus] = useState([]);
   const [isFetching, setFetching] = useState(true);
 
   const fetchData = async () => {
@@ -117,14 +114,18 @@ export default function App() {
     json = await response.json();
     jsonData.jsonAllCategoriesAndProducts = json;
 
+    response = await fetch(GET_ALL_ORDER_STATUS_LIST_URL);
+    json = await response.json();
+    jsonData.jsonAllOrderStatusList = json;
+
+    response = await fetch(GET_ALL_ORDER_MANAGED_STATUS_URL);
+    json = await response.json();
+    jsonData.jsonAllOrderManagedStatus = json;
+
     return jsonData;
   };
 
   useEffect(() => {
-    addDoc(collection(database, 'chats'), {
-      a: 'a',
-      b: 'b',
-    });
     SplashScreen.preventAutoHideAsync();
     fetchData()
       .then((jsonData) => {
@@ -137,6 +138,8 @@ export default function App() {
         setHotDeals(jsonData.jsonHotDeals);
         setAllOpenedOrganizations(jsonData.jsonAllOpenedOrganizations);
         setAllClosedOrganizations(jsonData.jsonAllClosedOrganizations);
+        setAllOrderStatusList(jsonData.jsonAllOrderStatusList);
+        setAllOrderManagedStatus(jsonData.jsonAllOrderManagedStatus);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -175,6 +178,8 @@ export default function App() {
                     hotDeals,
                     allOpenedOrganizations,
                     allClosedOrganizations,
+                    allOrderStatusList,
+                    allOrderManagedStatus
                   }}>
                   <CartProvider>
                     <MemoizedRootNavigation />

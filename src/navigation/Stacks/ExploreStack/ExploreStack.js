@@ -127,7 +127,7 @@ export const ExploreStack = ({ navigation }) => {
       <Stack.Screen
         name="TrackOrder"
         options={{
-          headerTitle: 'Track your order',
+          headerTitle: 'Acompanhe seu Pedido',
         }}
         component={TrackOrder}
       />

@@ -6,21 +6,34 @@ import { OrderSuccessModal } from './SuccessOrderModal';
 import { OrderErrorModal } from './ErrorOrderModal';
 import { OrderFailModal } from './FailOrderModal';
 import { formatCurrency } from '@src/utils';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { CartContext } from '@src/cart';
 import md5 from 'crypto-js/md5';
 import fetchWithTimeout from '@gluons/react-native-fetch-with-timeout';
 import { ActivityIndicator } from 'react-native';
 import { useState } from 'react';
+import { setOrders } from '@src/redux/actions/session';
 
 if (__DEV__) {
   var POST_ORDER_URL = DEV_API_BASE + '/orders';
   var GET_ALL_OPENED_ORGANIZATIONS_URL =
     DEV_API_BASE + '/get_all_opened_organizations';
+  var GET_ORDERS_URL = DEV_API_BASE + '/get_orders/device';
 } else {
   var POST_ORDER_URL = PROD_API_BASE + '/orders';
   var GET_ALL_OPENED_ORGANIZATIONS_URL =
     PROD_API_BASE + '/get_all_opened_organizations';
+  var GET_ORDERS_URL = DEV_API_BASE + '/get_orders/device';
+}
+
+async function fetchOrders(device_id) {
+  try {
+    const response = await fetch(GET_ORDERS_URL + '/' + device_id);
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    return error;
+  }
 }
 
 const getAllOpenedOrganizations = async () => {
@@ -105,6 +118,7 @@ function calculateTotalPrice(items) {
 }
 
 export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { all_organizations } = useSelector((state) => state.userReducer);
   const { uuid, selected_address } = useSelector(
@@ -146,6 +160,14 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
       isOrderRegistered = await createOrder();
       if (isOrderRegistered === true) {
         isSuccess = orderReadyStatus.success === true;
+        //pega todas os pedidos para o device_id
+        fetchOrders(uuid || temp_uuid)
+          .then((json) => {
+            dispatch(setOrders(json));
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
       } else {
         isFail = true;
       }
@@ -215,9 +237,9 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
   }
 
   const validateTransactions = (transactions) => {
-    const hasFalseState = transactions.some(item => item.state === false);
+    const hasFalseState = transactions.some((item) => item.state === false);
     return !hasFalseState;
-  }
+  };
 
   return (
     <Box
@@ -234,7 +256,9 @@ export const PlaceOrder = ({ totalPrice, shippingFeeSum }) => {
       <Button
         isFullWidth
         onPress={onPlaceOrderButtonPress}
-        label={isLoading ? <ActivityIndicator color="#fff" /> : "Finalizar Pedido"}
+        label={
+          isLoading ? <ActivityIndicator color="#fff" /> : 'Finalizar Pedido'
+        }
         disabled={isLoading}
       />
       <OrderSuccessModal

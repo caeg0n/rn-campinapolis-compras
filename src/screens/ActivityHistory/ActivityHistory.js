@@ -4,11 +4,45 @@ import { useActivityHistoryStackNavigation } from '@src/hooks';
 import { formatCurrency } from '@src/utils';
 import { useSelector } from 'react-redux';
 import { View } from 'react-native';
-//import { activityHistoryList } from '@src/data/mock-activity-history';
+import {
+  collection,
+  addDoc,
+  query,
+  where, 
+  getDocs,
+  orderBy,
+  onSnapshot,
+} from 'firebase/firestore';
+import { database } from '../../../firebaseConfig';
+
+const extractOrganizationCategory = (data) => {
+  for (const reference of Object.values(data)) {
+    for (const orderList of Object.values(reference)) {
+      if (orderList.length > 0) {
+        return orderList[0].organization_category;
+      }
+    }
+  }
+  return null;
+};
 
 export const ActivityHistory = () => {
   const navigation = useActivityHistoryStackNavigation();
   const { orders } = useSelector((state) => state.sessionReducer);
+  const category = extractOrganizationCategory(orders);
+
+  const addDocumentIfOrderIdDoesNotExist = async (orderId, newData) => {
+    const collectionRef = collection(database, 'chats');
+    const q = query(collectionRef, where('orderId', '==', orderId));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      try {
+        const docRef = await addDoc(collectionRef, newData);
+      } catch (e) {
+      }
+    } else {
+    }
+  };
 
   const data = Object.entries(orders).flatMap(([reference, orgOrders]) => {
     return Object.entries(orgOrders).flatMap(([organizationId, ordersList]) => {
@@ -16,6 +50,7 @@ export const ActivityHistory = () => {
         ordersList[0]?.organization_name || 'Comércio Desconhecido';
       const organizationLogo = ordersList[0]?.organization_logo || '?';
       const dataInfo = ordersList[0]?.data || '?';
+      const orderId = reference + '-' + organizationId;
 
       const totalOrders = ordersList.reduce((total, order) => {
         total += order.amount;
@@ -27,6 +62,13 @@ export const ActivityHistory = () => {
         return total;
       }, 0);
 
+      const newData = {
+        orderId: orderId,
+        statusNow: [1]
+      };
+
+      addDocumentIfOrderIdDoesNotExist(orderId, newData);
+
       return [
         {
           id: reference + '-' + organizationId,
@@ -35,21 +77,19 @@ export const ActivityHistory = () => {
           note: `Referência: ${reference}`,
           dataInfo: `Data: ${dataInfo}`,
           onPress: () =>
-            // navigation.navigate('ActivityHistoryDetail', {
-            //   reference,
-            //   organizationId,
-            // }),
             navigation.navigate('TrackOrder', {
               reference,
               organizationId,
-            }), 
+              category,
+              orderId
+            }),
           leftElement: (
             <View
               style={{
-                borderRadius: 30, 
+                borderRadius: 30,
                 borderWidth: 30,
-                borderColor: 'red', 
-                width: 54, 
+                borderColor: 'red',
+                width: 54,
                 height: 54,
                 justifyContent: 'center',
                 alignItems: 'center',

@@ -5,14 +5,10 @@ import { OrderSummary } from './OrderSummary';
 import { PaymentMethod } from './PaymentMethod';
 import { PlaceOrder } from './PlaceOrder';
 import { CartContext } from '@src/cart';
-import { Box } from '@src/components';
+import { Box, Image } from '@src/components';
 import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-import { LottieView, Button } from '@src/components';
-import styles from '@src/screens/Checkout/PlaceOrder/SuccessOrderModal/SuccessOrderModal.style';
-import { Animated } from 'react-native';
-//import { Image } from 'react-native';
-//import emptyBag from '@src/assets/animations/empty-cart.json';
+import { Button, Text } from '@src/components';
 
 function getUniqueOrganizationIds(dataArray) {
   const uniqueIds = new Set();
@@ -118,22 +114,30 @@ export const Checkout = ({ route }) => {
         </Box>
       ) : (
         <Box flex={1}>
-          {/* <Image
-            source={emptyBag}
-            style={{ flex: 1, width: '100%', height: '100%' }}
-            resizeMode="center"
-          /> */}
-          <LottieView
-            source={require('@src/assets/animations/empty-cart.json')}
-            autoPlay
-            loop
-          />
-          <Button
-            label="Comprar"
-            isFullWidth
-            style={{ position: 'absolute', bottom: 0 }}
-            // onPress={onTrackOrderButtonPress}
-          />
+          <Box
+            flex={1}
+            style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Text
+              style={{
+                color: 'red',
+                fontSize: 30,
+                fontWeight: 'bold',
+              }}>
+              Carrinho Vazio
+            </Text>
+            <Image
+              source={require('@src/assets/animations/empty-cart.gif')}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 150,
+                height: 150,
+              }}
+            />
+          </Box>
+          <Box width="100%" paddingHorizontal="m" backgroundColor="card">
+            <Button label={'Comprar'} isFullWidth paddingVertical="m" />
+          </Box>
         </Box>
       )}
     </>

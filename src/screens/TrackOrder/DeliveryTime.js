@@ -8,9 +8,9 @@ export const DeliveryTime = () => {
       justifyContent="center"
       alignItems="center"
       paddingVertical="s">
-      <Text variant="secondary">Estimated Delivery Time</Text>
+      {/* <Text variant="secondary">TABACARIA</Text> */}
       <Text variant="subHeader" color="primary" marginTop="s">
-        04:14 PM
+        TABACARIA AGUIAR
       </Text>
     </Box>
   );

@@ -4,13 +4,14 @@ import { DeliveryStep } from './DeliveryStep';
 import { DriverInformation } from './DriverInformation';
 import { Divider, Box, Button } from '@src/components/elements';
 import { useExploreStackNavigation } from '@src/hooks';
-import { DeliveryMapView } from './DeliveryMapView';
+//import { DeliveryMapView } from './DeliveryMapView';
 
-export const TrackOrder = () => {
+export const TrackOrder = ({ route }) => {
+  const { category, orderId } = route.params;
   const navigation = useExploreStackNavigation();
-  const [isMapViewVisible, setIsMapViewVisible] = React.useState(false);
+  //const [isMapViewVisible, setIsMapViewVisible] = React.useState(false);
 
-  const onOrderSomethingElseButtonPress = () => {
+  const onCancel = () => {
     navigation.navigate('Explore');
   };
 
@@ -24,26 +25,26 @@ export const TrackOrder = () => {
         <Box>
           <DeliveryTime />
           <Divider />
-          <DriverInformation />
+          {/* <DriverInformation /> */}
         </Box>
-        {isMapViewVisible ? <DeliveryMapView /> : <DeliveryStep />}
+        <DeliveryStep orderId={orderId} category={category} />
       </Box>
       <Box
-        width="100%"
-        paddingTop="m"
+        width="100%"        
         paddingHorizontal="m"
         backgroundColor="card">
         <Button
-          label={!isMapViewVisible ? 'Map View' : 'Order Status View'}
+          label={'Detalhes do Pedido'}
           isFullWidth
+          paddingVertical="m"
           onPress={onMapViewButtonPress}
         />
-        <Button
-          label="Cancel your order"
+        {/* <Button
+          label="Cancelar pedido"
           isFullWidth
           variant="transparent"
-          onPress={onOrderSomethingElseButtonPress}
-        />
+          onPress={onCancel}
+        /> */}
       </Box>
     </Box>
   );

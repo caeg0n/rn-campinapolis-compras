@@ -19,6 +19,8 @@ import { setAllOpenedOrganizations } from '@src/redux/actions/user';
 import { setAllClosedOrganizations } from '@src/redux/actions/user';
 import { setCategoriesAndProducts } from '@src/redux/actions/user';
 import {
+  setOrderStatusList,
+  setOrderManagedStatus,
   resetSelectedPaymentMethod,
   resetSelectedAddress,
   resetUUID,
@@ -97,6 +99,8 @@ export const AuthProvider = ({ children, fetchData }) => {
     localDispatch(setAllOpenedOrganizations(fetchData.allOpenedOrganizations));
     localDispatch(setAllClosedOrganizations(fetchData.allClosedOrganizations));
     localDispatch(setCategoriesAndProducts(fetchData.allCategoriesAndProducts));
+    localDispatch(setOrderStatusList(fetchData.allOrderStatusList));
+    localDispatch(setOrderManagedStatus(fetchData.allOrderManagedStatus));
   });
 
   return (

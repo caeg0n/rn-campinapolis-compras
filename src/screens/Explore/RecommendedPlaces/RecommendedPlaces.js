@@ -10,7 +10,7 @@ export const RecommendedPlaces = ({ navigation }) => {
 
   const _onButtonActionPressed = () => {
     navigation.navigate('PlaceList', {
-      title: 'Recommended',
+      title: 'Recomendados',
     });
   };
 
@@ -45,18 +45,10 @@ export const RecommendedPlaces = ({ navigation }) => {
     );
   };
 
-  // const onButtonActionPress = () => {
-  //   navigation.navigate('PlaceList', { title: 'Recommended' });
-  // };
-
-  // const onPlaceItemPress = () => {
-  //   navigation.navigate('PlaceDetails');
-  // };
-
   return (
     <Section
-      title="Recommended"
-      actionButtonText="View more"
+      title="Recomendados"
+      actionButtonText="Ver mais"
       onButtonActionPress={_onButtonActionPressed}>
       <Carousel
         numItemsPerSlide={1.8}
