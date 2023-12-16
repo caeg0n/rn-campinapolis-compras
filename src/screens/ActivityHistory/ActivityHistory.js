@@ -9,9 +9,7 @@ import {
   addDoc,
   query,
   where, 
-  getDocs,
-  orderBy,
-  onSnapshot,
+  getDocs
 } from 'firebase/firestore';
 import { database } from '../../../firebaseConfig';
 
@@ -32,7 +30,7 @@ export const ActivityHistory = () => {
   const category = extractOrganizationCategory(orders);
 
   const addDocumentIfOrderIdDoesNotExist = async (orderId, newData) => {
-    const collectionRef = collection(database, 'chats');
+    const collectionRef = collection(database, 'orders');
     const q = query(collectionRef, where('orderId', '==', orderId));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) {
@@ -40,7 +38,6 @@ export const ActivityHistory = () => {
         const docRef = await addDoc(collectionRef, newData);
       } catch (e) {
       }
-    } else {
     }
   };
 
@@ -64,7 +61,7 @@ export const ActivityHistory = () => {
 
       const newData = {
         orderId: orderId,
-        statusNow: [1]
+        statusNow: [0]
       };
 
       addDocumentIfOrderIdDoesNotExist(orderId, newData);

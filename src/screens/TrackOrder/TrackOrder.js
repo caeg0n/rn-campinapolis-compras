@@ -1,7 +1,7 @@
 import React from 'react';
 import { DeliveryTime } from './DeliveryTime';
 import { DeliveryStep } from './DeliveryStep';
-import { DriverInformation } from './DriverInformation';
+//import { DriverInformation } from './DriverInformation';
 import { Divider, Box, Button } from '@src/components/elements';
 import { useExploreStackNavigation } from '@src/hooks';
 //import { DeliveryMapView } from './DeliveryMapView';

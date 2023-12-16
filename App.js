@@ -34,7 +34,7 @@ if (__DEV__) {
   var GET_ALL_CATEGORIES_AND_PRODUCTS_URL =
     DEV_API_BASE + '/get_categories_and_products';
   var GET_ALL_ORDER_STATUS_LIST_URL = DEV_API_BASE + '/order_status_list';
-  var GET_ALL_ORDER_MANAGED_STATUS_URL = DEV_API_BASE + '/order_managed_status';
+  var GET_ALL_ORDER_STATUS_BASE_LIST_URL = DEV_API_BASE + '/order_status_base_list';
 } else {
   var GET_ALL_PAYMENTS_METHODS_URL = PROD_API_BASE + '/get_payments_methods';
   var GET_ALL_ORGANIZATIONS_URL =
@@ -50,7 +50,7 @@ if (__DEV__) {
   var GET_ALL_CATEGORIES_AND_PRODUCTS_URL =
     PROD_API_BASE + '/get_categories_and_products';
   var GET_ALL_ORDER_STATUS_LIST_URL = PROD_API_BASE + '/order_status_list';
-  var GET_ALL_ORDER_MANAGED_STATUS_URL = PROD_API_BASE + '/order_managed_status';
+  var GET_ALL_ORDER_STATUS_BASE_LIST_URL = PROD_API_BASE + '/order_status_base_list';
 }
 
 //StartupContainer.init();
@@ -72,7 +72,7 @@ export default function App() {
   const [allOpenedOrganizations, setAllOpenedOrganizations] = useState([]);
   const [allClosedOrganizations, setAllClosedOrganizations] = useState([]);
   const [allOrderStatusList, setAllOrderStatusList] = useState([]);
-  const [allOrderManagedStatus, setAllOrderManagedStatus] = useState([]);
+  const [allOrderStatusBaseList, setAllOrderStatusBaseList] = useState([]);
   const [isFetching, setFetching] = useState(true);
 
   const fetchData = async () => {
@@ -118,9 +118,9 @@ export default function App() {
     json = await response.json();
     jsonData.jsonAllOrderStatusList = json;
 
-    response = await fetch(GET_ALL_ORDER_MANAGED_STATUS_URL);
+    response = await fetch(GET_ALL_ORDER_STATUS_BASE_LIST_URL);
     json = await response.json();
-    jsonData.jsonAllOrderManagedStatus = json;
+    jsonData.jsonAllOrderStatusBaseList = json;
 
     return jsonData;
   };
@@ -139,7 +139,7 @@ export default function App() {
         setAllOpenedOrganizations(jsonData.jsonAllOpenedOrganizations);
         setAllClosedOrganizations(jsonData.jsonAllClosedOrganizations);
         setAllOrderStatusList(jsonData.jsonAllOrderStatusList);
-        setAllOrderManagedStatus(jsonData.jsonAllOrderManagedStatus);
+        setAllOrderStatusBaseList(jsonData.jsonAllOrderStatusBaseList);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -179,7 +179,7 @@ export default function App() {
                     allOpenedOrganizations,
                     allClosedOrganizations,
                     allOrderStatusList,
-                    allOrderManagedStatus
+                    allOrderStatusBaseList
                   }}>
                   <CartProvider>
                     <MemoizedRootNavigation />

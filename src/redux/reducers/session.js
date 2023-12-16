@@ -5,7 +5,7 @@ import { SET_SELECTED_ADDRESS } from '@src/redux/actions/session';
 import { SET_SELECTED_PAYMENT_METHOD } from '@src/redux/actions/session';
 import { SET_ORDERS } from '@src/redux/actions/session';
 import { SET_ORDER_STATUS_LIST } from '@src/redux/actions/session';
-import { SET_ORDER_MANAGED_STATUS } from '@src/redux/actions/session';
+import { SET_ORDER_STATUS_BASE_LIST } from '@src/redux/actions/session';
 import { RESET_UUID } from '@src/redux/actions/session';
 import { RESET_ORDERS } from '@src/redux/actions/session';
 import { RESET_SELECTED_ADDRESS } from '@src/redux/actions/session';
@@ -19,7 +19,7 @@ const initialState = {
   selected_payment_method: {},
   orders: {},
   order_status_list: {},
-  order_managed_status: {},
+  order_status_base_list: {},
 };
 
 function sessionReducer(state = initialState, action) {
@@ -36,8 +36,8 @@ function sessionReducer(state = initialState, action) {
       return { ...state, selected_payment_method: action.payload };
     case SET_ORDER_STATUS_LIST:
       return { ...state, order_status_list: action.payload };
-    case SET_ORDER_MANAGED_STATUS:
-      return { ...state, order_managed_status: action.payload };
+    case SET_ORDER_STATUS_BASE_LIST:
+      return { ...state, order_status_base_list: action.payload };
     case SET_ORDERS:
       return { ...state, orders: action.payload };
     case RESET_UUID:

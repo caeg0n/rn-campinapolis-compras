@@ -7,65 +7,61 @@ import { useEffect, useState } from 'react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { database } from '../../../firebaseConfig';
 
-function findValueAsSecondElement(obj, param) {
-  for (const [key, values] of Object.entries(obj)) {
-    if (values[1] === param) {
-      return true;
+function replaceUnderscoresWithSpace(array, param) {
+  return array.map(item => {
+    let updatedItem = item.replace(/_/g, ' ');
+   if (item.startsWith('_')) {
+      updatedItem = param + ' ' + updatedItem.trim();
     }
-  }
-  return false;
-}
-
-function modifyKeysWithCategory(obj, category) {
-  const newObj = {};
-  Object.entries(obj).forEach(([key, value]) => {
-    const newKey = key.startsWith('_') ? category + key : key;
-    newObj[newKey] = value;
+    return updatedItem;
   });
-  return newObj;
 }
 
-function replaceUnderscores(obj, category) {
-  const newObj = {};
-  Object.entries(modifyKeysWithCategory(obj, category)).forEach(
-    ([key, value]) => {
-      const newKey = key.replace(/_/g, ' ').trim();
-      newObj[newKey] = value;
-    },
-  );
-  return newObj;
-}
-
-function organizeKeysByFirstArrayElement(obj, category) {
-  let response = [];
-  Object.entries(replaceUnderscores(obj, category)).forEach(([key, value]) => {
-    const position = value[0];
-    response[position] = key;
+function insertUniqueElements(sourceArray, targetObject) {
+  const targetArray = targetObject.order_status_base_list;
+  sourceArray.forEach((element, index) => {
+    const elementAsString = element.toString();
+   if (!targetArray.includes(elementAsString)) {
+      const insertPosition = Math.min(index, targetArray.length);
+      targetArray.splice(insertPosition, 0, elementAsString);
+    }
   });
-  return response.filter((element) => element !== undefined);
+  return targetObject;
+}
+
+function findOrderStatusDescriptions(input, statusDescriptions) {
+  const statusIds = input.order_status_base_list;
+  const matchedDescriptions = [];
+  statusIds.forEach(id => {
+    for (const [description, value] of Object.entries(statusDescriptions)) {
+      if (value.toString() === id) {
+        matchedDescriptions.push(description);
+        break;
+      }
+    }
+  });
+  return matchedDescriptions;
 }
 
 export const DeliveryStep = ({ category, orderId }) => {
   const { colors } = useAppTheme();
+  const { order_status_base_list } = useSelector((state) => state.sessionReducer);
   const { order_status_list } = useSelector((state) => state.sessionReducer);
-  //const { order_managed_status } = useSelector((state) => state.sessionReducer);
-  const labels = organizeKeysByFirstArrayElement(order_status_list, category);
-  const [statusNow, setStatusNow] = useState(1);
+  const [statusList, setStatusList] = useState(findOrderStatusDescriptions(order_status_base_list, order_status_list));
+  const [statusNow, setStatusNow] = useState(0);
 
   useEffect(() => {
     const fieldToObserve = 'statusNow';
-    observeOrderChanges(
-      orderId,
-      fieldToObserve,
-      (statusValue) => {
-        console.log(findValueAsSecondElement(order_status_list,statusValue[statusValue.length - 1]))
-        setStatusNow(statusValue[statusValue.length - 2]);
-      },
-    );
+    observeOrderChanges(orderId, fieldToObserve, (statusValue) => {
+      let _order_status_base_list = JSON.parse(JSON.stringify(order_status_base_list));
+      insertUniqueElements(statusValue, _order_status_base_list);
+      setStatusList(replaceUnderscoresWithSpace(findOrderStatusDescriptions(_order_status_base_list, order_status_list), category));
+      setStatusNow(statusValue.length-1);
+    });
   }, []);
 
   const observeOrderChanges = (orderId, fieldToObserve, callback) => {
-    const collectionRef = collection(database, 'chats');
+    const collectionRef = collection(database, 'orders');
     const q = query(collectionRef, where('orderId', '==', orderId));
     const unsubscribe = onSnapshot(
       q,
@@ -107,9 +103,9 @@ export const DeliveryStep = ({ category, orderId }) => {
       <StepIndicator
         customStyles={stepIndicatorStyles}
         currentPosition={statusNow}
-        labels={labels}
+        labels={statusList}
         direction="vertical"
-        stepCount={labels.length}
+        stepCount={statusList.length}
       />
     </Box>
   );
