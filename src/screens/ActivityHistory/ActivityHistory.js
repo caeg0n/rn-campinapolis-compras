@@ -48,17 +48,14 @@ export const ActivityHistory = () => {
       const organizationLogo = ordersList[0]?.organization_logo || '?';
       const dataInfo = ordersList[0]?.data || '?';
       const orderId = reference + '-' + organizationId;
-
       const totalOrders = ordersList.reduce((total, order) => {
         total += order.amount;
         return total;
       }, 0);
-
       const totalPrice = ordersList.reduce((total, order) => {
         total += parseFloat(order.total);
         return total;
       }, 0);
-
       const newData = {
         orderId: orderId,
         statusNow: [0]
@@ -76,9 +73,10 @@ export const ActivityHistory = () => {
           onPress: () =>
             navigation.navigate('TrackOrder', {
               reference,
-              organizationId,
+              organizationName,
               category,
-              orderId
+              orderId,
+              orders
             }),
           leftElement: (
             <View

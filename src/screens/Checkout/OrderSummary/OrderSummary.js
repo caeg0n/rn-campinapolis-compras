@@ -94,7 +94,6 @@ export let OrderSummary = ({ cartItem }) => {
   };
 
   const TitleWithImage = () => (
-
     <Box flexDirection="row" alignItems="center">
       <Image
         source={{

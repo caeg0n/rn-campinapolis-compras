@@ -7,6 +7,7 @@ export const SET_ORDERS = 'SET_ORDERS';
 export const SET_EXPO_TOKEN = 'SET_EXPO_TOKEN';
 export const SET_ORDER_STATUS_LIST = 'SET_ORDER_STATUS_LIST';
 export const SET_ORDER_STATUS_BASE_LIST = 'SET_ORDER_STATUS_BASE_LIST';
+export const SET_ORDER_STATUS_BLOCK_LIST = 'SET_ORDER_STATUS_BLOCK_LIST';
 export const RESET_UUID = 'RESET_UUID';
 export const RESET_SELECTED_ADDRESS = 'RESET_SELECTED_ADDRESS';
 export const RESET_SELECTED_PAYMENT_METHOD = 'RESET_SELECTED_PAYMENT_METHOD';
@@ -36,6 +37,13 @@ export const setOrderStatusList = (list) => (dispatch) => {
 export const setOrderStatusBaseList = (list) => (dispatch) => {
   dispatch({
     type: SET_ORDER_STATUS_BASE_LIST,
+    payload: list
+  });
+};
+
+export const setOrderStatusBlockList = (list) => (dispatch) => {
+  dispatch({
+    type: SET_ORDER_STATUS_BLOCK_LIST,
     payload: list
   });
 };

@@ -35,6 +35,7 @@ if (__DEV__) {
     DEV_API_BASE + '/get_categories_and_products';
   var GET_ALL_ORDER_STATUS_LIST_URL = DEV_API_BASE + '/order_status_list';
   var GET_ALL_ORDER_STATUS_BASE_LIST_URL = DEV_API_BASE + '/order_status_base_list';
+  var GET_ALL_ORDER_STATUS_BLOCK_LIST_URL = DEV_API_BASE + '/order_status_block_list';
 } else {
   var GET_ALL_PAYMENTS_METHODS_URL = PROD_API_BASE + '/get_payments_methods';
   var GET_ALL_ORGANIZATIONS_URL =
@@ -51,6 +52,7 @@ if (__DEV__) {
     PROD_API_BASE + '/get_categories_and_products';
   var GET_ALL_ORDER_STATUS_LIST_URL = PROD_API_BASE + '/order_status_list';
   var GET_ALL_ORDER_STATUS_BASE_LIST_URL = PROD_API_BASE + '/order_status_base_list';
+  var GET_ALL_ORDER_STATUS_BLOCK_LIST_URL = PROD_API_BASE + '/order_status_block_list';
 }
 
 //StartupContainer.init();
@@ -73,6 +75,7 @@ export default function App() {
   const [allClosedOrganizations, setAllClosedOrganizations] = useState([]);
   const [allOrderStatusList, setAllOrderStatusList] = useState([]);
   const [allOrderStatusBaseList, setAllOrderStatusBaseList] = useState([]);
+  const [allOrderStatusBlockList, setAllOrderStatusBlockList] = useState([]);
   const [isFetching, setFetching] = useState(true);
 
   const fetchData = async () => {
@@ -122,6 +125,10 @@ export default function App() {
     json = await response.json();
     jsonData.jsonAllOrderStatusBaseList = json;
 
+    response = await fetch(GET_ALL_ORDER_STATUS_BLOCK_LIST_URL);
+    json = await response.json();
+    jsonData.jsonAllOrderStatusBlockList = json;
+
     return jsonData;
   };
 
@@ -140,6 +147,7 @@ export default function App() {
         setAllClosedOrganizations(jsonData.jsonAllClosedOrganizations);
         setAllOrderStatusList(jsonData.jsonAllOrderStatusList);
         setAllOrderStatusBaseList(jsonData.jsonAllOrderStatusBaseList);
+        setAllOrderStatusBlockList(jsonData.jsonAllOrderStatusBlockList);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -179,7 +187,8 @@ export default function App() {
                     allOpenedOrganizations,
                     allClosedOrganizations,
                     allOrderStatusList,
-                    allOrderStatusBaseList
+                    allOrderStatusBaseList,
+                    allOrderStatusBlockList
                   }}>
                   <CartProvider>
                     <MemoizedRootNavigation />

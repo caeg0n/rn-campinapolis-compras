@@ -1,50 +1,51 @@
 import React from 'react';
 import { DeliveryTime } from './DeliveryTime';
 import { DeliveryStep } from './DeliveryStep';
-//import { DriverInformation } from './DriverInformation';
 import { Divider, Box, Button } from '@src/components/elements';
+import { DeliveryDetail } from './DeliveryDetail';
+import { useSelector } from 'react-redux';
 import { useExploreStackNavigation } from '@src/hooks';
 //import { DeliveryMapView } from './DeliveryMapView';
+//import { DriverInformation } from './DriverInformation';
+//import { CartContext } from '@src/cart';
+
 
 export const TrackOrder = ({ route }) => {
-  const { category, orderId } = route.params;
-  const navigation = useExploreStackNavigation();
-  //const [isMapViewVisible, setIsMapViewVisible] = React.useState(false);
+  //const { cartItems, totalBasketPrice } = React.useContext(CartContext);
+  //const navigation = useExploreStackNavigation();
+  //const { addresses } = useSelector((state) => state.sessionReducer);
+  const { orders, category, orderId, organizationName } = route.params;
+  const [isStepsVisible, setIsStepsVisible] = React.useState(false);
 
-  const onCancel = () => {
-    navigation.navigate('Explore');
-  };
+  //const onCancel = () => {
+  //  navigation.navigate('Explore');
+  //};
 
-  const onMapViewButtonPress = () => {
-    setIsMapViewVisible(!isMapViewVisible);
+  const onDetailButtonPress = () => {
+    //setIsMapViewVisible(!isMapViewVisible);
+    //navigation.navigate('DeliveryDetail');
+    setIsStepsVisible(!isStepsVisible);
   };
 
   return (
     <Box flex={1}>
       <Box flex={1}>
         <Box>
-          <DeliveryTime />
+          <DeliveryTime organization={organizationName} />
           <Divider />
           {/* <DriverInformation /> */}
         </Box>
-        <DeliveryStep orderId={orderId} category={category} />
+        {isStepsVisible && (
+          <DeliveryStep orderId={orderId} category={category} />
+        ) || <DeliveryDetail orders={orders} orderId={orderId} />}
       </Box>
-      <Box
-        width="100%"        
-        paddingHorizontal="m"
-        backgroundColor="card">
+      <Box width="100%" paddingHorizontal="m" backgroundColor="card">
         <Button
-          label={'Detalhes do Pedido'}
+          label={ isStepsVisible && ('Detalhes do Pedido') || 'Rastrear Pedido'}
           isFullWidth
           paddingVertical="m"
-          onPress={onMapViewButtonPress}
+          onPress={onDetailButtonPress}
         />
-        {/* <Button
-          label="Cancelar pedido"
-          isFullWidth
-          variant="transparent"
-          onPress={onCancel}
-        /> */}
       </Box>
     </Box>
   );

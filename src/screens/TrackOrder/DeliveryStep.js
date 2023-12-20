@@ -6,6 +6,19 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { database } from '../../../firebaseConfig';
+import { Text } from 'react-native';
+
+function extractBlockNumbers(data) {
+  if (!data.order_status_block_list) {
+      return [];
+  }
+  const blocks = data.order_status_block_list;
+  const blockNumbers = blocks.map(block => {
+      const numberPart = block.replace('block_', '');
+      return parseInt(numberPart, 10);
+  });
+  return blockNumbers.filter(number => !isNaN(number));
+}
 
 function replaceUnderscoresWithSpace(array, param) {
   return array.map(item => {
@@ -46,17 +59,24 @@ function findOrderStatusDescriptions(input, statusDescriptions) {
 export const DeliveryStep = ({ category, orderId }) => {
   const { colors } = useAppTheme();
   const { order_status_base_list } = useSelector((state) => state.sessionReducer);
+  const { order_status_block_list } = useSelector((state) => state.sessionReducer);
   const { order_status_list } = useSelector((state) => state.sessionReducer);
   const [statusList, setStatusList] = useState(findOrderStatusDescriptions(order_status_base_list, order_status_list));
   const [statusNow, setStatusNow] = useState(0);
+  const [applyStrikethrough, setApplyStrikethrough] = useState(false);
 
   useEffect(() => {
     const fieldToObserve = 'statusNow';
+    let _order_status_base_list = JSON.parse(JSON.stringify(order_status_base_list));
     observeOrderChanges(orderId, fieldToObserve, (statusValue) => {
-      let _order_status_base_list = JSON.parse(JSON.stringify(order_status_base_list));
       insertUniqueElements(statusValue, _order_status_base_list);
       setStatusList(replaceUnderscoresWithSpace(findOrderStatusDescriptions(_order_status_base_list, order_status_list), category));
       setStatusNow(statusValue.length-1);
+      if (extractBlockNumbers(order_status_block_list).includes(statusValue[statusValue.length-1]) == true) {
+        setApplyStrikethrough(true);
+      }else{
+        setApplyStrikethrough(false);
+      }
     });
   }, []);
 
@@ -98,6 +118,24 @@ export const DeliveryStep = ({ category, orderId }) => {
     labelSize: fontSize.m,
   };
 
+  const renderLabel = ({ stepStatus, label }) => {
+    let labelStyle = {
+      fontSize: fontSize.s,
+      color: stepStatus === 'finished' ? 'white' : colors.text,
+    };
+    if (stepStatus === 'unfinished' && applyStrikethrough) {
+      labelStyle = {
+        ...labelStyle,
+        textDecorationLine: 'line-through',
+        textDecorationStyle: 'solid',
+        color: 'grey',
+      };
+    }
+    return (
+      <Text style={labelStyle}>{label}</Text>
+    );
+  };
+
   return (
     <Box paddingHorizontal="m" flex={1}>
       <StepIndicator
@@ -106,6 +144,7 @@ export const DeliveryStep = ({ category, orderId }) => {
         labels={statusList}
         direction="vertical"
         stepCount={statusList.length}
+        renderLabel={renderLabel}
       />
     </Box>
   );

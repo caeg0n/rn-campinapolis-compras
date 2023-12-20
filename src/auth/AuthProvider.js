@@ -21,6 +21,7 @@ import { setCategoriesAndProducts } from '@src/redux/actions/user';
 import {
   setOrderStatusList,
   setOrderStatusBaseList,
+  setOrderStatusBlockList,
   resetSelectedPaymentMethod,
   resetSelectedAddress,
   resetUUID,
@@ -101,6 +102,7 @@ export const AuthProvider = ({ children, fetchData }) => {
     localDispatch(setCategoriesAndProducts(fetchData.allCategoriesAndProducts));
     localDispatch(setOrderStatusList(fetchData.allOrderStatusList));
     localDispatch(setOrderStatusBaseList(fetchData.allOrderStatusBaseList));
+    localDispatch(setOrderStatusBlockList(fetchData.allOrderStatusBlockList));
   });
 
   return (

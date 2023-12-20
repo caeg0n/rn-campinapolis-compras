@@ -12,6 +12,7 @@ import { Button, Text } from '@src/components';
 
 function getUniqueOrganizationIds(dataArray) {
   const uniqueIds = new Set();
+
   dataArray.forEach((item) => {
     uniqueIds.add(item.dish.organization_id);
   });
@@ -75,6 +76,7 @@ export const Checkout = ({ route }) => {
 
   const renderOrders = () => {
     const myCartItems = JSON.parse(JSON.stringify(cartItems));
+    console.log(myCartItems);
     return groupByOrganizationId(groupAndSumById(myCartItems)).map(
       (cartItem, index) => (
         <OrderSummary
