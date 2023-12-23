@@ -4,6 +4,8 @@ import { Box } from '../Box';
 import { Text } from '../Text';
 import { Icon } from '../Icon';
 import { I18nManager } from 'react-native';
+import { Rating } from 'react-native-ratings';
+import { useAppTheme } from '@src/theme';
 
 export const ListRowItem = ({
   id,
@@ -20,7 +22,11 @@ export const ListRowItem = ({
   leftContainerProps,
   rightContainerProps,
   onPress,
+  showReview,
+  onStartRating,
+  onFinishRating
 }) => {
+  const { colors } = useAppTheme();
   const chevronIconName = I18nManager.isRTL
     ? 'chevron-back'
     : 'chevron-forward';
@@ -68,6 +74,9 @@ export const ListRowItem = ({
                 {subTitle}
               </Text>
             )}
+            {showReview === true && <Text textAlign="left" variant="secondary">
+              {"Avaliação:"}
+            </Text>}
           </Box>
           {rightElement && (
             <Box flex={2} alignItems="flex-end" {...rightContainerProps}>
@@ -80,6 +89,19 @@ export const ListRowItem = ({
             </Box>
           )}
         </Box>
+        {showReview === true && <Rating
+          type="custom"
+          ratingColor={colors.primary}
+          ratingBackgroundColor={colors.border}
+          tintColor={colors.card}
+          ratingCount={5}
+          imageSize={30}
+          startingValue={1}
+          minValue={0}
+          onStartRating={onStartRating}
+          onFinishRating={onFinishRating}
+          style={{ marginLeft: -50, paddingVertical: 10, marginTop: -20 }}
+        />}
         {footer && <Box>{footer}</Box>}
       </Box>
     );
