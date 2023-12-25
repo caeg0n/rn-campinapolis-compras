@@ -76,7 +76,6 @@ export const Checkout = ({ route }) => {
 
   const renderOrders = () => {
     const myCartItems = JSON.parse(JSON.stringify(cartItems));
-    console.log(myCartItems);
     return groupByOrganizationId(groupAndSumById(myCartItems)).map(
       (cartItem, index) => (
         <OrderSummary

@@ -24,9 +24,12 @@ export const ListRowItem = ({
   onPress,
   showReview,
   onStartRating,
-  onFinishRating
+  onFinishRating,
+  savedRating,
+  typeRating
 }) => {
   const { colors } = useAppTheme();
+
   const chevronIconName = I18nManager.isRTL
     ? 'chevron-back'
     : 'chevron-forward';
@@ -40,6 +43,14 @@ export const ListRowItem = ({
       rightElement,
     });
   };
+
+  const localOnStartRating = (rating) => {
+    onStartRating(rating, typeRating);
+  }
+
+  const localOnFinishRating = (rating) => {
+    onFinishRating(rating, typeRating);
+  }
 
   const renderContent = () => {
     return (
@@ -96,10 +107,10 @@ export const ListRowItem = ({
           tintColor={colors.card}
           ratingCount={5}
           imageSize={30}
-          startingValue={1}
+          startingValue={savedRating}
           minValue={0}
-          onStartRating={onStartRating}
-          onFinishRating={onFinishRating}
+          onStartRating={localOnStartRating}
+          onFinishRating={localOnFinishRating}
           style={{ marginLeft: -50, paddingVertical: 10, marginTop: -20 }}
         />}
         {footer && <Box>{footer}</Box>}
