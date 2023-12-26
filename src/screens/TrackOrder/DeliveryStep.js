@@ -10,20 +10,20 @@ import { Text } from 'react-native';
 
 function extractBlockNumbers(data) {
   if (!data.order_status_block_list) {
-      return [];
+    return [];
   }
   const blocks = data.order_status_block_list;
-  const blockNumbers = blocks.map(block => {
-      const numberPart = block.replace('block_', '');
-      return parseInt(numberPart, 10);
+  const blockNumbers = blocks.map((block) => {
+    const numberPart = block.replace('block_', '');
+    return parseInt(numberPart, 10);
   });
-  return blockNumbers.filter(number => !isNaN(number));
+  return blockNumbers.filter((number) => !isNaN(number));
 }
 
 function replaceUnderscoresWithSpace(array, param) {
-  return array.map(item => {
+  return array.map((item) => {
     let updatedItem = item.replace(/_/g, ' ');
-   if (item.startsWith('_')) {
+    if (item.startsWith('_')) {
       updatedItem = param + ' ' + updatedItem.trim();
     }
     return updatedItem;
@@ -34,7 +34,7 @@ function insertUniqueElements(sourceArray, targetObject) {
   const targetArray = targetObject.order_status_base_list;
   sourceArray.forEach((element, index) => {
     const elementAsString = element.toString();
-   if (!targetArray.includes(elementAsString)) {
+    if (!targetArray.includes(elementAsString)) {
       const insertPosition = Math.min(index, targetArray.length);
       targetArray.splice(insertPosition, 0, elementAsString);
     }
@@ -45,7 +45,7 @@ function insertUniqueElements(sourceArray, targetObject) {
 function findOrderStatusDescriptions(input, statusDescriptions) {
   const statusIds = input.order_status_base_list;
   const matchedDescriptions = [];
-  statusIds.forEach(id => {
+  statusIds.forEach((id) => {
     for (const [description, value] of Object.entries(statusDescriptions)) {
       if (value.toString() === id) {
         matchedDescriptions.push(description);
@@ -58,23 +58,43 @@ function findOrderStatusDescriptions(input, statusDescriptions) {
 
 export const DeliveryStep = ({ category, orderId }) => {
   const { colors } = useAppTheme();
-  const { order_status_base_list } = useSelector((state) => state.sessionReducer);
-  const { order_status_block_list } = useSelector((state) => state.sessionReducer);
+  const { order_status_base_list } = useSelector(
+    (state) => state.sessionReducer,
+  );
+  const { order_status_block_list } = useSelector(
+    (state) => state.sessionReducer,
+  );
   const { order_status_list } = useSelector((state) => state.sessionReducer);
-  const [statusList, setStatusList] = useState(findOrderStatusDescriptions(order_status_base_list, order_status_list));
+  const [statusList, setStatusList] = useState(
+    findOrderStatusDescriptions(order_status_base_list, order_status_list),
+  );
   const [statusNow, setStatusNow] = useState(0);
   const [applyStrikethrough, setApplyStrikethrough] = useState(false);
 
   useEffect(() => {
     const fieldToObserve = 'statusNow';
-    let _order_status_base_list = JSON.parse(JSON.stringify(order_status_base_list));
+    let _order_status_base_list = JSON.parse(
+      JSON.stringify(order_status_base_list),
+    );
     observeOrderChanges(orderId, fieldToObserve, (statusValue) => {
       insertUniqueElements(statusValue, _order_status_base_list);
-      setStatusList(replaceUnderscoresWithSpace(findOrderStatusDescriptions(_order_status_base_list, order_status_list), category));
-      setStatusNow(statusValue.length-1);
-      if (extractBlockNumbers(order_status_block_list).includes(statusValue[statusValue.length-1]) == true) {
+      setStatusList(
+        replaceUnderscoresWithSpace(
+          findOrderStatusDescriptions(
+            _order_status_base_list,
+            order_status_list,
+          ),
+          category,
+        ),
+      );
+      setStatusNow(statusValue.length - 1);
+      if (
+        extractBlockNumbers(order_status_block_list).includes(
+          statusValue[statusValue.length - 1],
+        ) == true
+      ) {
         setApplyStrikethrough(true);
-      }else{
+      } else {
         setApplyStrikethrough(false);
       }
     });
@@ -131,9 +151,7 @@ export const DeliveryStep = ({ category, orderId }) => {
         color: 'grey',
       };
     }
-    return (
-      <Text style={labelStyle}>{label}</Text>
-    );
+    return <Text style={labelStyle}>{label}</Text>;
   };
 
   return (

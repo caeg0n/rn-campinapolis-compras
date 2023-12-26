@@ -35,11 +35,22 @@ async function fetchRatingForDriver(uuid, orderId) {
   );
   try {
     const querySnapshot = await getDocs(q);
-    const document = querySnapshot.docs[0];
+    if (querySnapshot.empty) {
+      return 0;
+    }
+    const document = querySnapshot.docs[0]; 
+    if (!document.exists()) {
+      return 0;
+    }
     const data = document.data();
-    return data.rating;
+    if (data && 'rating' in data) {
+      return data.rating;
+    } else {
+      return 0;
+    }
   } catch (error) {
     console.error('Error fetching documents: ', error);
+    return 0;
   }
 }
 
@@ -53,11 +64,22 @@ async function fetchRatingForOrganization(uuid, orderId) {
   );
   try {
     const querySnapshot = await getDocs(q);
-    const document = querySnapshot.docs[0];
+    if (querySnapshot.empty) {
+      return 0;
+    }
+    const document = querySnapshot.docs[0]; 
+    if (!document.exists()) {
+      return 0;
+    }
     const data = document.data();
-    return data.rating;
+    if (data && 'rating' in data) {
+      return data.rating;
+    } else {
+      return 0;
+    }
   } catch (error) {
     console.error('Error fetching documents: ', error);
+    return 0;
   }
 }
 
@@ -77,12 +99,12 @@ export const DeliveryDetail = ({ orders, orderId }) => {
   const { uuid } = useSelector((state) => state.sessionReducer);
   const [ratingForOrg, setRatingForOrg] = useState(0);
   const [ratingForDriver, setRatingForDriver] = useState(0);
-  const [ratingForOrgNow, setRatingForOrgNow] = useState(ratingForOrg);
-  
+  const [ratingForOrgNow, setRatingForOrgNow] = useState(0);
+
   useEffect(() => {
-    var ratingFromOrg = 0;
-    var ratingFromDriver = 0;
     const fetchData = async () => {
+      var ratingFromOrg = 0;
+      var ratingFromDriver = 0;
       ratingFromOrg = await fetchRatingForOrganization(uuid, orderId);
       ratingFromDriver = await fetchRatingForDriver(uuid, orderId);
       setRatingForOrg(ratingFromOrg);
@@ -90,7 +112,7 @@ export const DeliveryDetail = ({ orders, orderId }) => {
       setRatingForOrgNow(ratingFromOrg);
     };
     fetchData().catch(console.error);
-  }, []); 
+  }, []);
 
   const onStartRating = (rating, typeRating) => {};
 
@@ -139,8 +161,8 @@ export const DeliveryDetail = ({ orders, orderId }) => {
         savedRating={ratingForOrg}
         onStartRating={onStartRating}
         onFinishRating={onFinishRating}
-        title={extractOrganizationName(orders,orderId)}
-        note={'Avaliação: '+ratingForOrgNow+'/5'}
+        title={extractOrganizationName(orders, orderId)}
+        note={'Avaliação: ' + ratingForOrgNow + '/5'}
         //subTitle={'subtitle'}
         leftElement={
           <Image
