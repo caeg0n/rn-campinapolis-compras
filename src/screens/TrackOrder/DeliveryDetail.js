@@ -18,6 +18,13 @@ import { useSelector } from 'react-redux';
 //import { fontSize, useAppTheme } from "@src/theme"
 //import StepIndicator from "react-native-step-indicator"
 
+function extractOrganizationName(orders, inputString) {
+  const parts = inputString.split('-');
+  const reference = parts[0];
+  const organization = parts[1];
+  return orders[reference][organization][0].organization_name;
+}
+
 async function fetchRatingForDriver(uuid, orderId) {
   const collectionRef = collection(database, 'ratings');
   const q = query(
@@ -70,6 +77,7 @@ export const DeliveryDetail = ({ orders, orderId }) => {
   const { uuid } = useSelector((state) => state.sessionReducer);
   const [ratingForOrg, setRatingForOrg] = useState(0);
   const [ratingForDriver, setRatingForDriver] = useState(0);
+  const [ratingForOrgNow, setRatingForOrgNow] = useState(ratingForOrg);
   
   useEffect(() => {
     var ratingFromOrg = 0;
@@ -79,6 +87,7 @@ export const DeliveryDetail = ({ orders, orderId }) => {
       ratingFromDriver = await fetchRatingForDriver(uuid, orderId);
       setRatingForOrg(ratingFromOrg);
       setRatingForDriver(ratingFromDriver);
+      setRatingForOrgNow(ratingFromOrg);
     };
     fetchData().catch(console.error);
   }, []); 
@@ -91,6 +100,9 @@ export const DeliveryDetail = ({ orders, orderId }) => {
     newData.orderId = orderId;
     newData.deviceId = uuid;
     newData.type = typeRating;
+    if (typeRating == 0) {
+      setRatingForOrgNow(rating);
+    }
     const collectionRef = collection(database, 'ratings');
     const q = query(
       collectionRef,
@@ -120,15 +132,16 @@ export const DeliveryDetail = ({ orders, orderId }) => {
   return (
     <ScrollView>
       <OrderSummary cartItem={filterData(orderId, orders)} />
+      <Divider />
       <ListRowItem
         typeRating={0}
         showReview={true}
         savedRating={ratingForOrg}
         onStartRating={onStartRating}
         onFinishRating={onFinishRating}
-        title={'organization title'}
-        note={`Booking ID: ${activityHistoryDetail.bookingId}`}
-        subTitle={`Status: ${activityHistoryDetail.status}`}
+        title={extractOrganizationName(orders,orderId)}
+        note={'Avaliação: '+ratingForOrgNow+'/5'}
+        //subTitle={'subtitle'}
         leftElement={
           <Image
             source={require('@src/assets/common/food.png')}

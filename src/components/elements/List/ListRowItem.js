@@ -85,9 +85,9 @@ export const ListRowItem = ({
                 {subTitle}
               </Text>
             )}
-            {showReview === true && <Text textAlign="left" variant="secondary">
+            {/* {showReview === true && <Text textAlign="left" variant="secondary">
               {"Avaliação:"}
-            </Text>}
+            </Text>} */}
           </Box>
           {rightElement && (
             <Box flex={2} alignItems="flex-end" {...rightContainerProps}>
