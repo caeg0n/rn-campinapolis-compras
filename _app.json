@@ -2,13 +2,8 @@
   "expo": {
     "name": "campinapolis-compras",
     "slug": "campinapolis-compras",
-    "version": "1.0.2",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "privacy": "public",
-    "sdkVersion": "48.0.0",
-    "platforms": ["android"],
-    "description": "Compras, vendas e entregas na cidade de campinápolis",
-    "keywords": ["compras", "entregas", "vendas", "campinapolis"],
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -31,10 +26,9 @@
       },
       "supportsTablet": true,
       "buildNumber": "3",
-      "bundleIdentifier": "com.caeg0n.campinapoliscompras"
+      "bundleIdentifier": "com.jcstudio.foodstarexpoapp"
     },
     "android": {
-      "versionCode": 1,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyD7_x-IaDtLZle9C37GEnizuCkEOSnkkBg"
@@ -43,14 +37,16 @@
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.caeg0n.campinapoliscompras"
+      "package": "com.jcstudio.foodstarexpoapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
