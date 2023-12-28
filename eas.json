@@ -3,11 +3,11 @@
     "version": "= 5.9.3"
   },
   "build": {
-    "development": {
+    "dev": {
       "developmentClient": true,
       "distribution": "internal"
     },
-    "preview": {
+    "prev": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
@@ -16,8 +16,8 @@
         "NODE_ENV": "production"
       }
     },
-    "production": {
-      "distribution": "public"
+    "prod": {
+      "distribution": "store"
     }
   },
   "submit": {

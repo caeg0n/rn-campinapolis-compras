@@ -13,7 +13,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -33,7 +33,7 @@
       "bundleIdentifier": "com.caeg0n.campinapoliscompras"
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 3,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyD7_x-IaDtLZle9C37GEnizuCkEOSnkkBg"

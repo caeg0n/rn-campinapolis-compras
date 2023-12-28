@@ -14,7 +14,8 @@ export const TrackOrder = ({ route }) => {
   //const { cartItems, totalBasketPrice } = React.useContext(CartContext);
   //const navigation = useExploreStackNavigation();
   //const { addresses } = useSelector((state) => state.sessionReducer);
-  const { orders, category, orderId, organizationName } = route.params;
+  const { orders } = useSelector((state) => state.sessionReducer);
+  const { category, orderId, organizationName } = route.params;
   const [isStepsVisible, setIsStepsVisible] = React.useState(false);
 
   //const onCancel = () => {
