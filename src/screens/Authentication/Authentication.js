@@ -2,20 +2,23 @@ import React from 'react';
 import { AuthContext } from '@src/auth';
 import { Box, Button, Image, Text } from '@src/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { StyleSheet } from 'react-native';
+//import { StyleSheet } from 'react-native';
 //import { useDispatch } from 'react-redux';
-// import { useEffect } from 'react';
+//import { useEffect } from 'react';
 
 export const Authentication = ({ navigation }) => {
   const { signIn } = React.useContext(AuthContext);
   const { bottom } = useSafeAreaInsets();
 
-  const onConnectWithPhoneNumberButtonPress = () => {
-    navigation.navigate('AuthenticationWithPhone');
-  };
-  const onSocialNetworkConnectButtonPress = () => {
+  const onBuyPress = () => {
     signIn();
-  };
+  }
+  // const onConnectWithPhoneNumberButtonPress = () => {
+  //   navigation.navigate('AuthenticationWithPhone');
+  // };
+  // const onSocialNetworkConnectButtonPress = () => {
+  //   signIn();
+  // };
 
   return (
     <Box
@@ -31,7 +34,7 @@ export const Authentication = ({ navigation }) => {
         />
       </Box>
       <Box
-        height={340}
+        height={'70%'}
         padding="l"
         borderTopLeftRadius="xxl"
         borderTopRightRadius="xxl"
@@ -39,7 +42,7 @@ export const Authentication = ({ navigation }) => {
         style={{
           paddingBottom: bottom !== 0 ? bottom : undefined,
         }}>
-        <Text fontWeight="bold" variant="header">
+        <Text textAlign={"center"} fontWeight="bold" variant="header">
           COMPRE TUDO QUE PRECISA.
         </Text>
         <Text marginTop="xs" variant="secondary">
@@ -50,22 +53,23 @@ export const Authentication = ({ navigation }) => {
           <Button
             label="COMPRAR"
             isFullWidth
-            onPress={onConnectWithPhoneNumberButtonPress}
+            onPress={onBuyPress}
           />
           <Button
             label="QUERO VENDER"
             isFullWidth
-            //variant="facebook"
+            variant="facebook"
             marginTop="s"
             backgroundColor="facebook"
-            onPress={onSocialNetworkConnectButtonPress}
+            onPress={null}
           />
           <Button
-            label="QUEROo SER UM ENTREGADOR"
-            //variant="google"
+            label="QUERO SER UM ENTREGADOR"
+            variant="google"
             marginTop="s"
+            backgroundColor="google"
             isFullWidth
-            onPress={onSocialNetworkConnectButtonPress}
+            onPress={null}
           />
         </Box>
       </Box>

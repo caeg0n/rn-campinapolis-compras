@@ -8,29 +8,29 @@ import {
   PaymentMethod,
   PlaceDetails,
   PlaceList,
-  //Promotion,
   SavedAddresses,
   SelectLocation,
   TrackOrder,
+  //Promotion,
 } from '@src/screens';
 import { fontSize } from '@src/theme';
 import { Button, ExploreHeaderTitle, Icon } from '@src/components';
-//import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 
 export const ExploreStack = ({ navigation }) => {  
   const renderExploreHeaderLeft = () => <ExploreHeaderTitle />;
-  const renderPlaceDetailHeaderRight = () => {
-    return (
-      <Button
-        variant="transparent"
-        buttonSize="xs"
-        onPress={() => navigation.navigate('SearchDishesModal')}>
-        <Icon name="search" size={fontSize.l} isPrimary />
-      </Button>
-    );
-  };
+
+  // const renderPlaceDetailHeaderRight = () => {
+  //   return (
+  //     <Button
+  //       variant="transparent"
+  //       buttonSize="xs"
+  //       onPress={() => navigation.navigate('SearchDishesModal')}>
+  //       <Icon name="search" size={fontSize.l} isPrimary />
+  //     </Button>
+  //   );
+  // };
 
   const renderAddressHeaderRight = () => {
     return (

@@ -3,6 +3,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   Authentication,
+  Explore
   // AuthenticationCodeVerification,
   // AuthenticationWithPhone,
   // ForgotPassword,
@@ -13,7 +14,6 @@ import { useTransparentHeaderOptions } from '@src/utils';
 const Stack = createNativeStackNavigator();
 
 export const AuthenticationStack = () => {
-  console.log('AuthenticationStack');
   const transparentHeaderOptions = useTransparentHeaderOptions();
 
   return (
@@ -23,6 +23,11 @@ export const AuthenticationStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Authentication" component={Authentication} />
+      {/* <Stack.Screen
+        name="AuthenticationWithPhone"
+        component={AuthenticationWithPhone}
+        options={transparentHeaderOptions}
+      /> */}
       {/* <Stack.Screen
         name="AuthenticationWithPhone"
         component={AuthenticationWithPhone}

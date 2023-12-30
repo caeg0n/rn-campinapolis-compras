@@ -1,9 +1,9 @@
 export const palette = {
-  orange: '#FC6A57',
+  orange: '#ea1d2c',
   white: '#FFF',
   black: '#000000',
   yellow: '#eab308',
-  red: '#ef4444',
+  red: '#ea1d2c',
   green: '#008060',
   blue: '#2E72D2',
   gray: {
@@ -20,5 +20,5 @@ export const palette = {
     950: '#09090b',
   },
   facebook: '#3b5998',
-  google: '#db4437',
+  google: '#008060',
 };
