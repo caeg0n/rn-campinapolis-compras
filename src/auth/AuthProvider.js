@@ -22,9 +22,9 @@ import {
   setOrderStatusList,
   setOrderStatusBaseList,
   setOrderStatusBlockList,
-  resetSelectedPaymentMethod,
   resetSelectedAddress,
   resetUUID,
+  resetSelectedPaymentMethod,
 } from '@src/redux/actions/session';
 
 
@@ -80,8 +80,8 @@ export const AuthProvider = ({ children, fetchData }) => {
   useEffect(() => {
     //reidrata asyncstorage
     //localDispatch(resetUUID());
-    //localDispatch(resetSelectedAddress());
     //localDispatch(resetSelectedPaymentMethod());
+    localDispatch(resetSelectedAddress());
     localDispatch(resetCategories());
     localDispatch(resetMostPopular());
     localDispatch(resetOrganizations());
