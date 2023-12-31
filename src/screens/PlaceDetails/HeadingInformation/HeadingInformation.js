@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Box, Text, Icon } from '@src/components';
 import styles from './HeadingInformation.style';
 import { PlaceCardInfo } from '@src/components';
-import { fontSize } from '@src/theme';
+//import { fontSize } from '@src/theme';
 
 export const HeadingInformation = ({ data }) => {
   const { title, subTitle } = data;
@@ -20,13 +20,13 @@ export const HeadingInformation = ({ data }) => {
       <PlaceCardInfo data={data} />
       <Box flexDirection="row" marginTop="m">
         <Text variant="secondary" marginRight="m">
-          Opening Hours
+          Aberto às
         </Text>
         <Text variant="secondary" color="text">
           09:30 AM - 10:00 PM
         </Text>
       </Box>
-      <Box flexDirection="row" marginTop="s">
+      {/* <Box flexDirection="row" marginTop="s">
         <Text variant="secondary" marginRight="m">
           Coupon Codes
         </Text>
@@ -58,7 +58,7 @@ export const HeadingInformation = ({ data }) => {
             </Text>
           </Box>
         </Box>
-      </Box>
+      </Box> */}
     </Card>
   );
 };

@@ -6,8 +6,6 @@ import { BasketSummary } from './BasketSummary';
 import { HeadingInformation } from './HeadingInformation';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-//import { mockPlaceDetails } from '@src/data';
-//import { PopularDishes } from './PopularDishes';
 
 function transformData (inputData, orgId) {
   let result = [];
