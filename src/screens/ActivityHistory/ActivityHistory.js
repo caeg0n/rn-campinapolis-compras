@@ -13,6 +13,23 @@ import {
 } from 'firebase/firestore';
 import { database } from '../../../firebaseConfig';
 
+function hashStringToFourChars(input) {
+  let hash = 0;
+  for (let i = 0; i < input.length; i++) {
+    const char = input.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  }
+  let result = '';
+  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < 4; i++) {
+    result += characters.charAt(Math.abs(hash) % charactersLength);
+    hash = Math.floor(hash / charactersLength);
+  }
+  return result;
+}
+
 const extractOrganizationCategory = (data) => {
   for (const reference of Object.values(data)) {
     for (const orderList of Object.values(reference)) {
@@ -68,7 +85,7 @@ export const ActivityHistory = () => {
           id: reference + '-' + organizationId,
           title: `${organizationName}`,
           subTitle: `${totalOrders} items | ${formatCurrency(totalPrice)}`,
-          note: `Referência: ${reference}`,
+          note: `Referente ao pedido: #${hashStringToFourChars(reference)}`,
           dataInfo: `Data: ${dataInfo}`,
           onPress: () =>
             navigation.navigate('TrackOrder', {

@@ -1,26 +1,18 @@
-import React from 'react';
-import { Place } from '@src/data';
-import { fontSize } from '@src/theme';
-import { Box, Icon, RatingView, Text } from '../elements';
+import React from "react"
+import { fontSize } from "@src/theme"
+import { Box, Icon, RatingView, Text } from "../elements"
 
-type PlaceCardInfoProps = {
-  data: Place;
-  ratingStarBackgroundColor?: string;
-};
-
-export const PlaceCardInfo: React.FC<PlaceCardInfoProps> = ({
-  data,
-  ratingStarBackgroundColor,
-}) => {
-  const { distance, rating, time } = data;
+export const PlaceCardInfo = ({ data, ratingStarBackgroundColor }) => {
+  const { distance, rating, time } = data
 
   return (
     <Box
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center"
-      flexWrap="wrap">
-      <Box paddingBottom="s">
+      flexWrap="wrap"
+    >
+      <Box paddingBottom="xs">
         <RatingView
           value={rating}
           itemSize={16}
@@ -37,12 +29,14 @@ export const PlaceCardInfo: React.FC<PlaceCardInfoProps> = ({
           paddingHorizontal="s"
           paddingVertical="xxs"
           borderRadius="l"
-          marginRight="s">
-          <Icon name="location-outline" size={fontSize.xs} isPrimary />
+          marginRight="s"
+        >
+          <Icon name="bicycle" size={fontSize.xs} isPrimary />
           <Text
             color="primary"
             marginLeft="xs"
-            fontSize={fontSize.xs}>{`${distance}m`}</Text>
+            fontSize={fontSize.xs}
+          >{`R$2,00`}</Text>
         </Box>
         <Box
           flexDirection="row"
@@ -51,13 +45,15 @@ export const PlaceCardInfo: React.FC<PlaceCardInfoProps> = ({
           alignItems="center"
           paddingHorizontal="s"
           paddingVertical="xxs"
-          borderRadius="l">
+          borderRadius="l"
+        >
           <Icon name="time-outline" size={fontSize.xs} isPrimary />
           <Text color="primary" marginLeft="xs" fontSize={fontSize.xs}>
-            {`${time}'`}
+            {/* {`fecha as ${time}'`} */}
+            {`23:00`}
           </Text>
         </Box>
       </Box>
     </Box>
-  );
-};
+  )
+}

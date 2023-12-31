@@ -9,6 +9,7 @@ import { Box, Image } from '@src/components';
 import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import { Button, Text } from '@src/components';
+import { useExploreStackNavigation } from '@src/hooks';
 
 function getUniqueOrganizationIds(dataArray) {
   const uniqueIds = new Set();
@@ -62,6 +63,7 @@ function groupByOrganizationId(items) {
 }
 
 export const Checkout = ({ route }) => {
+  const navigation = useExploreStackNavigation();
   const localization = route.params;
   const [refresh, setRefresh] = useState(false);
   const { cartItems, totalBasketPrice } = React.useContext(CartContext);
@@ -73,6 +75,10 @@ export const Checkout = ({ route }) => {
       setRefresh(!refresh);
     }, []),
   );
+
+  const onBuyPress = () => {
+    navigation.navigate('Explore');
+  }
 
   const renderOrders = () => {
     const myCartItems = JSON.parse(JSON.stringify(cartItems));
@@ -137,7 +143,7 @@ export const Checkout = ({ route }) => {
             />
           </Box>
           <Box width="100%" paddingHorizontal="m" backgroundColor="card">
-            <Button label={'Comprar'} isFullWidth paddingVertical="m" />
+            <Button onPress={onBuyPress} label={'Comprar'} isFullWidth paddingVertical="m" />
           </Box>
         </Box>
       )}

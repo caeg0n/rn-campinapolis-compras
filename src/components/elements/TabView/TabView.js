@@ -4,7 +4,6 @@ import { TabView as RNTabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { useStyles } from './TabView.style';
 import { Icon } from '../Icon';
 import { useAppTheme } from '@src/theme';
-// import { useSelector } from 'react-redux';
 
 export const TabView = ({
   tabData,

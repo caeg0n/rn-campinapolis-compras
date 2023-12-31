@@ -2,7 +2,6 @@ import { Box, TextField } from '@src/components';
 import React from 'react';
 
 export const SearchHeader = () => {
-  console.log('searchHeader');
   return (
     <Box backgroundColor="card" padding="s">
       <TextField
@@ -10,7 +9,7 @@ export const SearchHeader = () => {
         leftIcon="search"
         borderWidth={0}
         inputProps={{
-          placeholder: 'Find places, dishes, restaurants, etc.',
+          placeholder: 'Encontre os comércios e produtos.',
         }}
       />
     </Box>

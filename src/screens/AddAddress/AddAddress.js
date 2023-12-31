@@ -5,12 +5,11 @@ import { Text } from 'react-native';
 import { TextField, Button, Divider, Box } from '@src/components';
 import { useSelector } from 'react-redux';
 import { useExploreStackNavigation } from '@src/hooks';
+import { ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-if (__DEV__) {
-  var API_BASE_URL = DEV_API_BASE;
-} else {
-  var API_BASE_URL = PROD_API_BASE;
-}
+
+let API_BASE_URL = __DEV__ ? DEV_API_BASE : PROD_API_BASE;
 
 async function putAddress(address_data, id, nav) {
   try {
@@ -50,7 +49,7 @@ export const AddAddress = () => {
   const [phone, setPhone] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [status, setStatus] = React.useState(false);
-  
+
   const saveClick = async () => {
     let address_data = {};
     setStatus(true);
@@ -62,11 +61,7 @@ export const AddAddress = () => {
             address_data.name = name;
             address_data.phone = phone;
             address_data.address = address;
-            await putAddress(
-              { ...address_data },
-              uuid,
-              navigation,
-            );
+            await putAddress({ ...address_data }, uuid, navigation);
           }
         }
       }
@@ -78,7 +73,6 @@ export const AddAddress = () => {
     return (
       <>
         <Box paddingVertical="s" paddingHorizontal="m">
-  
           <TextField
             borderColor={title === '' && status === true ? 'red' : 'white'}
             inputProps={{
@@ -158,5 +152,19 @@ export const AddAddress = () => {
       </>
     );
   };
-  return renderListHeader();
+
+  // return renderListHeader();
+  return (
+    <KeyboardAwareScrollView
+      style={{ flex: 1 }}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={{ flexGrow: 1 }}
+      scrollEnabled={true}
+      extraHeight={120}
+      enableOnAndroid={true}
+      keyboardShouldPersistTaps="handled"
+    >
+      {renderListHeader()}
+    </KeyboardAwareScrollView>
+  );
 };

@@ -45,18 +45,10 @@ export const HotDeals = ({ navigation }) => {
     );
   };
 
-  // const onButtonActionPress = () => {
-  //   navigation.navigate('PlaceList', { title: 'Recommended' });
-  // };
-
-  // const onPlaceItemPress = () => {
-  //   navigation.navigate('PlaceDetails');
-  // };
-
   return (
     <Section
-      title="Hot deals around you"
-      actionButtonText="View more"
+      title="Seus Preferidos"
+      actionButtonText="Ver mais"
       onButtonActionPress={_onButtonActionPressed}>
       <Carousel
         numItemsPerSlide={1.8}

@@ -30,7 +30,7 @@ export const PlaceListItem = ({
               marginRight="s"
               source={image}
             />
-            <Box flex={1} maxHeight={45}>
+            <Box flex={1} >
               <Box>
                 <Text fontWeight="bold" numberOfLines={1}>
                   {title}
@@ -38,7 +38,7 @@ export const PlaceListItem = ({
                 <Text
                   variant="secondary"
                   marginTop="xxs"
-                  marginBottom="s"
+                  marginBottom="xxs"
                   numberOfLines={1}>
                   {subTitle}
                 </Text>

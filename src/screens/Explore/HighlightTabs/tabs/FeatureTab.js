@@ -8,7 +8,7 @@ export const FeaturedTab = () => {
   );
 
   return (
-    <Box backgroundColor="card" paddingTop="none">
+    <Box backgroundColor="card">
       {all_opened_organizations.map((item) => {
         return <PlaceListItem key={item.id} data={item} />;
       })}
