@@ -12,7 +12,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MemoizedAuthProvider } from '@src/auth';
 import { CartProvider } from '@src/cart';
 import { useEffect, useState, useRef } from 'react';
-//import { View, ActivityIndicator } from 'react-native';
+// import { View, ActivityIndicator } from 'react-native';
 
 import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
@@ -112,8 +112,9 @@ export default function App() {
 
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
-    fetchData()
-      .then((jsonData) => {
+    const initializeApp = async () => {
+      try {
+        const jsonData = await fetchData();
         allCategoriesAndProducts.current = jsonData.jsonAllCategoriesAndProducts;
         allPaymentsMethods.current = jsonData.jsonAllPaymentsMethods;
         allOrganizations.current = jsonData.jsonAllOrganizations;
@@ -126,14 +127,14 @@ export default function App() {
         allOrderStatusList.current = jsonData.jsonAllOrderStatusList;
         allOrderStatusBaseList.current = jsonData.jsonAllOrderStatusBaseList;
         allOrderStatusBlockList.current = jsonData.jsonAllOrderStatusBlockList;
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error fetching data in app.js:', error);
-      })
-      .finally(() => {
+      } finally {
         SplashScreen.hideAsync();
         setFetching(false);
-      });
+      }
+    };
+    initializeApp();
   }, []);
 
   // if (isFetching) {
