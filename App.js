@@ -3,7 +3,6 @@ import { DEV_API_BASE, PROD_API_BASE } from '@env';
 import * as SplashScreen from 'expo-splash-screen';
 import { StartupContainer } from './StartupContainer';
 import { ExpoPushNotifications } from './ExpoPushNotifications';
-import { View, ActivityIndicator } from 'react-native';
 import { Text, StyleSheet } from 'react-native';
 import { MemoizedRootNavigation } from '@src/navigation';
 import { AppThemeProvider } from '@src/theme/AppThemeProvider';
@@ -12,48 +11,27 @@ import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MemoizedAuthProvider } from '@src/auth';
 import { CartProvider } from '@src/cart';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+//import { View, ActivityIndicator } from 'react-native';
 
 import { Provider } from 'react-redux';
 import { Store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
+const API_BASE = __DEV__ ? DEV_API_BASE : PROD_API_BASE;
 
-if (__DEV__) {
-  var GET_ALL_PAYMENTS_METHODS_URL = DEV_API_BASE + '/get_payments_methods';
-  var GET_ALL_ORGANIZATIONS_URL =
-    DEV_API_BASE + '/get_all_organizations_with_distinct_category';
-  var GET_MOST_POPULAR_URL = DEV_API_BASE + '/get_most_popular/5';
-  var GET_ALL_CATEGORIES_URL = DEV_API_BASE + '/get_all_categories';
-  var GET_RECOMMENDED_PLACES_URL = DEV_API_BASE + '/get_recommended_places';
-  var GET_HOT_DEALS_URL = DEV_API_BASE + '/get_hot_deals';
-  var GET_ALL_OPENED_ORGANIZATIONS_URL =
-    DEV_API_BASE + '/get_all_opened_organizations';
-  var GET_ALL_CLOSED_ORGANIZATIONS_URL =
-    DEV_API_BASE + '/get_all_closed_organizations';
-  var GET_ALL_CATEGORIES_AND_PRODUCTS_URL =
-    DEV_API_BASE + '/get_categories_and_products';
-  var GET_ALL_ORDER_STATUS_LIST_URL = DEV_API_BASE + '/order_status_list';
-  var GET_ALL_ORDER_STATUS_BASE_LIST_URL = DEV_API_BASE + '/order_status_base_list';
-  var GET_ALL_ORDER_STATUS_BLOCK_LIST_URL = DEV_API_BASE + '/order_status_block_list';
-} else {
-  var GET_ALL_PAYMENTS_METHODS_URL = PROD_API_BASE + '/get_payments_methods';
-  var GET_ALL_ORGANIZATIONS_URL =
-    PROD_API_BASE + '/get_all_organizations_with_distinct_category';
-  var GET_MOST_POPULAR_URL = PROD_API_BASE + '/get_most_popular/5';
-  var GET_ALL_CATEGORIES_URL = PROD_API_BASE + '/get_all_categories';
-  var GET_RECOMMENDED_PLACES_URL = PROD_API_BASE + '/get_recommended_places';
-  var GET_HOT_DEALS_URL = PROD_API_BASE + '/get_hot_deals';
-  var GET_ALL_OPENED_ORGANIZATIONS_URL =
-    PROD_API_BASE + '/get_all_opened_organizations';
-  var GET_ALL_CLOSED_ORGANIZATIONS_URL =
-    PROD_API_BASE + '/get_all_closed_organizations';
-  var GET_ALL_CATEGORIES_AND_PRODUCTS_URL =
-    PROD_API_BASE + '/get_categories_and_products';
-  var GET_ALL_ORDER_STATUS_LIST_URL = PROD_API_BASE + '/order_status_list';
-  var GET_ALL_ORDER_STATUS_BASE_LIST_URL = PROD_API_BASE + '/order_status_base_list';
-  var GET_ALL_ORDER_STATUS_BLOCK_LIST_URL = PROD_API_BASE + '/order_status_block_list';
-}
+var GET_ALL_PAYMENTS_METHODS_URL = API_BASE + '/get_payments_methods';
+var GET_ALL_ORGANIZATIONS_URL = API_BASE + '/get_all_organizations_with_distinct_category';
+var GET_MOST_POPULAR_URL = API_BASE + '/get_most_popular/5';
+var GET_ALL_CATEGORIES_URL = API_BASE + '/get_all_categories';
+var GET_RECOMMENDED_PLACES_URL = API_BASE + '/get_recommended_places';
+var GET_HOT_DEALS_URL = API_BASE + '/get_hot_deals';
+var GET_ALL_OPENED_ORGANIZATIONS_URL = API_BASE + '/get_all_opened_organizations';
+var GET_ALL_CLOSED_ORGANIZATIONS_URL = API_BASE + '/get_all_closed_organizations';
+var GET_ALL_CATEGORIES_AND_PRODUCTS_URL = API_BASE + '/get_categories_and_products';
+var GET_ALL_ORDER_STATUS_LIST_URL = API_BASE + '/order_status_list';
+var GET_ALL_ORDER_STATUS_BASE_LIST_URL = API_BASE + '/order_status_base_list';
+var GET_ALL_ORDER_STATUS_BLOCK_LIST_URL = API_BASE + '/order_status_block_list';
 
 //StartupContainer.init();
 
@@ -64,18 +42,18 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const [allCategoriesAndProducts, setAllCategoriesAndProducts] = useState([]);
-  const [allPaymentsMethods, setAllPaymentsMethods] = useState([]);
-  const [allOrganizations, setAllOrganizations] = useState([]);
-  const [mostPopular, setMostPopular] = useState([]);
-  const [allCategories, setAllCategories] = useState([]);
-  const [recommendedPlaces, setRecommendedPlaces] = useState([]);
-  const [hotDeals, setHotDeals] = useState([]);
-  const [allOpenedOrganizations, setAllOpenedOrganizations] = useState([]);
-  const [allClosedOrganizations, setAllClosedOrganizations] = useState([]);
-  const [allOrderStatusList, setAllOrderStatusList] = useState([]);
-  const [allOrderStatusBaseList, setAllOrderStatusBaseList] = useState([]);
-  const [allOrderStatusBlockList, setAllOrderStatusBlockList] = useState([]);
+  const allCategoriesAndProducts = useRef([]);
+  const allPaymentsMethods = useRef([]);
+  const allOrganizations = useRef([]);
+  const mostPopular = useRef([]);
+  const allCategories = useRef([]);
+  const recommendedPlaces = useRef([]);
+  const hotDeals = useRef([]);
+  const allOpenedOrganizations = useRef([]);
+  const allClosedOrganizations = useRef([]);
+  const allOrderStatusList = useRef([]);
+  const allOrderStatusBaseList = useRef([]);
+  const allOrderStatusBlockList = useRef([]);
   const [isFetching, setFetching] = useState(true);
 
   const fetchData = async () => {
@@ -136,21 +114,21 @@ export default function App() {
     SplashScreen.preventAutoHideAsync();
     fetchData()
       .then((jsonData) => {
-        setAllCategoriesAndProducts(jsonData.jsonAllCategoriesAndProducts);
-        setAllPaymentsMethods(jsonData.jsonAllPaymentsMethods);
-        setAllOrganizations(jsonData.jsonAllOrganizations);
-        setMostPopular(jsonData.jsonMostPopular);
-        setAllCategories(jsonData.jsonAllCategories);
-        setRecommendedPlaces(jsonData.jsonRecommendedPlaces);
-        setHotDeals(jsonData.jsonHotDeals);
-        setAllOpenedOrganizations(jsonData.jsonAllOpenedOrganizations);
-        setAllClosedOrganizations(jsonData.jsonAllClosedOrganizations);
-        setAllOrderStatusList(jsonData.jsonAllOrderStatusList);
-        setAllOrderStatusBaseList(jsonData.jsonAllOrderStatusBaseList);
-        setAllOrderStatusBlockList(jsonData.jsonAllOrderStatusBlockList);
+        allCategoriesAndProducts.current = jsonData.jsonAllCategoriesAndProducts;
+        allPaymentsMethods.current = jsonData.jsonAllPaymentsMethods;
+        allOrganizations.current = jsonData.jsonAllOrganizations;
+        mostPopular.current = jsonData.jsonMostPopular;
+        allCategories.current = jsonData.jsonAllCategories;
+        recommendedPlaces.current = jsonData.jsonRecommendedPlaces;
+        hotDeals.current = jsonData.jsonHotDeals;
+        allOpenedOrganizations.current = jsonData.jsonAllOpenedOrganizations;
+        allClosedOrganizations.current = jsonData.jsonAllClosedOrganizations;
+        allOrderStatusList.current = jsonData.jsonAllOrderStatusList;
+        allOrderStatusBaseList.current = jsonData.jsonAllOrderStatusBaseList;
+        allOrderStatusBlockList.current = jsonData.jsonAllOrderStatusBlockList;
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data in app.js:', error);
       })
       .finally(() => {
         SplashScreen.hideAsync();
@@ -158,13 +136,13 @@ export default function App() {
       });
   }, []);
 
-  if (isFetching) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="red" />
-      </View>
-    );
-  }
+  // if (isFetching) {
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //       <ActivityIndicator size="large" color="red" />
+  //     </View>
+  //   );
+  // }
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -177,18 +155,18 @@ export default function App() {
               <AppThemeProvider>
                 <MemoizedAuthProvider
                   fetchData={{
-                    allCategoriesAndProducts,
-                    allPaymentsMethods,
-                    allOrganizations,
-                    mostPopular,
-                    allCategories,
-                    recommendedPlaces,
-                    hotDeals,
-                    allOpenedOrganizations,
-                    allClosedOrganizations,
-                    allOrderStatusList,
-                    allOrderStatusBaseList,
-                    allOrderStatusBlockList
+                    allCategoriesAndProducts:allCategoriesAndProducts.current,
+                    allPaymentsMethods:allPaymentsMethods.current,
+                    allOrganizations:allOrganizations.current,
+                    mostPopular:mostPopular.current,
+                    allCategories:allCategories.current,
+                    recommendedPlaces:recommendedPlaces.current,
+                    hotDeals:hotDeals.current,
+                    allOpenedOrganizations:allOpenedOrganizations.current,
+                    allClosedOrganizations:allClosedOrganizations.current,
+                    allOrderStatusList:allOrderStatusList.current,
+                    allOrderStatusBaseList:allOrderStatusBaseList.current,
+                    allOrderStatusBlockList:allOrderStatusBlockList.current
                   }}>
                   <CartProvider>
                     <MemoizedRootNavigation />

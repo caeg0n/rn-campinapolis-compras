@@ -17,7 +17,6 @@ if (__DEV__) {
 async function registerForPushNotificationsAsync() {
   let token;
   if (Platform.OS === 'android') {
-    console.log('1')
     Notifications.setNotificationChannelAsync('default', {
       name: 'default',
       importance: Notifications.AndroidImportance.MAX,
@@ -40,9 +39,9 @@ async function registerForPushNotificationsAsync() {
       projectId: Constants.expoConfig.extra.eas.projectId,
     });
   } else {
-    alert('Must use physical device for Push Notifications');
+    //alert('Must use physical device for Push Notifications');
   }
-  return token.data;
+  return token?.data;
 }
 
 async function registerExpoToken (token, uuid) {
@@ -86,7 +85,6 @@ async function registerExpoToken (token, uuid) {
 }
 
 export const ExpoPushNotifications = () => {
-  console.log('ExpoPushNotifications');
   const dispatch = useDispatch();
   const { uuid } = useSelector((state) => state.sessionReducer); 
   useEffect(() => {

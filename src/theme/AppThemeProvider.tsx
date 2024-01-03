@@ -15,7 +15,6 @@ export const AppThemeProvider = ({ children }: AppThemeProviderProps) => {
   const [useSystemTheme, setUseSystemTheme] = React.useState(false);
 
   React.useEffect(() => {
-    console.log('AppThemeProvider');
     if (useSystemTheme) {
       setCurrentTheme(scheme);
     }
