@@ -4,10 +4,9 @@ import { Box, TabView } from '@src/components';
 import styles from './HighlightTabs.style';
 import { useSelector } from 'react-redux';
 import { Dimensions } from 'react-native';
-import { View, SafeAreaView, StyleSheet, StatusBar, Text } from 'react-native';
 
-//866.2857 => 650
-//
+//height 866.2857142857143 => 650
+//height 866.2857142857143 => 650
 
 function calculateOutput(x) {
   const m = -0.0818;
@@ -29,6 +28,7 @@ export const HighlightTabs = () => {
     (state) => state.userReducer,
   );
   const [height, setHeight] = useState(calculateOutput(Dimensions.get('window').height) * all_opened_organizations.length);
+    console.log(Dimensions.get('window').height);
 
   const getIndex = (index) => {
     if(index==0){setHeight(calculateOutput(Dimensions.get('window').height) * all_opened_organizations.length)}
@@ -49,8 +49,7 @@ export const HighlightTabs = () => {
       backgroundColor="card"
       borderTopRightRadius="xl"
       borderTopLeftRadius="xl"
-      height={880}
-      >
+      height={650}>
       <TabView getIndex={getIndex} tabData={tabData} tabBarStyle={styles.tabBarStyle} isFullWidth />
     </Box>
   );

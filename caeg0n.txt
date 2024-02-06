@@ -1,0 +1,6 @@
+#init 
+npx expo start
+
+#deploy
+eas login
+eas build:configure

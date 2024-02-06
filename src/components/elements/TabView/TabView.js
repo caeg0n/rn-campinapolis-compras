@@ -55,6 +55,9 @@ export const TabView = ({
   return (
     <RNTabView
       navigationState={navigationState}
+      renderScene={SceneMap(scenes)}
+      onIndexChange={onIndexChange}
+      initialLayout={{ width: Dimensions.get('window').width }}
       renderTabBar={(props) => (
         <TabBar
           {...props}
@@ -77,9 +80,6 @@ export const TabView = ({
           scrollEnabled={true}
         />
       )}
-      renderScene={SceneMap(scenes)}
-      onIndexChange={onIndexChange}
-      initialLayout={{ width: Dimensions.get('window').width, height: 0 }}
     />
   );
 };
