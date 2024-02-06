@@ -5,7 +5,8 @@
   "build": {
     "dev": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "dev"
     },
     "prev": {
       "distribution": "internal",
@@ -14,10 +15,12 @@
       },
       "env": {
         "NODE_ENV": "production"
-      }
+      },
+      "channel": "prev"
     },
     "prod": {
-      "distribution": "store"
+      "distribution": "store",
+      "channel": "prod"
     }
   },
   "submit": {
