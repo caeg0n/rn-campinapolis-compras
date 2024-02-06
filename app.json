@@ -2,7 +2,7 @@
   "expo": {
     "name": "Campinapolis Compras",
     "slug": "campinapolis-compras",
-    "version": "1.0.2",
+    "version": "1.0.0",
     "orientation": "portrait",
     "privacy": "public",
     "sdkVersion": "48.0.0",
@@ -29,11 +29,11 @@
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Este aplicativo usa o serviço de localizaçãon para localizar o endereço do usuário."
       },
       "supportsTablet": true,
-      "buildNumber": "4",
+      "buildNumber": "1",
       "bundleIdentifier": "com.caeg0n.campinapoliscompras"
     },
     "android": {
-      "versionCode": 4,
+      "versionCode": 1,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
