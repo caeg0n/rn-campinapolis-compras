@@ -4,3 +4,4 @@ npx expo start
 #deploy
 eas login
 eas build:configure
+eas build --profile prev

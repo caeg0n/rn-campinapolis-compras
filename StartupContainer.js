@@ -7,13 +7,9 @@ import { setAddresses } from '@src/redux/actions/session';
 import { setOrders } from '@src/redux/actions/session';
 //import { plus } from './Helpers';
 
-if (__DEV__) {
-  var GET_ADDRESSES_URL = DEV_API_BASE + '/get_addresses';
-  var GET_ORDERS_URL = DEV_API_BASE + '/get_orders/device';
-} else {
-  var GET_ADDRESSES_URL = PROD_API_BASE + '/get_addresses';
-  var GET_ORDERS_URL = DEV_API_BASE + '/get_orders/device';
-}
+const baseApiUrl = __DEV__ ? DEV_API_BASE : PROD_API_BASE;
+const GET_ADDRESSES_URL = `${baseApiUrl}/get_addresses`;
+const GET_ORDERS_URL = `${baseApiUrl}/get_orders/device`;
 
 async function fetchUUID() {
   try {
