@@ -2,23 +2,14 @@ import React from 'react';
 import { AuthContext } from '@src/auth';
 import { Box, Button, Image, Text } from '@src/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-//import { StyleSheet } from 'react-native';
-//import { useDispatch } from 'react-redux';
-//import { useEffect } from 'react';
 
 export const Authentication = ({ navigation }) => {
   const { signIn } = React.useContext(AuthContext);
-  const { bottom } = useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
 
   const onBuyPress = () => {
     signIn();
-  }
-  // const onConnectWithPhoneNumberButtonPress = () => {
-  //   navigation.navigate('AuthenticationWithPhone');
-  // };
-  // const onSocialNetworkConnectButtonPress = () => {
-  //   signIn();
-  // };
+  };
 
   return (
     <Box
@@ -34,16 +25,17 @@ export const Authentication = ({ navigation }) => {
         />
       </Box>
       <Box
-        height={'70%'}
+        flex={1} // Adjusted to use flex instead of fixed height
         padding="l"
         borderTopLeftRadius="xxl"
         borderTopRightRadius="xxl"
         backgroundColor="card"
+        justifyContent="center" // Ensure content is centered vertically
         style={{
-          paddingBottom: bottom !== 0 ? bottom : undefined,
+          paddingBottom: insets.bottom ? insets.bottom : 20, // Ensures padding at the bottom, adjusting for safe area
         }}>
         <Text textAlign={"center"} fontWeight="bold" variant="header">
-          COMPRE TUDO QUE PRECISA.
+          COMPRE TUDO QUE VOCÊ PRECISA.
         </Text>
         <Text marginTop="xs" variant="secondary">
           Compre todos os produtos disponiveis na cidade de Campinápolis no

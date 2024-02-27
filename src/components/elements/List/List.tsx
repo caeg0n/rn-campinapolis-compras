@@ -21,7 +21,7 @@ export function List<T>({ contentContainerStyle, ...rest }: FlatListProps<T>) {
       ItemSeparatorComponent={renderDivider}
       ListEmptyComponent={
         <Box flex={1} justifyContent="center" alignItems="center">
-          <Text variant="secondary">No data</Text>
+          <Text variant="secondary">Nenhum Pedido</Text>
         </Box>
       }
       style={{ backgroundColor: colors.card }}
