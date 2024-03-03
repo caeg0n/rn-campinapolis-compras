@@ -78,7 +78,6 @@ export const AuthProvider = ({ children, fetchData }) => {
   );
 
   useEffect(() => {
-    console.log("1111111")
     //reidrata asyncstorage
     //localDispatch(resetUUID());
     //localDispatch(resetSelectedPaymentMethod());

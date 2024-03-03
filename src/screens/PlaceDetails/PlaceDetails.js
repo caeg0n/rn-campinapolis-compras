@@ -31,9 +31,9 @@ export const PlaceDetails = ({ route }) => {
   const [scrollY] = React.useState(new Animated.Value(0));
   const { organization } = route.params;
 
-  useEffect(() => {
-    console.log('PlaceDetails');
-  });
+  // useEffect(() => {
+  //   console.log('PlaceDetails');
+  // });
 
   const coverTranslateY = scrollY.interpolate({
     inputRange: [-4, 0, 10],
