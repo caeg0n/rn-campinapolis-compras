@@ -85,4 +85,4 @@ export const RootNavigation = () => {
     </>
   );
 };
-export const MemoizedRootNavigation = React.memo(RootNavigation);
+export const MemoizedRootNavigation = React.memo(RootNavigation);1

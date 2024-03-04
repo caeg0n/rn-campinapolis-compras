@@ -12,26 +12,13 @@ import {
   SavedAddresses,
   SelectLocation,
   TrackOrder,
-  //Promotion,
 } from '@src/screens';
 import { ExploreHeaderTitle, Icon } from '@src/components';
-//import { fontSize } from '@src/theme';
 
 const Stack = createNativeStackNavigator();
 
 export const ExploreStack = ({ navigation }) => {
   const renderExploreHeaderLeft = () => <ExploreHeaderTitle />;
-
-  // const renderPlaceDetailHeaderRight = () => {
-  //   return (
-  //     <Button
-  //       variant="transparent"
-  //       buttonSize="xs"
-  //       onPress={() => navigation.navigate('SearchDishesModal')}>
-  //       <Icon name="search" size={fontSize.l} isPrimary />
-  //     </Button>
-  //   );
-  // };
 
   const renderAddressHeaderRight = () => {
     return (
@@ -72,7 +59,6 @@ export const ExploreStack = ({ navigation }) => {
         options={({ route: { params } }) => {
           return {
             headerTitle: params?.title,
-            //headerRight: renderPlaceDetailHeaderRight,
           };
         }}
       />
@@ -100,13 +86,12 @@ export const ExploreStack = ({ navigation }) => {
         name="AddAddress"
         options={{
           headerTitle: 'Novo Endereço',
-          //headerRight: renderAddressHeaderRight,
         }}
         component={AddAddress}
       />
       <Stack.Screen
         name="SelectLocation"
-        options={({ route: { params } }) => {
+        options={() => {
           return {
             headerTitle: 'Acompanhe seu pedido',
           };

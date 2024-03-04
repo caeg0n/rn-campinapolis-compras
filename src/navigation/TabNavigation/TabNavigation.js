@@ -3,8 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   ActivityHistoryStack,
   ExploreStack,
-  //NotificationStack,
-  //AccountStack,
 } 
 from '../Stacks';
 import { Icon, Text } from '@src/components';
@@ -80,20 +78,6 @@ const TabNavigation = () => {
           title: 'Pedidos',
         }}
       />
-      {/* <Tab.Screen
-        name="NotificationTab"
-        component={NotificationStack}
-        options={{
-          title: 'Mensagens',
-        }}
-      /> */}
-      {/* <Tab.Screen
-        name="AccountTab"
-        component={AccountStack}
-        options={{
-          title: 'Accounts',
-        }}
-      /> */}
     </Navigator>
   );
 };

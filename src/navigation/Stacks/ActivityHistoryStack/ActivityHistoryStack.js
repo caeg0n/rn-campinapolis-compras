@@ -1,6 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActivityHistory, ActivityHistoryDetail } from '@src/screens';
+import { ActivityHistory } from '@src/screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +17,7 @@ export const ActivityHistoryStack = () => {
         }}
         component={ActivityHistory}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ActivityHistoryDetail"
         options={() => {
           return {
@@ -25,7 +25,7 @@ export const ActivityHistoryStack = () => {
           };
         }}
         component={ActivityHistoryDetail}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };
