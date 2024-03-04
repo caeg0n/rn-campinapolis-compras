@@ -1,11 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
-  //AccountStack,
   ActivityHistoryStack,
   ExploreStack,
-  NotificationStack,
-} from '../Stacks';
+  //NotificationStack,
+  //AccountStack,
+} 
+from '../Stacks';
 import { Icon, Text } from '@src/components';
 import { fontSize } from '@src/theme';
 import styles from './TabNavigation.style';
@@ -69,7 +70,7 @@ const TabNavigation = () => {
         options={{
           title: 'Carrinho',
           headerTitleAlign: 'left',
-          headerShown: true,
+          headerShown: false,
         }}
       />
       <Tab.Screen

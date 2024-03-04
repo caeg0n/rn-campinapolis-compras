@@ -8,21 +8,22 @@ export const ActivityHistoryStack = () => {
   return (
     <Stack.Navigator initialRouteName="ActivityHistory">
       <Stack.Screen
+        name="ActivityHistory"
         options={() => {
           return {
             title: 'Pedidos',
+            headerTitleAlign: 'center',
           };
         }}
-        name="ActivityHistory"
         component={ActivityHistory}
       />
       <Stack.Screen
+        name="ActivityHistoryDetail"
         options={() => {
           return {
             title: 'Detalhes do pedido',
           };
         }}
-        name="ActivityHistoryDetail"
         component={ActivityHistoryDetail}
       />
     </Stack.Navigator>

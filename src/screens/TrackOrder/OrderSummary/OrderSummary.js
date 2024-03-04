@@ -126,7 +126,7 @@ export const OrderSummary = ({ cartItem }) => {
 
   return (
     <Section style={{ marginTop: -20 }} title="Resumo do Pedido">
-      <Section style={{ marginTop: -30 }} title={<TitleWithImage />}>
+      <Section style={{ marginTop: -20 }} title={<TitleWithImage />}>
         <Box backgroundColor="card">
           <Box padding="m">
             {orders.map((item, i) => (

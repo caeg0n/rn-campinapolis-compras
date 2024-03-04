@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   AddAddress,
@@ -13,12 +14,12 @@ import {
   TrackOrder,
   //Promotion,
 } from '@src/screens';
-import { fontSize } from '@src/theme';
-import { Button, ExploreHeaderTitle, Icon } from '@src/components';
+import { ExploreHeaderTitle, Icon } from '@src/components';
+//import { fontSize } from '@src/theme';
 
 const Stack = createNativeStackNavigator();
 
-export const ExploreStack = ({ navigation }) => {  
+export const ExploreStack = ({ navigation }) => {
   const renderExploreHeaderLeft = () => <ExploreHeaderTitle />;
 
   // const renderPlaceDetailHeaderRight = () => {
@@ -46,6 +47,8 @@ export const ExploreStack = ({ navigation }) => {
   return (
     <Stack.Navigator initialRouteName="Explore">
       <Stack.Screen
+        name="Explore"
+        component={Explore}
         options={() => {
           return {
             title: '',
@@ -53,15 +56,13 @@ export const ExploreStack = ({ navigation }) => {
             headerLeft: renderExploreHeaderLeft,
           };
         }}
-        name="Explore"
-        component={Explore}
       />
       <Stack.Screen
         name="PlaceList"
         component={PlaceList}
         options={({ route: { params } }) => {
           return {
-            headerTitle: params?.title
+            headerTitle: params?.title,
           };
         }}
       />
@@ -76,14 +77,14 @@ export const ExploreStack = ({ navigation }) => {
         }}
       />
       <Stack.Screen
-        options={{ headerTitle: 'Finalizar Pedido' }}
         name="Checkout"
+        options={{ headerTitle: 'Finalizar Pedido' }}
         component={Checkout}
       />
       <Stack.Screen
         name="ChangeAddress"
         options={{
-          headerTitle: '587 Blanda Square - Virginia',
+          headerTitle: '',
           headerRight: renderAddressHeaderRight,
         }}
         component={ChangeAddress}
@@ -105,8 +106,10 @@ export const ExploreStack = ({ navigation }) => {
       />
       <Stack.Screen
         name="SelectLocation"
-        options={{
-          headerTitle: '588 Blanda Square - Virginia',
+        options={({ route: { params } }) => {
+          return {
+            headerTitle: 'Acompanhe seu pedido',
+          };
         }}
         component={SelectLocation}
       />
@@ -117,19 +120,23 @@ export const ExploreStack = ({ navigation }) => {
         }}
         component={PaymentMethod}
       />
-      {/* <Stack.Screen
-        name="Promotion"
-        options={{
-          headerTitle: 'Add A Promo',
-        }}
-        component={Promotion}
-      /> */}
       <Stack.Screen
         name="TrackOrder"
-        options={{
-          headerTitle: 'Acompanhe seu Pedido',
-        }}
         component={TrackOrder}
+        options={({ navigation }) => ({
+          headerTitle: 'Acompanhe seus pedidos',
+          headerStyle: {
+            backgroundColor: 'red',
+          },
+          headerTintColor: 'white',
+          headerLeft: () => (
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('ActivityHistory')}>
+              <View style={{ marginRight: 10 }}>
+                <Icon name="md-arrow-back" size={30} color="white" />
+              </View>
+            </TouchableWithoutFeedback>
+          ),
+        })}
       />
     </Stack.Navigator>
   );
