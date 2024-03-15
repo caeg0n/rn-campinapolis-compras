@@ -12,8 +12,8 @@ import { ActivityIndicator } from 'react-native';
 export const Authentication = ({ navigation }) => {
   const { signIn } = React.useContext(AuthContext);
   const insets = useSafeAreaInsets();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalBackgroundColor, setModalBackgroundColor] = useState('white');
+  const [modalSellerVisible, setModalSellerVisible] = useState(false);
+  const [modalDeliverVisible, setModalDeliverVisible] = useState(false);
   const { control, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +23,7 @@ export const Authentication = ({ navigation }) => {
     } catch (error) {
       console.error(error);
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -38,13 +38,96 @@ export const Authentication = ({ navigation }) => {
   };
 
   const onDeliverPress = () => {
-    setModalBackgroundColor('facebook');
-    setModalVisible(true);
+    setModalDeliverVisible(true);
   };
 
   const onSellerPress = () => {
-    setModalBackgroundColor('google');
-    setModalVisible(true);
+    setModalSellerVisible(true);
+  };
+
+  const RenderModal = ({
+    modalVisible,
+    setModalVisible,
+    modalType,
+    imageSource,
+    isLoading,
+    control,
+    onSubmit,
+  }) => {
+    const backgroundColor = modalType === 'seller' ? '#C9FAD3' : '#4e8dcc';
+    const textColor = modalType === 'seller' ? '#1A372F' : 'white';
+    const buttonStyle =
+      modalType === 'seller'
+        ? styles.buttonClose.seller
+        : styles.buttonClose.delivery;
+    const textStyle =
+      modalType === 'seller'
+        ? styles.textStyle.seller
+        : styles.textStyle.delivery;
+
+    return (
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(!modalVisible)}>
+        <View
+          style={[
+            styles.fullScreenView,
+            {
+              backgroundColor,
+              justifyContent: 'flex-end',
+            },
+          ]}>
+          <View style={[styles.imageModal]}>
+            <Image
+              source={imageSource}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </View>
+          <Text style={textStyle}>Envie seu contato e logo retornaremos</Text>
+          {isLoading ? (
+            ''
+          ) : (
+            <Icon
+              name="whatsapp"
+              size={50}
+              color={textColor}
+              style={styles.icon}
+            />
+          )}
+          <View style={styles.container}>
+            {isLoading ? (
+              <ActivityIndicator size="large" color={textColor} />
+            ) : (
+              <Controller
+                name="phoneNumber"
+                defaultValue=""
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View style={styles.inputContainer}>
+                    <MaskInput
+                      placeholderTextColor={textColor}
+                      keyboardType="numeric"
+                      style={styles.input}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      mask={Masks.BRL_PHONE}
+                    />
+                  </View>
+                )}
+              />
+            )}
+            <TouchableOpacity
+              style={[styles.button, buttonStyle]}
+              onPress={onSubmit}>
+              <Text style={textStyle}>Enviar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
   };
 
   return (
@@ -73,7 +156,7 @@ export const Authentication = ({ navigation }) => {
             COMPRE TUDO QUE VOCÊ PRECISA.
           </Text>
           <Text marginTop="xs" variant="secondary">
-            Compre todos os produtos disponiveis na cidade de Campinápolis no
+            Compre todos os produtos disponíveis na cidade de Campinápolis no
             conforto da sua casa.
           </Text>
           <Box marginTop="l">
@@ -97,65 +180,30 @@ export const Authentication = ({ navigation }) => {
           </Box>
         </Box>
       </Box>
-
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(!modalVisible)}>
-        <View
-          style={[
-            styles.fullScreenView,
-            {
-              backgroundColor:
-                modalBackgroundColor === 'facebook' ? '#4e8dcc' : '#db4437',
-              justifyContent: 'flex-end',
-            },
-          ]}>
-          <View style={[styles.imageModal]}>
-            <Image
-              source={require('@src/../assets/deliveryman.gif')}
-              style={{ width: '100%', height: '100%' }}
-            />
-          </View>
-
-          <Text style={styles.textStyle}>
-            Envie seu contato e logo retornaremos
-          </Text>
-          {isLoading ? "":(
-              <Icon name="whatsapp" size={50} color="#fff" style={styles.icon} />
-          )}
-          <View style={styles.container}>
-            {isLoading ? (
-              <ActivityIndicator size="large" color="#FFFFFF" />
-            ) : (
-              <Controller
-                name="phoneNumber"
-                defaultValue=""
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View style={styles.inputContainer}>
-                    <MaskInput
-                      placeholderTextColor="white"
-                      keyboardType="numeric"
-                      style={styles.input}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                      mask={Masks.BRL_PHONE}
-                    />
-                  </View>
-                )}
-              />
-            )}
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={onSubmit}>
-              <Text style={styles.textStyle}>Enviar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      {modalSellerVisible && (
+        <RenderModal
+          modalVisible={modalSellerVisible}
+          setModalVisible={setModalSellerVisible}
+          modalType="seller"
+          modalBackgroundColor="#C9FAD3" 
+          imageSource={require('@src/../assets/seller.gif')}
+          isLoading={isLoading}
+          control={control}
+          onSubmit={onSubmit} 
+        />
+      )}
+      {modalDeliverVisible && (
+        <RenderModal
+          modalVisible={modalDeliverVisible}
+          setModalVisible={setModalDeliverVisible}
+          modalType="delivery"
+          modalBackgroundColor="#4e8dcc"
+          imageSource={require('@src/../assets/deliveryman.gif')}
+          isLoading={isLoading}
+          control={control}
+          onSubmit={onSubmit} 
+        />
+      )}
     </>
   );
 };
@@ -188,21 +236,27 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 30,
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 30,
     elevation: 2,
     alignSelf: 'center',
-    marginBottom: 30,
+    marginBottom: 25,
     minWidth: '90%',
     minHeight: 50,
   },
   buttonClose: {
+    backgroundColor: '#1A372F',
+  },
+  buttonCloseDelivery: {
     backgroundColor: '#2196F3',
   },
   textStyle: {
-    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
+    color: 'white',
+  },
+  textStyleSeller: {
+    color: '#1A372F',
   },
 });
