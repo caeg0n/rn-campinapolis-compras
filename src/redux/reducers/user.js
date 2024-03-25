@@ -16,7 +16,6 @@ import { RESET_ALL_OPENED_ORGANIZATIONS } from '@src/redux/actions/user';
 import { RESET_ALL_CLOSED_ORGANIZATIONS } from '@src/redux/actions/user';
 import { RESET_CATEGORIES_AND_PRODUCTS } from '@src/redux/actions/user';
 
-
 const initialState = {
   all_payments_methods: [],
   all_organizations: {},

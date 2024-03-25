@@ -1,7 +1,7 @@
 import { Box, TextField } from '@src/components';
 import React from 'react';
 
-export const SearchHeader = () => {
+export const SearchHeader = ({ setSearchQuery, handleSearch }) => {
   return (
     <Box backgroundColor="card" padding="s">
       <TextField
@@ -10,6 +10,8 @@ export const SearchHeader = () => {
         borderWidth={0}
         inputProps={{
           placeholder: 'Encontre os comércios e produtos.',
+          onChangeText: setSearchQuery,
+          onSubmitEditing: handleSearch,
         }}
       />
     </Box>

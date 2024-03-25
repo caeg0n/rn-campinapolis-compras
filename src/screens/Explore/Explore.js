@@ -9,13 +9,16 @@ import { MerchantCampaigns } from './MerchantCampaigns';
 import { RecommendedPlaces } from './RecommendedPlaces';
 import { HotDeals } from './HotDeals';
 import { HighlightTabs } from './HighlightTabs';
+import { HighlightSearchTabs } from './HighlightSearchTabs';
 import { useScrollToTop } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { Divider } from '@src/components';
 
-export const Explore = ({ navigation }) => {
+export const Explore = ({navigation}) => {
   const ref = React.useRef(null);
   const styles = useSafeAreaScrollViewStyles(false);
+  const [isSearching, setIsSearching] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   useScrollToTop(ref);
 
@@ -23,18 +26,9 @@ export const Explore = ({ navigation }) => {
     InteractionManager.runAfterInteractions(() => {});
   });
 
-  // const handleChildMount = () => {
-  //   setChildMounted(true);
-  // };
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     const task = InteractionManager.runAfterInteractions(() => {
-  //       setIsNavigationTransitionFinished(true);
-  //     });
-  //     return () => task.cancel();
-  //   }, []),
-  // );
+  const handleSearch = () => {
+    setIsSearching(true);
+  };
 
   return (
     <ScrollView
@@ -42,15 +36,24 @@ export const Explore = ({ navigation }) => {
       contentContainerStyle={styles.contentContainer}
       stickyHeaderHiddenOnScroll
       stickyHeaderIndices={[0]}>
-      <MemoizedSearchHeader />
-      <PopularCategories navigation={navigation} />
-      <MemoizedPopularPlaces navigation={navigation} />
-      <Divider backgroundColor="background" marginVertical="s" />
-      <MerchantCampaigns />
-      <RecommendedPlaces navigation={navigation} />
-      <HotDeals navigation={navigation} />
-      <Divider backgroundColor="background" marginVertical="s" />
-      <HighlightTabs />
+      <MemoizedSearchHeader handleSearch={handleSearch} setSearchQuery={setSearchQuery} />
+      {!isSearching ? (
+        <>
+          <PopularCategories navigation={navigation} />
+          <MemoizedPopularPlaces navigation={navigation} />
+          <Divider backgroundColor="background" marginVertical="s" />
+          <MerchantCampaigns />
+          <RecommendedPlaces navigation={navigation} />
+          <HotDeals navigation={navigation} />
+          <Divider backgroundColor="background" marginVertical="s" />
+          <HighlightTabs />
+        </>
+      ) : (
+        <>
+          <Divider backgroundColor="background" marginVertical="s" />
+          <HighlightSearchTabs searchQuery={searchQuery} />
+        </>
+      )}
     </ScrollView>
   );
 };

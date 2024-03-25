@@ -6,7 +6,6 @@ export const FeaturedTab = () => {
   const { all_opened_organizations } = useSelector(
     (state) => state.userReducer,
   );
-
   return (
     <Box backgroundColor="card">
       {all_opened_organizations.map((item) => {
