@@ -18,7 +18,10 @@ export const Explore = ({navigation}) => {
   const ref = React.useRef(null);
   const styles = useSafeAreaScrollViewStyles(false);
   const [isSearching, setIsSearching] = React.useState(false);
+  const [isSearchingByCategory, setIsSearchingByCategory] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchQueryByCategory, setSearchQueryByCategory] = React.useState('');
+  const shouldShowDefaultView = !isSearching || searchQuery === '';
 
   useScrollToTop(ref);
 
@@ -37,7 +40,7 @@ export const Explore = ({navigation}) => {
       stickyHeaderHiddenOnScroll
       stickyHeaderIndices={[0]}>
       <MemoizedSearchHeader handleSearch={handleSearch} setSearchQuery={setSearchQuery} />
-      {!isSearching ? (
+      {shouldShowDefaultView ? (
         <>
           <PopularCategories navigation={navigation} />
           <MemoizedPopularPlaces navigation={navigation} />
