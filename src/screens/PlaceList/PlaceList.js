@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, List, PlaceListItem } from '@src/components';
-import { mockPlaceList } from '@src/data';
+//import { mockPlaceList } from '@src/data';
 
 function adaptData(inputData) {
   const flattenedData = Object.keys(inputData).reduce((acc, category) => {

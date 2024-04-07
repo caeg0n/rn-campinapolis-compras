@@ -3,6 +3,17 @@ import { Dimensions } from 'react-native';
 import { Box, Image, Text, Touchable } from '@src/components';
 import { useSelector } from 'react-redux';
 
+function filterByIds(data, ids) {
+  let filteredData = {};
+  Object.keys(data).forEach((key) => {
+    let filteredArray = data[key].filter(item => ids.includes(item.id));
+    if (filteredArray.length > 0) {
+      filteredData[key] = filteredArray;
+    }
+  });
+  return filteredData;
+}
+
 function findUniqueOrganizationIdsByName(items, name) {
   const filteredItems = items.filter(item => item.name === name);
   const organizationIds = filteredItems.map(item => item.organization_id);
@@ -17,9 +28,8 @@ export const PopularCategories = ({ navigation }) => {
 
   const onCategoryItemPress = (name) => {
     return () => {
-      //console.log(findUniqueOrganizationIdsByName(all_categories, name));
-      console.log(all_organizations);
-      navigation.navigate('PlaceList', { title: capitalizeFirstLetter(name), organizations: all_organizations });
+      const organizations = filterByIds(all_organizations,findUniqueOrganizationIdsByName(all_categories, name));
+      navigation.navigate('PlaceList', { title: capitalizeFirstLetter(name), organizations: organizations });
     };
   };
 
