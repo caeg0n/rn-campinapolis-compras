@@ -2,7 +2,7 @@
   "expo": {
     "name": "Campinapolis Compras",
     "slug": "campinapolis-compras",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "privacy": "public",
     "sdkVersion": "48.0.0",
@@ -33,7 +33,7 @@
       "bundleIdentifier": "com.caeg0n.campinapoliscompras"
     },
     "android": {
-      "versionCode": 3,
+      "versionCode": 4,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",

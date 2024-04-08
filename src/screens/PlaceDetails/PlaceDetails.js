@@ -30,7 +30,6 @@ export const PlaceDetails = ({ route }) => {
   const { categories_and_products } = useSelector((state) => state.userReducer);
   const [scrollY] = React.useState(new Animated.Value(0));
   const { organization } = route.params;
-  console.log(organization);
 
   // useEffect(() => {
   //   console.log('PlaceDetails');
