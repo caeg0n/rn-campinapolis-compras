@@ -5,7 +5,7 @@ import styles from './PlaceDetails.style';
 import { BasketSummary } from './BasketSummary';
 import { HeadingInformation } from './HeadingInformation';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 
 function transformData (inputData, orgId) {
   let result = [];
@@ -30,6 +30,7 @@ export const PlaceDetails = ({ route }) => {
   const { categories_and_products } = useSelector((state) => state.userReducer);
   const [scrollY] = React.useState(new Animated.Value(0));
   const { organization } = route.params;
+  console.log(organization);
 
   // useEffect(() => {
   //   console.log('PlaceDetails');

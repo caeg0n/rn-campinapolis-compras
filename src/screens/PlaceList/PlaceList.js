@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, List, PlaceListItem } from '@src/components';
-//import { mockPlaceList } from '@src/data';
 
 function adaptData(inputData) {
   const flattenedData = Object.keys(inputData).reduce((acc, category) => {
@@ -8,10 +7,8 @@ function adaptData(inputData) {
       id: item.id.toString(),
       image: item.logo,
       rating: 4,
-      subTitle: "Placeholder for missing subtitle.",
-      time: 90,
+      subTitle: "",
       title: item.name,
-      distance: 75,
     }));
     return [...acc, ...items];
   }, []);

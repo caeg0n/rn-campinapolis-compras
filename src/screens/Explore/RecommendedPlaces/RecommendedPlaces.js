@@ -48,7 +48,7 @@ export const RecommendedPlaces = ({ navigation }) => {
   return (
     <Section
       title="Recomendados"
-      actionButtonText="Ver mais"
+      //actionButtonText="Ver mais"
       onButtonActionPress={_onButtonActionPressed}>
       <Carousel
         numItemsPerSlide={1.8}

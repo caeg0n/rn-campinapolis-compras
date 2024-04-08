@@ -48,7 +48,7 @@ export const HotDeals = ({ navigation }) => {
   return (
     <Section
       title="Seus Preferidos"
-      actionButtonText="Ver mais"
+      //actionButtonText="Ver mais"
       onButtonActionPress={_onButtonActionPressed}>
       <Carousel
         numItemsPerSlide={1.8}

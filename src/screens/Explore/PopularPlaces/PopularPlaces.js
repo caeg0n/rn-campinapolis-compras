@@ -2,8 +2,6 @@ import React from 'react';
 import { Carousel, Section, Card, PlaceCardInfo } from '@src/components';
 import { Dimensions } from 'react-native';
 import { useSelector } from 'react-redux';
-// import { useEffect } from 'react';
-// import { mockPlaces } from '@src/data';
 
 function shuffleArray(array) {
   const shuffledArray = [...array];
@@ -65,7 +63,7 @@ const PopularPlaces = ({ navigation }) => {
   return (
     <Section
       title="Mais Populares"
-      actionButtonText="Mostrar mais"
+      //actionButtonText="Mostrar mais"
       onButtonActionPress={_onButtonActionPress}>
       <Carousel
         width={Dimensions.get('window').width}
