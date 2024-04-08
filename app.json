@@ -2,7 +2,7 @@
   "expo": {
     "name": "Campinapolis Compras",
     "slug": "campinapolis-compras",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "privacy": "public",
     "sdkVersion": "48.0.0",
