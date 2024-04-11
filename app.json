@@ -2,7 +2,7 @@
   "expo": {
     "name": "Campinapolis Compras",
     "slug": "campinapolis-compras",
-    "version": "1.0.2",
+    "version": "1.0.0",
     "orientation": "portrait",
     "privacy": "public",
     "sdkVersion": "48.0.0",
@@ -33,7 +33,7 @@
       "bundleIdentifier": "com.caeg0n.campinapoliscompras"
     },
     "android": {
-      "versionCode": 4,
+      "versionCode": 1,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
@@ -45,7 +45,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.caeg0n.campinapoliscompras"
+      "package": "com.caeg0n.campinapoliscompras2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
