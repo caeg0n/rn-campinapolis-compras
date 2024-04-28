@@ -9,7 +9,7 @@ import ModalOrganization from './Modal/ModalOrganization';
 export const Authentication = () => {
   const insets = useSafeAreaInsets();
   const [modalDeliverVisible, setModalDeliverVisible] = useState(false);
-  const [modalSellerVisible, setModalSellerVisible] = useState(false);
+  const [modalOrganizationVisible, setModalOrganizationVisible] = useState(false);
   const { signIn } = React.useContext(AuthContext);
   
   const onBuyPress = () => {
@@ -21,7 +21,7 @@ export const Authentication = () => {
   };
 
   const onSellerPress = () => {
-    setModalSellerVisible(true);
+    setModalOrganizationVisible(true);
   };
 
   return (
@@ -52,7 +52,7 @@ export const Authentication = () => {
           <Box marginTop="l">
             <Button label="COMPRAR" isFullWidth onPress={onBuyPress} />
             <Button
-              label="QUERO VENDER"
+              label="QUERO ENTREGAR"
               isFullWidth
               variant="facebook"
               marginTop="s"
@@ -60,7 +60,7 @@ export const Authentication = () => {
               onPress={onDeliverPress}
             />
             <Button
-              label="QUERO SER UM ENTREGADOR"
+              label="QUERO VENDER"
               variant="google"
               marginTop="s"
               backgroundColor="google"
@@ -70,10 +70,10 @@ export const Authentication = () => {
           </Box>
         </Box>
       </Box>
-      {modalSellerVisible && (
-        <ModalDelivery
-          modalBackgroundColor="#C9FAD3"
-          //imageSource={require('@src/../assets/seller.gif')}  
+      {modalOrganizationVisible && (
+        <ModalOrganization
+          modalOrganizationVisible = {modalOrganizationVisible} 
+          setModalOrganizationVisible = {setModalOrganizationVisible}
         />
       )}
       {modalDeliverVisible && (

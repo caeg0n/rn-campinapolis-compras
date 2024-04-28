@@ -56,7 +56,7 @@ export default ModalDelivery = ({
       }
     } else {
       setLottieSource(
-        require('@src/assets/animations/success-deliveryman-2.json'),
+        require('@src/assets/animations/error-deliveryman.json'),
       );
       setDisplayText('Falha ao enviar contato. Tente novamente.');
       setShowInput(true);
@@ -135,6 +135,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     color: 'white',
+    width: '90%',           
+    flexWrap: 'wrap',      
+    alignSelf: 'center',    
+    padding: 10,
   },
   imageModal: {
     width: '100%',
