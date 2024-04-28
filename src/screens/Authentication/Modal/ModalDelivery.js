@@ -19,7 +19,7 @@ const textColor = 'white';
 
 export default ModalDelivery = ({
   modalDeliverVisible,
-  setModalDeliverVisible
+  setModalDeliverVisible,
 }) => {
   const { control, reset } = useForm();
   const phone = React.useRef(null);
@@ -55,9 +55,7 @@ export default ModalDelivery = ({
         setButtonLabel('SAIR');
       }
     } else {
-      setLottieSource(
-        require('@src/assets/animations/error-deliveryman.json'),
-      );
+      setLottieSource(require('@src/assets/animations/error-deliveryman.json'));
       setDisplayText('Falha ao enviar contato. Tente novamente.');
       setShowInput(true);
     }
@@ -117,7 +115,7 @@ export default ModalDelivery = ({
             />
           </View>
         )}
-        <View style={{ width: '80%', marginTop: 70 }}>
+        <View style={{ width: '80%', marginBottom: 20 }}>
           <Button
             width={'100%'}
             label={buttonLabel}
@@ -134,10 +132,10 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 30,
     textAlign: 'center',
-    color: 'white',
-    width: '90%',           
-    flexWrap: 'wrap',      
-    alignSelf: 'center',    
+    color: textColor,
+    width: '90%',
+    flexWrap: 'wrap',
+    alignSelf: 'center',
     padding: 10,
   },
   imageModal: {

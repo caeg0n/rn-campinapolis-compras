@@ -62,7 +62,7 @@ export default ModalOrganization = ({
       setLottieSource(
         require('@src/assets/animations/organization-mobile-10.json'),
       );
-      setDisplayText('Falha ao enviar contato. Tente novamente.');
+      setDisplayText('Falha ao enviar contato!');
       setShowInput(true);
     }
     setLoading(false);
