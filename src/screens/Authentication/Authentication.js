@@ -6,6 +6,7 @@ import { Image } from '@src/components';
 import ModalDelivery from './Modal/ModalDelivery';
 import ModalOrganization from './Modal/ModalOrganization';
 
+
 export const Authentication = () => {
   const insets = useSafeAreaInsets();
   const [modalDeliverVisible, setModalDeliverVisible] = useState(false);
@@ -35,8 +36,7 @@ export const Authentication = () => {
           />
         </Box>
         <Box
-          flex={1}
-          padding="l"
+          padding="xl"
           borderTopLeftRadius="xxl"
           borderTopRightRadius="xxl"
           backgroundColor="card"
